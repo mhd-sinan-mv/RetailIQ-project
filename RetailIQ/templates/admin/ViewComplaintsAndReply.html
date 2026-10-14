@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+      <table border="1">
+        <tr>
+            <th>Complaint ID</th>
+            <th>Complaint</th>
+            <th>Shop</th>
+            <th>Give Reply</th>
+            <th>Date</th>
+        </tr>
+        {% for i in complaint_data %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.complaint_description }}</td>
+            <td>{{ i.shop_id }}</td>
+            <td>
+                <input type="text" placeholder="Reply">
+                <button type="submit">Send Reply</button>
+            </td>
+            <td>{{ i.complaint_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

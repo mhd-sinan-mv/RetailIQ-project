@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>Barcode</th>
+            <th>Product name</th>
+            <th>Brand</th>
+            <th>Quantity</th>
+            <th>Purchase price</th>
+            <th>Selling price</th>
+            <th>Category</th>
+            <th>Manufacturing date</th>
+            <th>Expiry date</th>
+            <th>Supplier name</th>
+            <th>Supplier contact</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+        {% for i in product_data %}
+        <tr>
+            <td>{{ i.Barcode }}</td>
+            <td>{{ i.product_name }}</td>
+            <td>{{ i.Brand }}</td>
+            <td>{{ i.quantity }}</td>
+            <td>{{ i.Purchase_Price }}</td>
+            <td>{{ i.Selling_Price }}</td>
+            <td>{{ i.Category }}</td>
+            <td>{{ i.Manufacturing_Date }}</td>
+            <td>{{ i.Expiry_Date }}</td>
+            <td>{{ i.Supplier_Name }}</td>
+            <td>Email: {{ i.supplier_email }}<br> Phone: {{ i.supplier_phone }}</td>
+            <td>{{ i.Description }}</td>
+            <td><button type="">Enable</button><br> <button type="">Disable</button><br> <button type="">Edit</button></td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <table border="1">
+        <tr>
+            <th>feedback ID</th>
+            <th>shop</th>
+            <th>feedback</th>
+            <th>rating</th>
+            <th>data</th>
+        </tr>
+        {% for i in feedback_data %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.shop_id }}</td>
+            <td>{{ i.feedback_description }}</td>
+            <td>{{ i.rating }}</td>
+            <td>{{ i.feedback_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

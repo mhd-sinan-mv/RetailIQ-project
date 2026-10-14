@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>Bill No.</th>
+            <th>Customer name</th>
+            <th>Product name</th>
+            <th>Date & time</th>
+            <th>Unit price</th>
+            <th>Total amount</th>
+            <th>Discount / offer</th>
+            <th>Final amount</th>
+            <th>Payment method</th>
+        </tr>
+        {% for i in order_data %}
+        <tr>
+            <td>{{ i.bill_number }}</td>
+            <td>{{ i.customer_id }}</td>
+            <td>{{ i.product }}</td>
+            <td>{{ i.date_time }}</td>
+            <td>{{ i.unit_price }}</td>
+            <td>{{ i.total_price }}</td>
+            <td>{{ i.discount_amoount }}</td>
+            <td>{{ i.final_price }}</td>
+            <td>{{ i.payment_method }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

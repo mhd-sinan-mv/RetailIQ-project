@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Registration</title>
+</head>
+<body>
+    <form action="" method="post">
+        <table>
+            <tr>
+                <td><label>Shop Name :</label></td>
+                <td><input type="text" name="shopName" placeholder="enter shop name"></td>
+            </tr>
+            <tr>
+                <td><label>Email :</label></td>
+                <td><input type="email" name="email" placeholder="enter your email"></td>
+            </tr>
+            <tr>
+                <td><label>Phone :</label></td>
+                <td><input type="tel" name="shopPhone" placeholder="enter your number"></td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit">Register</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    Already a user ? <a href="{% url 'LoginPage' %}">Login</a>
+
+</body>
+</html>

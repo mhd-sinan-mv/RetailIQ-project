@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>Product name</th>
+            <th>Discount type</th>
+            <th>Discount value</th>
+            <th>Active Status</th>
+            <th>Time Period</th>
+            <th>Action</th>
+        </tr>
+        {% for i in discount_data %}
+        <tr>
+            <td>{{ i.product_id }}</td>
+            <td>{{ i.discount_type }}</td>
+            <td>{{ i.discount_value }}</td>
+            <td>{{ i.active_status }}</td>
+            <td>{{ i.start_date }} to {{i.end_date}}</td>
+            <td><button type="">Start</button>  <button type="">Stop</button> </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

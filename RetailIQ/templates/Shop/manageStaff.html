@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>staff code</th>
+            <th>Name</th>
+            <th>phone</th>
+            <th>Email</th>
+            <th>Designation & Assigned counter</th>
+            <th>action</th>
+        </tr>
+        {% for i in staff_data %}
+        <tr>
+            <td>{{ i.Staff_code }}</td>
+            <td>{{ i.name }}</td>
+            <td>{{ i.phone }}</td>
+            <td>{{ i.email }}</td>
+            <td>{{ i.Designation }} & {{ i.Assigned_Counter }}</td>
+            <td>
+                
+                <button type="submit">Edit/Delete</button>
+            </td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

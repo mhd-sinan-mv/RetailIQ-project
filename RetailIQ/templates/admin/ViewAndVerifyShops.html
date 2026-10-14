@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>Shop name</th>
+            <th>email</th>
+            <th>phone</th>
+            <th>date joined</th>
+            <th></th>
+        </tr>
+        {% for i in shop_data %}
+        <tr>
+            <td>{{ i.shop_name }}</td>
+            <td>{{ i.email }}</td>
+            <td>{{ i.phone }}</td>
+            <td>{{ i.Date_joined }}</td>
+            <td>
+                <button>accept</button>
+                <button>reject</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
