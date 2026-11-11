@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -32,4 +32,32 @@
         </table>
     </form>
 </body>
-</html>
+</html> -->
+
+<!-- previous code is commented because this has to be a viewing page not an input page -->
+ <!-- renamed to viewNotifications.html from ManageNotifications.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification</title> 
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>Date</th>
+            <th>Title</th>
+            <th>Message</th>
+            <th>Product related</th>
+        </tr>
+        {% for i in notification_data %}
+        <tr>
+            <td>{{ i.notification_date }}</td>
+            <td>{{ i.notification_title }}</td>
+            <td>{{ i.notification_message }}</td>
+            <td>{{ i.product_id.product_name }}</td>
+        </tr>
+        {% endfor %}
+    </table>

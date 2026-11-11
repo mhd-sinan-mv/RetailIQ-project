@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
+    <!-- this page is moved from shops , because there is already a page to view sales , so this page is moved to staffs for viewing/checking orders  -->
     <table border="1">
         <tr>
             <th>Bill No.</th>
@@ -20,17 +21,21 @@
         </tr>
         {% for i in order_data %}
         <tr>
-            <td>{{ i.bill_number }}</td>
-            <td>{{ i.customer_id }}</td>
-            <td>{{ i.product }}</td>
-            <td>{{ i.date_time }}</td>
+            <td>{{ i.order_id.bill_number }}</td>
+            <td>{{ i.order_id.customer_id }}</td>
+            <td>{{ i.product_id.product_name }}</td>
+            <td>{{ i.order_id.date_time }}</td>
             <td>{{ i.unit_price }}</td>
             <td>{{ i.total_price }}</td>
-            <td>{{ i.discount_amoount }}</td>
-            <td>{{ i.final_price }}</td>
-            <td>{{ i.payment_method }}</td>
+            <td>{{ i.discount_amount }}</td>
+            <td>{{ i.order_id.final_price }}</td>
+            <td>{{ i.order_id.payment_method }}</td>
         </tr>
         {% endfor %}
+        <tr>
+            <td colspan="6" style="text-align: right;"><strong>Total :</strong></td>
+            <td colspan="3"></td> <!--  javascript for calculating total amount of discount and final amount -->
+        </tr>
     </table>
 </body>
 </html>

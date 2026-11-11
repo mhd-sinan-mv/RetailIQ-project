@@ -11,7 +11,7 @@
             <th>Barcode</th>
             <th>Product name</th>
             <th>Brand</th>
-            <th>Quantity</th>
+            <!-- <th>Quantity</th> -->
             <th>Purchase price</th>
             <th>Selling price</th>
             <th>Category</th>
@@ -24,16 +24,16 @@
         </tr>
         {% for i in product_data %}
         <tr>
-            <td>{{ i.Barcode }}</td>
+            <td>{{ i.barcode }}</td>
             <td>{{ i.product_name }}</td>
-            <td>{{ i.Brand }}</td>
-            <td>{{ i.quantity }}</td>
-            <td>{{ i.Purchase_Price }}</td>
-            <td>{{ i.Selling_Price }}</td>
-            <td>{{ i.Category }}</td>
-            <td>{{ i.Manufacturing_Date }}</td>
-            <td>{{ i.Expiry_Date }}</td>
-            <td>{{ i.Supplier_Name }}</td>
+            <td>{{ i.brand }}</td>
+            <!-- <td>{{ i.quantity }}</td> -->
+            <td>{{ i.purchase_price }}</td>
+            <td>{{ i.selling_price }}</td>
+            <td>{{ i.category }}</td>
+            <td>{{ i.manufacturing_date }}</td>
+            <td>{{ i.expiry_date }}</td>
+            <td>{{ i.supplier_name }}</td>
             <td>Email: {{ i.supplier_email }}<br> Phone: {{ i.supplier_phone }}</td>
             <td>{{ i.Description }}</td>
             <td><button type="">Enable</button><br> <button type="">Disable</button><br> <button type="">Edit</button></td>

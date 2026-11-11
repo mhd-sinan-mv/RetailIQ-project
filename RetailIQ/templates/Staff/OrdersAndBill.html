@@ -9,6 +9,8 @@
     <form>
         <label>Bill no :</label>
         <input type="text" name="bill_no"><br><br>
+        <label>Date :</label>
+        <input type="text" name="date"><br><br>
         <label>Name :</label>
         <input type="text" name="name"><br><br>
         <label>Phone :</label>
@@ -21,21 +23,23 @@
             <tr>
                 <th>Barcode</th>
                 <th>Product name</th>
-                <th>Brand</th>
                 <th>Quantity/Unit</th>
-                <th>Expiry date</th>
                 <th>Price</th>
-                <th>Discount amount</th>
+                <th>Discount</th>
+                <th>Final amount</th>
             </tr>
             <tr>
                 <td><input type="number" name="barcode"></td>
                 <td><input type="text" name="product_name"></td>
-                <td><input type="text" name="brand"></td>
                 <td><input type="text" name="Quantity"></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
+        <tr>
+                <td colspan="4" style="text-align: right;"><strong>Total Amount:</strong></td>
+                <td></td>
+                <td></td>
         </table>
     </form>
 </body>

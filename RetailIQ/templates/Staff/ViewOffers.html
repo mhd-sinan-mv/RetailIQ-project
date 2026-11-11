@@ -8,21 +8,23 @@
 <body>
     <table border="1">
         <tr>
-            <th>Offer id</th>
+            <th>Offer Product</th>
             <th>Offer Name</th>
             <th>Description</th>
             <th>Offer Type</th>
             <th>Time Period</th>
             <th>Status</th>
         </tr>
+        {% for i in offer_data %}
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ i. }}</td>
+            <td>{{ i.offer_name }}</td>
+            <td>{{ i.offer_description }}</td>
+            <td>{{ i.offer_type }}</td>
+            <td>{{ i.offer_start_date }} to {{ i.offer_end_date }}</td>
+            <td>{{ i.is_active }}</td>
         </tr>
+        {% endfor %}
     </table>
 </body>
 </html>

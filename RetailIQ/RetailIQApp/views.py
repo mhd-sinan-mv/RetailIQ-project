@@ -17,7 +17,7 @@ class LoginPage(View):
             print(username1)
             print(password1)
 
-            login_obj=LoginTable.objects.get(Login_identifier=username1,password=password1)
+            login_obj=LoginTable.objects.get(login_identifier=username1,password=password1)
             print("$$$$$$$$$$$$$$$$$$$",login_obj)
             request.session['loginid']=login_obj.id
             print(request.session['loginid'])
@@ -80,9 +80,10 @@ class ManageDiscounts(View):
         obj = DiscountTable.objects.all()
         return render(request,'shop/manageDiscounts.html', {'discount_data':obj})
 
-class ManageNotifications(View):
+class viewNotifications(View):
     def get(self,request):
-        return render(request,'shop/ManageNotifications.html',)
+        obj = NotificationTable.objects.select_related('shop_id','product_id').all()
+        return render(request,'shop/ViewNotifications.html', {'notification_data':obj})
 
 class ManageOffers(View):
     def get(self,request):
@@ -91,7 +92,7 @@ class ManageOffers(View):
 
 class ManageProducts(View):
     def get(self,request):
-        obj = Product_Table.objects.all()
+        obj = ProductTable.objects.all()
         return render(request,'shop/ManageProducts.html', {'product_data':obj}) 
 
 class ManageStaff(View):
@@ -108,17 +109,15 @@ class ViewCustomers(View):
         obj = CustomerTable.objects.all()
         return render(request,'shop/ViewCustomers.html', {'customer_data':obj})
     
-
-
 class ViewSales(View):
     def get(self,request):
-        obj1 = OrderTable.objects.all()
-        obj2 = Product_Table.objects.all()
-        return render(request,'shop/ViewSales.html', {'order_data':obj1, 'product_data':obj2}) 
+        obj = OrderItemTable.objects.select_related('product_id','order_id').all()
+        return render(request,'shop/ViewSales.html', {'order_data':obj}) 
 
 class ViewStockandUpdateStock(View):
     def get(self,request):
-        return render(request,'shop/ViewStockandUpdateStock.html') 
+        obj = StockTable.objects.select_related('product_id').all()
+        return render(request,'shop/ViewStockandUpdateStock.html', {'stock_data':obj})
 
 class RatingAndFeedback(View):
     def get(self,request):
@@ -136,27 +135,27 @@ class OrdersAndBill(View):
     
 class ViewDiscount(View):
     def get(self,request):
-        return render(request,'staff/ViewDiscount.html')
+        obj = DiscountTable.objects.all()
+        return render(request,'staff/ViewDiscount.html', {'discount_data':obj})
     
 class ViewLowStock(View):
     def get(self,request):
-        return render(request,'staff/ViewLowStock.html') 
-
-class ViewNotification(View):
-    def get(self,request):
-        return render(request,'staff/ViewNotificationk.html') 
+        obj = StockTable.objects.select_related('product_id').all()
+        return render(request,'staff/ViewLowStock.html', {'stock_data':obj})
 
 class ViewOffers(View):
     def get(self,request):
-        return render(request,'staff/ViewOffers.html') 
+        obj = OfferTable.objects.all()
+        return render(request,'staff/ViewOffers.html', {'offer_data':obj})
 
 class ViewOrders(View):
     def get(self,request):
-        obj = OrderTable.objects.all()
-        return render(request,'shop/viewOrders.html', {'order_data':obj})
-    # viewOrders is common for both shop and staff, so we can use the same view for both.
+        obj = OrderItemTable.objects.select_related('order_id','product_id').all()
+        return render(request,'staff/ViewOrders.html', {'order_data':obj})
 
 class ViewProducts(View):
     def get(self,request):
-        return render(request,'staff/ViewProducts.html') 
+        obj = ProductTable.objects.select_related('category').all()
+        # obj = ProductTable.objects.select_related('category','quantity','offers','discount').all()
+        return render(request,'staff/ViewProducts.html', {'product_data_staff':obj})
     

@@ -8,21 +8,19 @@
 <body>
     <table border="1">
         <tr>
-            <th>Discount id</th>
             <th>Product</th>
             <th>Discount Type</th>
             <th>Dicount Value</th>
-            <th>Status</th>
             <th>Time Period</th>
         </tr>
+        {% for i in discount_data %}
         <tr>
-            <td></td>
-            <td>Name : <br> Brand :</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>Name : {{ i.product_id.product_name }}<br> Brand : {{ i.product_id.brand }}</td>
+            <td>{{ i.discount_type }}</td>
+            <td>{{ i.discount_value }}</td>
+            <td>{{ i.start_date }} to {{ i.end_date }}</td>
         </tr>
+        {% endfor %}
     </table>
 </body>
 </html>

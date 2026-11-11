@@ -17,10 +17,10 @@
         </tr>
         {% for i in discount_data %}
         <tr>
-            <td>{{ i.product_id }}</td>
+            <!-- <td>{{ i.product_id }}</td> make reverese relation with product table to display product name -->
             <td>{{ i.discount_type }}</td>
             <td>{{ i.discount_value }}</td>
-            <td>{{ i.active_status }}</td>
+            <td>{{ i.active_status }}</td> <!-- can use javascript here to show active/inactive status from dates -->
             <td>{{ i.start_date }} to {{i.end_date}}</td>
             <td><button type="">Start</button>  <button type="">Stop</button> </td>
         </tr>

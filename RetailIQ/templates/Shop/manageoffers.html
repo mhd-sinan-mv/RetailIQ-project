@@ -10,7 +10,7 @@
         <tr>
             <th>Offer Name</th>
             <th>Product id/Applied products</th>
-            <th>Offer Tupe</th>
+            <th>Offer Type</th>
             <th>Description</th>
             <th>Offer Period</th>
             <th></th>
@@ -19,7 +19,7 @@
         {% for i in offer_data %}
         <tr>
             <td>{{ i.offer_name }}</td>
-            <td>{{ i.product }}</td>
+            <td>{{ i.product_id.product_name }}</td>
             <td>{{ i.offer_type }}</td>
             <td>{{ i.offer_description }}</td>
             <td>{{ i.offer_start_date }} to {{ i.offer_end_date }}</td>

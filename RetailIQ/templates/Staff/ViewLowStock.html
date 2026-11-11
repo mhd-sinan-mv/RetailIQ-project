@@ -15,14 +15,16 @@
             <th>Supplier Name</th>
             <th>Supplier Contact</th>
         </tr>
+        {% for i in stock_data %}
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>Email :<br> Phone :</td>
+            <td>{{ i.product_id.product_name }}</td>
+            <td>{{ i.product_id.brand }}</td>
+            <td>{{ i.quantity }}</td>
+            <td>{{ i.product_id.expiry_date }}</td>
+            <td>{{ i.product_id.supplier_name }}</td>
+            <td>Email : {{ i.product_id.supplier_email }}<br> Phone : {{ i.product_id.supplier_phone }}</td>
         </tr>
-    </table>
+        {% endfor %}
+    </table> 
 </body>
 </html>

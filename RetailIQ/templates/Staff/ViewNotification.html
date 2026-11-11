@@ -8,18 +8,20 @@
 <body>
     <form action="" method="post">
         <table>
+            {% for i in notification_data %}
             <tr>
-                <td><label>Notification ID :</label></td>
-                <td></td>
+                <td><label>Notification Product :</label></td>
+                <td>{{ i.product_id.product_name }}</td>
             </tr>
             <tr>
                 <td><label>Title :</label></td>
-                <td></td>
+                <td>{{ i.notification_title}}</td>
             </tr>
             <tr>
                 <td><label>Message :</label></td>
-                <td></td>
+                <td>{{ i.notification_message }}</td>
             </tr>
+            {% endfor %}
         </table>
     </form>
 </body>

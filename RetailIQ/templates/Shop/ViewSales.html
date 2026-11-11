@@ -8,28 +8,35 @@
 <body>
     <table border="1">
         <tr>
+            <th>date</th>
             <th>Product name</th>
             <th>Category</th>
-            <th>Quantity</th>
             <th>Unit price</th>
+            <th>Quantity</th>
+            <th>Total</th>
             <th>Discount</th>
             <th>Final amount</th>
-            <th>date</th>
+            
         </tr>
-        {% for i in order_data %} 
-        {% for j in product_data %}  
-                    <tr>
-                        <td>{{ j.product_name }}</td>
-                        <td>{{ j.category }}</td>
-                        <td>{{ i.quantity }}</td>
-                        <td>{{ i.unit_price }}</td>
-                        <td>{{ i.discount_amoount }}</td>
-                        <td>{{ i.final_price }}</td>
-                        <td>{{ i.date_time }}</td>
-                    </tr>
-            {% endfor %}
+        {% for i in order_data %}   
+        <tr>
+            <td>{{ i.order_id.date_time }}</td>
+            <td>{{ i.product_id.product_name }}</td>
+            <td>{{ i.product_id.category.category_name }}</td>
+            <td>{{ i.unit_price }}</td>
+            <td>{{ i.quantity }}</td>
+            <td>{{ i.total_price }}</td>
+            <td>{{ i.product_id.discount.discount_value }}</td>
+            <td>{{ i.order_id.final_price }}</td>
+            
+        </tr>
         {% endfor %}
-        
+        <tr>
+            <td colspan="5" style="text-align: right;"><strong>Total Amount:</strong></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
 
     </table>
 </body>
