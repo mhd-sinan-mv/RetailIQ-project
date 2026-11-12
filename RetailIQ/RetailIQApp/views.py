@@ -158,8 +158,10 @@ class ViewLowStock(View):
 
 class viewNotifications(View): #shows blank page
     def get(self,request):
-        obj = NotificationTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
-        return render(request,'staff/ViewNotifications.html',{'notification_data':obj})
+        staff_id = StaffTable.objects.get(LOGINID_id=request.session['loginid'])
+        shop_id=staff_id.SHOPID
+        obj = NotificationTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID_id=shop_id).all()
+        return render(request,'staff/ViewNotifications.html',{'notification_data_staff':obj})
         
 
 class ViewOffers(View):

@@ -22,7 +22,7 @@
         {% for i in order_data %}
         <tr>
             <td>{{ i.ORDER.bill_number }}</td>
-            <td>{{ i.ORDER.customer_id.name }}</td>
+            <td>{{ i.ORDER.CUSTOMER.name }}</td>
             <td>{{ i.PRODUCT.product_name }}</td>
             <td>{{ i.ORDER.date_time }}</td>
             <td>{{ i.unit_price }}</td>
