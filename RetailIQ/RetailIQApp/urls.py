@@ -54,7 +54,7 @@ urlpatterns = [
     path('ViewOffers',ViewOffers.as_view(),name='ViewOffers'),
     path('ViewOrders',ViewOrders.as_view(),name='ViewOrders'),    #   moved from shop
     path('ViewProducts',ViewProducts.as_view(),name='ViewProducts'),
-    path('ViewNotificaions',viewNotifications.as_view(),name='ViewNotifications'),
+    path('ViewNotifications',viewNotifications.as_view(),name='ViewNotifications'),
               
     
 

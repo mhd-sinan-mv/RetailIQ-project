@@ -153,17 +153,20 @@ class ViewLowStock(View):
             if stock <50:
                 low_stock_obj.append(i.id)
         obj = ProductTable.objects.filter(id__in=low_stock_obj)
-        return render(request,'staff/ViewLowStock.html', {'stock_data':obj})
+        return render(request,'staff/ViewLowStock.html', {'stock_data':obj}) #here only products which stocks are low is shown
 
 
-class viewNotifications(View):
+class viewNotifications(View): #shows blank page
     def get(self,request):
         obj = NotificationTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
-        return render(request,'staff/viewNotifications.html', {'notification_data_staff':obj})
+        return render(request,'staff/ViewNotifications.html',{'notification_data':obj})
+        
 
 class ViewOffers(View):
     def get(self,request):
-        obj = OfferTable.objects.filter(SHOPID__LOGINID_id=request.session['loginid']).all()
+        staff_id = StaffTable.objects.get(LOGINID_id=request.session['loginid'])
+        shop_id=staff_id.SHOPID
+        obj = OfferTable.objects.filter(SHOPID_id=shop_id)
         return render(request,'staff/ViewOffers.html', {'offer_data':obj})
 
 class ViewProducts(View):

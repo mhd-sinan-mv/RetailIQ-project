@@ -84,7 +84,7 @@ class CustomerTable(models.Model):
 class OrderTable(models.Model):
     # fk to shopid removed
     bill_number = models.CharField(max_length=20, null=True, blank=True)
-    customer_id = models.ForeignKey(CustomerTable, on_delete=models.SET_NULL, null=True, blank=True) # it is an optional feature, as some customers may not want to provide their details, so we can make it optional
+    CUSTOMER = models.ForeignKey(CustomerTable, on_delete=models.SET_NULL, null=True, blank=True) # it is an optional feature, as some customers may not want to provide their details, so we can make it optional
     date_time = models.DateTimeField(auto_now_add=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     discount_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
