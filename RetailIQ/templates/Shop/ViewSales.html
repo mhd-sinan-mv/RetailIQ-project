@@ -18,16 +18,20 @@
             <th>Final amount</th>
             
         </tr>
-        {% for i in order_data %}   
+        {% for i in order_data %} 
         <tr>
-            <td>{{ i.order_id.date_time }}</td>
-            <td>{{ i.product_id.product_name }}</td>
-            <td>{{ i.product_id.category.category_name }}</td>
+            <td>{{ i.ORDER.date_time }}</td>
+            <td>{{ i.PRODUCT.product_name }}</td>
+            <td>{{ i.PRODUCT.CATEGORY.category_name }}</td>
             <td>{{ i.unit_price }}</td>
             <td>{{ i.quantity }}</td>
             <td>{{ i.total_price }}</td>
-            <td>{{ i.product_id.discount.discount_value }}</td>
-            <td>{{ i.order_id.final_price }}</td>
+            <td>
+                {% for d in i.PRODUCT.discounttable_set.all %}
+                {{ d.discount_value }}
+                {% endfor %}
+            </td>
+            <td>{{ i.ORDER.final_price }}</td>
             
         </tr>
         {% endfor %}

@@ -35,12 +35,21 @@ class CategoryTable(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
+class StockTable(models.Model):
+    # fk to and from product table , that might be the reason why quantity is not appearing in viewproducts.html , confirm it and look for reverse relation
+    quantity = models.IntegerField(null=True, blank=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=20, null=True, blank=True)
+
+    # Try Adding a StockTransactionTable for tracking stock movements
+
+
 class ProductTable(models.Model):
     SHOPID = models.ForeignKey(ShopTable, on_delete=models.PROTECT, null=True, blank=True) #necessary? because there is fk to category table
-    category = models.ForeignKey(CategoryTable,on_delete=models.PROTECT,null=True,blank=True)
+    CATEGORY = models.ForeignKey(CategoryTable,on_delete=models.PROTECT,null=True,blank=True)
     product_name = models.CharField(max_length=50, null=True, blank=True)
+    STOCK = models.ForeignKey(StockTable, on_delete=models.PROTECT, null=True, blank=True) #not appearing in viewproducts.html
     brand = models.CharField(max_length=20, null=True, blank=True)
-    # quantity = models.ForeignKey('StockTable', on_delete=models.PROTECT, null=True, blank=True) #not appearing in viewproducts.html
     expiry_date = models.DateField(null=True, blank=True)
     manufacturing_date = models.DateField(null=True, blank=True)
     barcode = models.IntegerField(null=True, blank=True)
@@ -55,14 +64,7 @@ class ProductTable(models.Model):
     supplier_phone = models.CharField(max_length=20, null=True, blank=True)
     # Try making a seperate SupplierTable for supplier info
 
-class StockTable(models.Model):
-    # fk to and from product table , that might be the reason why quantity is not appearing in viewproducts.html , confirm it and look for reverse relation
-    PRODUCT = models.ForeignKey(ProductTable, on_delete=models.PROTECT, null=True, blank=True)
-    quantity = models.IntegerField(null=True, blank=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=20, null=True, blank=True)
 
-    # Try Adding a StockTransactionTable for tracking stock movements
 
 
 class CustomerTable(models.Model):

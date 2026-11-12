@@ -10,7 +10,7 @@
         <tr>
             <th>Product Name</th>
             <th>Brand</th>
-            <!-- <th>Quantity</th> -->
+            <th>Quantity</th>
             <th>Expiry Date</th>
             <th>Manufacturing Date</th>
             <th>Expiry Date</th>
@@ -19,24 +19,34 @@
             <th>Selling Price</th>
             <th>Unit</th>
             <th>Description</th>
-            <!-- <th>Offers</th>
-            <th>Discounts</th> -->
+            <!-- <th>Offers</th> -->
+            <th>Discounts</th>
         </tr>
         {% for i in product_data_staff %}
         <tr>
             <td>{{ i.product_name }}</td>
             <td>{{ i.brand }}</td>
-            <!-- <td>{{ i.quantity }}</td> -->
+            <td>{{ i.STOCK.quantity }}</td>
             <td>{{ i.expiry_date }}</td>
             <td>{{ i.manufacturing_date }}</td>
             <td>{{ i.expiry_date }}</td>
-            <td>{{ i.category.category_name }}</td>
+            <td>{{ i.CATEGORY.category_name }}</td>
             <td>{{ i.barcode }}</td>
             <td>{{ i.selling_price }}</td>
             <td>{{ i.unit }}</td>
             <td>{{ i.description }}</td>
+            <td>
+            {% for d in i.discounttable_set.all %}
+            <p>Discount Type: {{ d.discount_type }}</p>
+            <p>Discount Value: {{ d.discount_value }}</p>
+            <p>Start Date: {{ d.start_date }}</p>
+            <p>End Date: {{ d.end_date }}</p>
+            {% empty %}
+                <p>No discounts available</p>
+            {% endfor %}
             <!-- <td>{{ i.offers.offer_name }}</td>
             <td>{{ i.discount.discount_type }}</td> -->
+            </td>
         </tr>
         {% endfor %}
     </table>

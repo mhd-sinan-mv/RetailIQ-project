@@ -77,27 +77,27 @@ class AddStaff(View):
 
 class ManageDiscounts(View):
     def get(self,request):
-        obj = DiscountTable.objects.all()
+        obj = DiscountTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
         return render(request,'shop/manageDiscounts.html', {'discount_data':obj})
 
 class viewNotifications(View):
     def get(self,request):
-        obj = NotificationTable.objects.select_related('shop_id','product_id').all()
-        return render(request,'shop/ViewNotifications.html', {'notification_data':obj})
+        obj = NotificationTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
+        return render(request,'shop/viewNotifications.html', {'notification_data':obj})
 
-class ManageOffers(View):
+class ManageOffers(View): #not working properly, need to check
     def get(self,request):
-        obj = OfferTable.objects.all()
+        obj = OfferTable.objects.filter(SHOPID__LOGINID_id=request.session['loginid']).all()
         return render(request,'shop/ManageOffers.html', {'offer_data':obj})
 
 class ManageProducts(View):
     def get(self,request):
-        obj = ProductTable.objects.all()
+        obj = ProductTable.objects.select_related('CATEGORY','STOCK').filter(SHOPID__LOGINID_id=request.session['loginid'])
         return render(request,'shop/ManageProducts.html', {'product_data':obj}) 
 
 class ManageStaff(View):
     def get(self,request):
-        obj = StaffTable.objects.all()
+        obj = StaffTable.objects.filter(SHOPID__LOGINID_id=request.session['loginid'])
         return render(request,'shop/ManageStaff.html', {'staff_data':obj}) 
 
 class Register(View):
@@ -106,17 +106,17 @@ class Register(View):
 
 class ViewCustomers(View):
     def get(self,request):
-        obj = CustomerTable.objects.all()
+        obj = CustomerTable.objects.filter(SHOPID__LOGINID_id=request.session['loginid'])
         return render(request,'shop/ViewCustomers.html', {'customer_data':obj})
     
 class ViewSales(View):
     def get(self,request):
-        obj = OrderItemTable.objects.select_related('product_id','order_id').all()
+        obj = OrderItemTable.objects.select_related('ORDER','PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid']).prefetch_related('PRODUCT__discounttable_set') #here first got inside product table and then reverse relation to discount table
         return render(request,'shop/ViewSales.html', {'order_data':obj}) 
 
 class ViewStockandUpdateStock(View):
     def get(self,request):
-        obj = StockTable.objects.select_related('product_id').all()
+        obj = ProductTable.objects.filter(SHOPID__LOGINID_id=request.session['loginid']) #select_related not needed?
         return render(request,'shop/ViewStockandUpdateStock.html', {'stock_data':obj})
 
 class RatingAndFeedback(View):
@@ -135,27 +135,32 @@ class OrdersAndBill(View):
     
 class ViewDiscount(View):
     def get(self,request):
-        obj = DiscountTable.objects.all()
+        obj = DiscountTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
         return render(request,'staff/ViewDiscount.html', {'discount_data':obj})
     
 class ViewLowStock(View):
     def get(self,request):
-        obj = StockTable.objects.select_related('product_id').all()
+        obj = StockTable.objects.all()#filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
         return render(request,'staff/ViewLowStock.html', {'stock_data':obj})
 
 class ViewOffers(View):
     def get(self,request):
-        obj = OfferTable.objects.all()
+        obj = OfferTable.objects.filter(SHOPID__LOGINID_id=request.session['loginid']).all()
         return render(request,'staff/ViewOffers.html', {'offer_data':obj})
+
+class ViewProducts(View):
+    def get(self, request):
+        obj = ProductTable.objects.select_related('CATEGORY','STOCK').prefetch_related('discounttable_set').filter(SHOPID__LOGINID_id=request.session['loginid'])
+        return render(request, 'staff/ViewProducts.html', {'product_data_staff': obj })
 
 class ViewOrders(View):
     def get(self,request):
-        obj = OrderItemTable.objects.select_related('order_id','product_id').all()
+        obj = OrderItemTable.objects.select_related('ORDER','PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid']).all()
         return render(request,'staff/ViewOrders.html', {'order_data':obj})
 
-class ViewProducts(View):
-    def get(self,request):
-        obj = ProductTable.objects.select_related('category').all()
-        # obj = ProductTable.objects.select_related('category','quantity','offers','discount').all()
-        return render(request,'staff/ViewProducts.html', {'product_data_staff':obj})
+# class ViewProducts(View):
+#     def get(self,request):
+#         obj = ProductTable.objects.select_related('category','STOCK').all()
+#         # obj = ProductTable.objects.select_related('category','quantity','offers','discount').all()
+#         return render(request,'staff/ViewProducts.html', {'product_data_staff':obj})
     

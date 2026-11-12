@@ -17,7 +17,7 @@
         </tr>
         {% for i in discount_data %}
         <tr>
-            <!-- <td>{{ i.product_id }}</td> make reverese relation with product table to display product name -->
+            <td>{{ i.PRODUCT.product_name }}</td>
             <td>{{ i.discount_type }}</td>
             <td>{{ i.discount_value }}</td>
             <td>{{ i.active_status }}</td> <!-- can use javascript here to show active/inactive status from dates -->

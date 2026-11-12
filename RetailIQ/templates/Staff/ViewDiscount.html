@@ -11,13 +11,15 @@
             <th>Product</th>
             <th>Discount Type</th>
             <th>Dicount Value</th>
+            <th>Active Status</th>
             <th>Time Period</th>
         </tr>
         {% for i in discount_data %}
         <tr>
-            <td>Name : {{ i.product_id.product_name }}<br> Brand : {{ i.product_id.brand }}</td>
+            <td>Name : {{ i.PRODUCT.product_name }}<br> Brand : {{ i.PRODUCT.brand }}</td>
             <td>{{ i.discount_type }}</td>
             <td>{{ i.discount_value }}</td>
+            <td>{{ i.active_status }}</td> <!-- can use javascript here to show active/inactive status from dates -->
             <td>{{ i.start_date }} to {{ i.end_date }}</td>
         </tr>
         {% endfor %}

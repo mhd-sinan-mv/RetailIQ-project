@@ -21,15 +21,15 @@
         </tr>
         {% for i in order_data %}
         <tr>
-            <td>{{ i.order_id.bill_number }}</td>
-            <td>{{ i.order_id.customer_id }}</td>
-            <td>{{ i.product_id.product_name }}</td>
-            <td>{{ i.order_id.date_time }}</td>
+            <td>{{ i.ORDER.bill_number }}</td>
+            <td>{{ i.ORDER.customer_id }}</td>
+            <td>{{ i.PRODUCT.product_name }}</td>
+            <td>{{ i.ORDER.date_time }}</td>
             <td>{{ i.unit_price }}</td>
             <td>{{ i.total_price }}</td>
             <td>{{ i.discount_amount }}</td>
-            <td>{{ i.order_id.final_price }}</td>
-            <td>{{ i.order_id.payment_method }}</td>
+            <td>{{ i.ORDER.final_price }}</td>
+            <td>{{ i.ORDER.payment_method }}</td>
         </tr>
         {% endfor %}
         <tr>

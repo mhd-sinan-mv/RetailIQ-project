@@ -18,12 +18,12 @@
         </tr>
         {% for i in stock_data %}
         <tr>
-            <td>{{ i.product_id.product_name }}</td>
-            <td>{{ i.product_id.brand }}</td>
-            <td>{{ i.quantity }}</td>
-            <td>{{ i.product_id.category.category_name }}</td>
-            <td>{{ i.last_updated }}</td>
-            <td>{{ i.status }}</td>
+            <td>{{ i.product_name }}</td>
+            <td>{{ i.brand }}</td>
+            <td>{{ i.STOCK.quantity }}</td>
+            <td>{{ i.CATEGORY.category_name }}</td>
+            <td>{{ i.STOCK.last_updated }}</td>
+            <td>{{ i.STOCK.status }}</td>
             <td><button>Add stock</button> <br> <button>Remove</button></td>
         </tr>
         {% endfor %}

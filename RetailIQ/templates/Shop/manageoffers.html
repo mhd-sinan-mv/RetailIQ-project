@@ -9,25 +9,22 @@
       <table border="1">
         <tr>
             <th>Offer Name</th>
-            <th>Product id/Applied products</th>
+            <!-- <th>Product id/Applied products</th> now its implementing as an offer available for shop not for individual products -->
             <th>Offer Type</th>
             <th>Description</th>
             <th>Offer Period</th>
-            <th></th>
             <th>action</th>
         </tr>
         {% for i in offer_data %}
         <tr>
             <td>{{ i.offer_name }}</td>
-            <td>{{ i.product_id.product_name }}</td>
+            <!-- <td>{{ i.PRODUCT.product_name }}</td> -->
             <td>{{ i.offer_type }}</td>
             <td>{{ i.offer_description }}</td>
             <td>{{ i.offer_start_date }} to {{ i.offer_end_date }}</td>
-            <td></td>
             <td>
                 <button type="submit">Edit/Delete</button>
             </td>
-            
         </tr>
         {% endfor %}
 </body>

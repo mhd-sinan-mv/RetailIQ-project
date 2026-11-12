@@ -11,7 +11,7 @@
             <th>Barcode</th>
             <th>Product name</th>
             <th>Brand</th>
-            <!-- <th>Quantity</th> -->
+            <th>Quantity</th>
             <th>Purchase price</th>
             <th>Selling price</th>
             <th>Category</th>
@@ -27,10 +27,10 @@
             <td>{{ i.barcode }}</td>
             <td>{{ i.product_name }}</td>
             <td>{{ i.brand }}</td>
-            <!-- <td>{{ i.quantity }}</td> -->
+            <td>{{ i.STOCK.quantity }}</td>
             <td>{{ i.purchase_price }}</td>
             <td>{{ i.selling_price }}</td>
-            <td>{{ i.category }}</td>
+            <td>{{ i.CATEGORY.category_name }}</td>
             <td>{{ i.manufacturing_date }}</td>
             <td>{{ i.expiry_date }}</td>
             <td>{{ i.supplier_name }}</td>
