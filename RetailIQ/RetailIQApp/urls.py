@@ -36,7 +36,7 @@ urlpatterns = [
     path('AddProducts',AddProducts.as_view(),name='AddProducts'),
     path('AddStaff',AddStaff.as_view(),name='AddStaff'),
     path('ManageDiscounts',ManageDiscounts.as_view(),name='ManageDiscounts'),
-    path('ViewNotifications',viewNotifications.as_view(),name='ViewNotifications'),
+    path('ViewNotificationsShop',viewNotificationsShop.as_view(),name='ViewNotificationsShop'),
     path('ManageOffers',ManageOffers.as_view(),name='ManageOffers'),
     path('ManageProducts',ManageProducts.as_view(),name='ManageProducts'),
     path('ManageStaff',ManageStaff.as_view(),name='ManageStaff'),
@@ -54,6 +54,7 @@ urlpatterns = [
     path('ViewOffers',ViewOffers.as_view(),name='ViewOffers'),
     path('ViewOrders',ViewOrders.as_view(),name='ViewOrders'),    #   moved from shop
     path('ViewProducts',ViewProducts.as_view(),name='ViewProducts'),
+    path('ViewNotificaions',viewNotifications.as_view(),name='ViewNotifications'),
               
     
 

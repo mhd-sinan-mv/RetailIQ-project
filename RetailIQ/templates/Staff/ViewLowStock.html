@@ -17,11 +17,11 @@
         </tr>
         {% for i in stock_data %}
         <tr>
-            <td>{{ i.product_id.product_name }}</td>
-            <td>{{ i.product_id.brand }}</td>
-            <td>{{ i.quantity }}</td>
-            <td>{{ i.product_id.expiry_date }}</td>
-            <td>{{ i.product_id.supplier_name }}</td>
+            <td>{{ i.product_name }}</td>
+            <td>{{ i.brand }}</td>
+            <td>{{ i.STOCK.quantity }}</td>
+            <td>{{ i.expiry_date }}</td>
+            <td>{{ i.supplier_name }}</td>
             <td>Email : {{ i.product_id.supplier_email }}<br> Phone : {{ i.product_id.supplier_phone }}</td>
         </tr>
         {% endfor %}

@@ -20,6 +20,8 @@ class LoginPage(View):
             login_obj=LoginTable.objects.get(login_identifier=username1,password=password1)
             print("$$$$$$$$$$$$$$$$$$$",login_obj)
             request.session['loginid']=login_obj.id
+            # global staff_id #declares staff login as global to access without declaring everytime
+            # staff_id= StaffTable.objects.get(LOGINID_id=request.session['loginid'])
             print(request.session['loginid'])
 
             if login_obj.user_type=="admin":
@@ -80,10 +82,10 @@ class ManageDiscounts(View):
         obj = DiscountTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
         return render(request,'shop/manageDiscounts.html', {'discount_data':obj})
 
-class viewNotifications(View):
+class viewNotificationsShop(View):
     def get(self,request):
         obj = NotificationTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
-        return render(request,'shop/viewNotifications.html', {'notification_data':obj})
+        return render(request,'shop/viewNotificationsShop.html', {'notification_data':obj})
 
 class ManageOffers(View): #not working properly, need to check
     def get(self,request):
@@ -135,13 +137,29 @@ class OrdersAndBill(View):
     
 class ViewDiscount(View):
     def get(self,request):
-        obj = DiscountTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
+        staff_id = StaffTable.objects.get(LOGINID_id=request.session['loginid'])
+        shop_id=staff_id.SHOPID
+        obj = DiscountTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID_id=shop_id)
         return render(request,'staff/ViewDiscount.html', {'discount_data':obj})
     
 class ViewLowStock(View):
     def get(self,request):
-        obj = StockTable.objects.all()#filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
+        staff_id = StaffTable.objects.get(LOGINID_id=request.session['loginid'])
+        shop_id = staff_id.SHOPID
+        obj1 = ProductTable.objects.filter(SHOPID__id=shop_id.id)
+        low_stock_obj = []
+        for i in obj1:
+            stock=i.STOCK.quantity
+            if stock <50:
+                low_stock_obj.append(i.id)
+        obj = ProductTable.objects.filter(id__in=low_stock_obj)
         return render(request,'staff/ViewLowStock.html', {'stock_data':obj})
+
+
+class viewNotifications(View):
+    def get(self,request):
+        obj = NotificationTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
+        return render(request,'staff/viewNotifications.html', {'notification_data_staff':obj})
 
 class ViewOffers(View):
     def get(self,request):
