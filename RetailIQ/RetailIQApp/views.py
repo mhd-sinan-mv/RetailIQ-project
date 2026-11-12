@@ -178,7 +178,9 @@ class ViewProducts(View):
 
 class ViewOrders(View):
     def get(self,request):
-        obj = OrderItemTable.objects.select_related('ORDER','PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid']).all()
+        staff_id = StaffTable.objects.get(LOGINID_id=request.session['loginid'])
+        shop_id=staff_id.SHOPID
+        obj = OrderItemTable.objects.select_related('ORDER','PRODUCT').filter(PRODUCT__SHOPID_id=shop_id).all()
         return render(request,'staff/ViewOrders.html', {'order_data':obj})
 
 # class ViewProducts(View):
