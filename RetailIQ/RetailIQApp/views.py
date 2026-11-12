@@ -171,7 +171,9 @@ class ViewOffers(View):
 
 class ViewProducts(View):
     def get(self, request):
-        obj = ProductTable.objects.select_related('CATEGORY','STOCK').prefetch_related('discounttable_set').filter(SHOPID__LOGINID_id=request.session['loginid'])
+        staff_id = StaffTable.objects.get(LOGINID_id=request.session['loginid'])
+        shop_id=staff_id.SHOPID
+        obj = ProductTable.objects.select_related('CATEGORY','STOCK').prefetch_related('discounttable_set').filter(SHOPID_id=shop_id)
         return render(request, 'staff/ViewProducts.html', {'product_data_staff': obj })
 
 class ViewOrders(View):
