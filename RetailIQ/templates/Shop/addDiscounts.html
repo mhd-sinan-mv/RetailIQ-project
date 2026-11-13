@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method ="post">
+        {% csrf_token %}
+    <table border="1">
+        <tr>
+            <th>Product name</th>
+            <th>Discount type</th>
+            <th>Discount value</th>
+            <th>start date</th>
+            <th>End date</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td><select name="product_name" required>
+                {% for i in products %}
+                <option value="{{i.id}}">{{ i.product_name }}</option>
+                {% endfor %}
+            </select>
+        </td>
+            <td><input type="text" name="discount_type"></td>
+            <td><input type="text" name="discount_value"></td>
+            <td><input type="date" name="start_date" required></td>
+            <td><input type="date" name="end_date" required></td>
+            <td><button>Delete</button></td>
+        </tr>
+    </table>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

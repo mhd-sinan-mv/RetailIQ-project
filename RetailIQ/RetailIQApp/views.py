@@ -72,18 +72,23 @@ class shop_home(View):
 
 class AddProducts(View):
     def get(self,request):
-        return render(request,'shop/AddProducts.html',)
+        obj = CategoryTable.objects.filter(SHOPID__LOGINID__id=request.session['loginid']) #newly added 
+        return render(request,'shop/AddProducts.html',{'categories':obj})
+    
     def post(self,request):
         form = ProductForm(request.POST)
         if form.is_valid():
             f=form.save(commit=False)
             f.SHOPID=ShopTable.objects.get(LOGINID_id= request.session['loginid'])
+            f.CATEGORY = CategoryTable.objects.get(id = request.POST.get('category_name')) #newly added 
+            f.STOCK = StockTable.objects.create(quantity = request.POST['quantity']) #newly added 
             f.save()
             return HttpResponse('''<script>alert("product added successfully");window.location=("shop_home")</script>''')
 
 class AddStaff(View):
     def get(self,request):
         return render(request,'shop/AddStaff.html')   
+    
     def post(self, request):
         form = StaffForm(request.POST)
         if form.is_valid():
@@ -92,6 +97,22 @@ class AddStaff(View):
             f.SHOPID=ShopTable.objects.get(LOGINID_id= request.session['loginid'])
             f.save()
             return HttpResponse('''<script>alert("staff registered successfully");window.location=("shop_home")</script>''')
+
+class addDiscounts(View): #newly added
+    def get(self,request):
+        obj = ProductTable.objects.filter(SHOPID__LOGINID__id=request.session['loginid']) 
+        return render(request,'shop/AddDiscounts.html',{'products':obj})
+    
+    def post(self,request):
+        form = DiscountForm(request.POST)
+        if form.is_valid():
+            f=form.save(commit=False)
+            f.SHOPID=ShopTable.objects.get(LOGINID_id= request.session['loginid']) 
+            f.PRODUCT = ProductTable.objects.get(id = request.POST.get('product_name')) 
+            f.save()
+            return HttpResponse('''<script>alert("discount added successfully");window.location=("shop_home")</script>''')
+
+
 class ManageDiscounts(View):
     def get(self,request):
         obj = DiscountTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
@@ -102,15 +123,36 @@ class viewNotificationsShop(View):
         obj = NotificationTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
         return render(request,'shop/viewNotificationsShop.html', {'notification_data':obj})
 
-class ManageOffers(View): #not working properly, need to check
+class ManageOffers(View): 
     def get(self,request):
         obj = OfferTable.objects.filter(SHOPID__LOGINID_id=request.session['loginid']).all()
         return render(request,'shop/ManageOffers.html', {'offer_data':obj})
+
+    def post(self,request): #newly added
+        form = OfferForm(request.POST)
+        if form.is_valid():
+            f=form.save(commit=False)
+            f.SHOPID = ShopTable.objects.get(LOGINID_id= request.session['loginid']) 
+            f.save()
+            return HttpResponse('''<script>alert("offer added successfully");window.location=("ManageOffers")</script>''')
 
 class ManageProducts(View):
     def get(self,request):
         obj = ProductTable.objects.select_related('CATEGORY','STOCK').filter(SHOPID__LOGINID_id=request.session['loginid'])
         return render(request,'shop/ManageProducts.html', {'product_data':obj}) 
+
+class addManageCategories(View): #newly added
+    def get(self,request):
+        obj = CategoryTable.objects.filter(SHOPID__LOGINID_id=request.session['loginid'])
+        return render(request,'shop/addManageCategories.html', {'categories':obj})
+    def post(self,request):
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            f=form.save(commit=False)
+            f.SHOPID = ShopTable.objects.get(LOGINID_id= request.session['loginid']) 
+            f.save()
+            return HttpResponse('''<script>alert("Category added successfully");window.location=("addManageCategories")</script>''')
+
 
 class ManageStaff(View):
     def get(self,request):

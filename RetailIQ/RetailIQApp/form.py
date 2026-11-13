@@ -43,7 +43,7 @@ class OrderItemForm(ModelForm):
         model = OrderItemTable
         fields = ['quantity', 'unit_price','total_price','discount_amount']
 
-class OrderItemForm(ModelForm):
+class OfferForm(ModelForm):
     class Meta():
         model = OfferTable
         fields = ['offer_name', 'offer_description','offer_type','offer_start_date','offer_end_date','is_active']

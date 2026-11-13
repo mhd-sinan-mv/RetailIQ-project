@@ -11,31 +11,35 @@
         <table>
             <tr>
                 <td><label>Product Name</label></td>
-                <td><input type="text" name="product_name"></td>
+                <td><input type="text" name="product_name" required></td>
             </tr>
             <tr>
                 <td><label>Brand</label></td>
-                <td><input type="text" name="brand" ></td>
+                <td><input type="text" name="brand"></td>
             </tr>
             <tr>
                 <td><label>Quantity</label></td>
-                <td><input type="number" name=""></td>
+                <td><input type="number" name="quantity" required></td>
             </tr>
             <tr>
                 <td><label>Purchase Price</label></td>
-                <td><input type="number" name="purchase_price"></td>
+                <td><input type="number" name="purchase_price" required></td>
             </tr>
             <tr>
                 <td><label>Selling Price</label></td>
-                <td><input type="number" name="selling_price"></td>
+                <td><input type="number" name="selling_price" required></td>
             </tr>
             <tr>
                 <td><label>Category</label></td>
-                <td><input type="text" name=""></td>
+                <td><select name="category_name" required>
+                    {% for i in categories %}
+                    <option value="{{i.id}}" selected>{{ i.category_name }}</option>
+                    {% endfor %}
+                </select></td>
             </tr>
             <tr>
                 <td><label >Unit</label></td>
-                <td><input type="text" name="unit"></td>
+                <td><input type="text" name="unit" required></td>
             </tr>
             <tr>
                 <td><label>Manufacturing Date</label></td>
@@ -43,15 +47,15 @@
             </tr>
             <tr>
                 <td><label>Expiry Date</label></td>
-                <td><input type="date"  name="expiry_date"></td>
+                <td><input type="date"  name="expiry_date" required></td>
             </tr>
             <tr>
                 <td><label>Barcode</label></td>
-                <td><input type="number"  name="barcode"></td>
+                <td><input type="number"  name="barcode" required></td>
             </tr>
             <tr>
                 <td><label>Supplier Name</label></td>
-                <td><input type="text"  name="supplier_name"></td>
+                <td><input type="text"  name="supplier_name" required></td>
             </tr>
             <tr>
                 <td><label>Supplier Email</label></td>
@@ -59,7 +63,7 @@
             </tr>
             <tr>
                 <td><label>Supplier Phone</label></td>
-                <td><input type="tel"  name="supplier_phone"></td>
+                <td><input type="tel"  name="supplier_phone" required></td>
             </tr>
             <tr>
                 <td><label>Description</label></td>

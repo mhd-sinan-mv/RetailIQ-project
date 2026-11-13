@@ -35,6 +35,7 @@ urlpatterns = [
     path('shop_home',shop_home.as_view(),name='shop_home'),
     path('AddProducts',AddProducts.as_view(),name='AddProducts'),
     path('AddStaff',AddStaff.as_view(),name='AddStaff'),
+    path('AddDiscounts',addDiscounts.as_view(),name='addDiscounts'),
     path('ManageDiscounts',ManageDiscounts.as_view(),name='ManageDiscounts'),
     path('ViewNotificationsShop',viewNotificationsShop.as_view(),name='ViewNotificationsShop'),
     path('ManageOffers',ManageOffers.as_view(),name='ManageOffers'),
@@ -45,6 +46,7 @@ urlpatterns = [
     path('ViewSales',ViewSales.as_view(),name='ViewSales'),
     path('ViewStockandUpdateStock',ViewStockandUpdateStock.as_view(),name='ViewStockandUpdateStock'),
     path('RatingAndFeedback',RatingAndFeedback.as_view(),name='ratingAndFeedback'),
+    path('addManageCategories',addManageCategories.as_view(),name='addManageCategories'),
 
     #/////////////////////////////////// STAFF ////////////////////////////////////
     path('staff_home',staff_home.as_view(),name='staff_home'),

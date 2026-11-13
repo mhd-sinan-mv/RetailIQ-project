@@ -27,5 +27,19 @@
             </td>
         </tr>
         {% endfor %}
+      </table>
+      <br>
+        <form method="post">
+            {% csrf_token %}
+            <label>Offer name</label>
+            <input type="text" name="offer_name" required> <br>
+            <label>Offer Type</label>
+            <input type="text" name="offer_type"> <br>
+            <label>Description</label>
+            <input type="text" name="offer_description" > <br>
+            <label>Offer Period</label>
+            <input type="date" name="offer_start_date" required> to <input type="date" name="offer_end_date" required>  <br>
+            <button type="submit">submit</button>
+        </form>
 </body>
 </html>
