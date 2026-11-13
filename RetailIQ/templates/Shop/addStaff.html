@@ -6,35 +6,36 @@
     <title>Document</title>
 </head>
 <body>
-    <form>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         <table>
             <tr>
             <td><label>Name</label></td>
-            <td><input type="text" name="shopName" placeholder="enter staff name"></td>
+            <td><input type="text" name="name"></td>
             </tr>
             <tr>
             <td><label>Email</label></td>
-            <td><input type="email" name="email" placeholder="enter email"></td>
+            <td><input type="email" name="email"></td>
             </tr>
             <tr>
             <td><label>Phone</label></td>
-            <td><input type="tel" name="shopPhone" placeholder="enter mobile number"></td>
+            <td><input type="tel" name="phone" ></td>
             </tr>
             <tr>
             <td><label>Designation</label></td>
-            <td><input type="text" name="designation" placeholder="enter designation"></td>
+            <td><input type="text" name="designation" ></td>
             </tr>
             <tr>
             <td><label>Assigned Counter</label></td>
-            <td><input type="number" name="assigned counter"></td>
+            <td><input type="number" name="assigned_counter"></td>
             </tr>
             <tr>
-            <td><label>Assigned Staff Category</label></td>
-            <td><input type="text" name="assignedstaffcategory"></td>
+                <td><label>Staff Code</label></td>
+                <td><input type="text" name="staff_code"></td>
             </tr>
             <tr>
             <td><label>Assigned Password</label></td>
-            <td><input type="password" name="assigned password" placeholder="enter password"></td>
+            <td><input type="password" name="assigned_password" ></td>
             </tr>
             <tr>
             <td colspan="2">

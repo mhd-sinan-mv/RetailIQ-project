@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 
+from RetailIQApp.form import *
 from RetailIQApp.models import *
 
 # Create your views here.
@@ -71,12 +72,26 @@ class shop_home(View):
 
 class AddProducts(View):
     def get(self,request):
-        return render(request,'shop/AddProducts.html',)   
+        return render(request,'shop/AddProducts.html',)
+    def post(self,request):
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            f=form.save(commit=False)
+            f.SHOPID=ShopTable.objects.get(LOGINID_id= request.session['loginid'])
+            f.save()
+            return HttpResponse('''<script>alert("product added successfully");window.location=("shop_home")</script>''')
 
 class AddStaff(View):
     def get(self,request):
         return render(request,'shop/AddStaff.html')   
-
+    def post(self, request):
+        form = StaffForm(request.POST)
+        if form.is_valid():
+            f=form.save(commit=False)
+            f.LOGINID=LoginTable.objects.create(login_identifier=request.POST['staff_code'], password=request.POST['assigned_password'], user_type='staff')
+            f.SHOPID=ShopTable.objects.get(LOGINID_id= request.session['loginid'])
+            f.save()
+            return HttpResponse('''<script>alert("staff registered successfully");window.location=("shop_home")</script>''')
 class ManageDiscounts(View):
     def get(self,request):
         obj = DiscountTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])

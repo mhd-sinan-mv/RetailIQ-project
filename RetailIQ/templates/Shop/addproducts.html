@@ -6,61 +6,67 @@
     <title>Document</title>
 </head>
 <body>
-    <form>
+    <form method="post">
+        {% csrf_token %}
         <table>
             <tr>
-                <td><label for="productName">Product Name</label></td>
-                <td><input type="text" name="productName" placeholder="enter product name"></td>
+                <td><label>Product Name</label></td>
+                <td><input type="text" name="product_name"></td>
             </tr>
             <tr>
-                <td><label for="brand">Brand</label></td>
-                <td><input type="text" name="brand" placeholder="enter brand"></td>
+                <td><label>Brand</label></td>
+                <td><input type="text" name="brand" ></td>
             </tr>
             <tr>
-                <td><label for="Quantity">Quantity</label></td>
-                <td><input type="number" name="Quantity" placeholder="enter Quantity"></td>
+                <td><label>Quantity</label></td>
+                <td><input type="number" name=""></td>
             </tr>
             <tr>
-                <td><label for="Purchaseprice">Purchase Price</label></td>
-                <td><input type="number" name="Purchaseprice"></td>
+                <td><label>Purchase Price</label></td>
+                <td><input type="number" name="purchase_price"></td>
             </tr>
             <tr>
-                <td><label for="sellingprice">Selling Price</label></td>
-                <td><input type="number" name="sellingprice"></td>
+                <td><label>Selling Price</label></td>
+                <td><input type="number" name="selling_price"></td>
             </tr>
             <tr>
-                <td><label for="assignedstaffcategory">Category</label></td>
-                <td><input type="text" name="assignedstaffcategory"></td>
+                <td><label>Category</label></td>
+                <td><input type="text" name=""></td>
             </tr>
             <tr>
-                <td><label for="manufacturingdate">Manufacturing Date</label></td>
-                <td><input type="date"  name="manufacturingdate"></td>
+                <td><label >Unit</label></td>
+                <td><input type="text" name="unit"></td>
             </tr>
             <tr>
-                <td><label for="Expirydate">Expiry Date</label></td>
-                <td><input type="date"  name="Expirydate"></td>
+                <td><label>Manufacturing Date</label></td>
+                <td><input type="date"  name="manufacturing_date"></td>
             </tr>
             <tr>
-                <td><label for="barcode">Barcode</label></td>
+                <td><label>Expiry Date</label></td>
+                <td><input type="date"  name="expiry_date"></td>
+            </tr>
+            <tr>
+                <td><label>Barcode</label></td>
                 <td><input type="number"  name="barcode"></td>
             </tr>
             <tr>
-                <td><label for="suppliername">Supplier Name</label></td>
-                <td><input type="text"  name="suppliername"></td>
+                <td><label>Supplier Name</label></td>
+                <td><input type="text"  name="supplier_name"></td>
             </tr>
             <tr>
-                <td><label for="supplieremail">Supplier Email</label></td>
-                <td><input type="email"  name="supplieremail"></td>
+                <td><label>Supplier Email</label></td>
+                <td><input type="email"  name="supplier_email"></td>
             </tr>
             <tr>
-                <td><label for="supplierphone">Supplier Phone</label></td>
-                <td><input type="tel"  name="supplierphone"></td>
+                <td><label>Supplier Phone</label></td>
+                <td><input type="tel"  name="supplier_phone"></td>
             </tr>
             <tr>
-                <td><label for="description">Description</label></td>
+                <td><label>Description</label></td>
                 <td><textarea  name="description" rows="3"></textarea></td>
             </tr>
         </table>
+        <button type="submit">Submit</button>
     </form>
 </body>
 </html>
