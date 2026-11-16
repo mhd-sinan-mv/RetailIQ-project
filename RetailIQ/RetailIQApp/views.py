@@ -70,6 +70,7 @@ class shop_home(View):
     def get(self,request):
         return render(request,'shop/shop_home.html')
 
+
 class AddProducts(View):
     def get(self,request):
         obj = CategoryTable.objects.filter(SHOPID__LOGINID__id=request.session['loginid']) #newly added 
@@ -107,11 +108,10 @@ class addDiscounts(View): #newly added
         form = DiscountForm(request.POST)
         if form.is_valid():
             f=form.save(commit=False)
-            f.SHOPID=ShopTable.objects.get(LOGINID_id= request.session['loginid']) 
-            f.PRODUCT = ProductTable.objects.get(id = request.POST.get('product_name')) 
+            # f.SHOPID=ShopTable.objects.get(LOGINID_id= request.session['loginid']) 
+            f.PRODUCT = ProductTable.objects.get(id = request.POST.get('product_name'),SHOPID__LOGINID_id= request.session['loginid']) #confirm this line is correct or not
             f.save()
             return HttpResponse('''<script>alert("discount added successfully");window.location=("shop_home")</script>''')
-
 
 class ManageDiscounts(View):
     def get(self,request):
@@ -153,15 +153,29 @@ class addManageCategories(View): #newly added
             f.save()
             return HttpResponse('''<script>alert("Category added successfully");window.location=("addManageCategories")</script>''')
 
-
 class ManageStaff(View):
     def get(self,request):
         obj = StaffTable.objects.filter(SHOPID__LOGINID_id=request.session['loginid'])
         return render(request,'shop/ManageStaff.html', {'staff_data':obj}) 
 
-class Register(View):
+class RegisterUser(View):
     def get(self,request):
         return render(request,'shop/Register.html') 
+
+    def post(self,request):
+        form = ShopForm(request.POST)
+        if form.is_valid():
+            password=request.POST['password']
+            confirmPasword=request.POST['confirmPassword']
+            if password == confirmPasword:
+                f=form.save(commit=False)
+                f.SHOPID = ShopTable.objects.get(LOGINID_id= request.session['loginid'])
+                f.LOGINID = LoginTable.objects.create(login_identifier=request.POST['email'], password=request.POST['password'], user_type='shop')
+                f.save()
+                return HttpResponse('''<script>alert("New user registered successfully");window.location=("")</script>''')
+            else:
+                return HttpResponse('''<script>alert("Passwords didn't match");window.location=("Register")</script>''')
+
 
 class ViewCustomers(View):
     def get(self,request):
