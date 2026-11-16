@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+            Enter complaint :<textarea name="complaint_description"></textarea>
+            <button type="submit">Submit</button>
+    </form>
+    <table border="1">
+        <tr>
+            <th>Complaint Date</th>
+            <th>Complaint</th>
+            <th>Reply</th>
+            <th>Reply Date</th>
+        </tr>
+        {% for i in compData %}
+        <tr>
+            <td>{{ i.complaint_date }}</td>
+            <td>{{ i.complaint_description }}</td>
+            <td>{{ i.reply }}</td>
+            <td>{{ i.reply_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

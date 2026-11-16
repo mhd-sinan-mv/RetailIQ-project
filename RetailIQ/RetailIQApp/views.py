@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
@@ -49,15 +51,64 @@ class BlockOrUnblockShops(View):
         obj = ShopTable.objects.all()
         return render(request,'admin/BlockOrUnblockShops.html', {'shop_data':obj})
 
+class BlockShop(View):
+    def get(self,request,l_id):
+        obj = LoginTable.objects.get(id=l_id)
+        obj.user_type = "Blocked"
+        obj.save()
+        return HttpResponse('''<script>alert("Shop Blocked");window.location=("/BlockOrUnblockShops")</script>''')
+
+class UnblockShop(View):
+    def get(self,request,l_id):
+        obj = LoginTable.objects.get(id = l_id)
+        obj.user_type = "shop"
+        obj.save()
+        return HttpResponse('''<script>alert("shop unblocked");window.location=("/BlockOrUnblockShops")</script>''')
+
+
 class ViewAndVerifyShops(View):
     def get(self,request):
         obj = ShopTable.objects.all()
         return render(request,'admin/ViewAndVerifyShops.html', {'shop_data':obj})
 
+class acceptShop(View):
+    def get(self,request,l_id):
+        obj = LoginTable.objects.get(id = l_id)
+        obj.user_type = 'shop'
+        obj.save()
+        return HttpResponse('''<script>alert("Shop Verified");window.location=("/ViewAndVerifyShops")</script>''')
+
+class rejectShop(View):
+    def get(self,request,l_id):
+        obj = LoginTable.objects.get(id = l_id)
+        obj.user_type = 'shopRejected'
+        obj.save()
+        return HttpResponse('''<script>alert("Shop rejected");window.location=("/ViewAndVerifyShops")</script>''')
+
+
 class ViewComplaintsAndReply(View):
     def get(self,request):
         obj = ComplaintTable.objects.all()
         return render(request,'admin/ViewComplaintsAndReply.html', {'complaint_data':obj})
+    def post(self,request):
+        form = ComplaintForm(request.POST)
+        if form.is_valid():
+            f = form.save(commit=False)
+            f.SHOPID = ShopTable.objects.get(LOGINID_id= request.session['loginid'])
+            f.save()
+            return HttpResponse('''<script>alert("Reply sent back");window.location=("admin_home")</script>''')
+
+class sendReply(View):
+    def post(self,request,c_id):
+        obj = ComplaintTable.objects.get(id=c_id)
+        obj.reply = request.POST['reply']
+        obj.reply_date = datetime.now()
+        obj.save()
+        return HttpResponse('''<script>alert("Reply sent back");window.location=("admin_home")</script>''')
+
+
+    
+
     
 class ViewRatingAndFeedback(View):
     def get(self,request):
@@ -195,6 +246,26 @@ class ViewStockandUpdateStock(View):
 class RatingAndFeedback(View):
     def get(self,request):
         return render(request,'shop/RatingAndFeedback.html')
+    def post(self,request):
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            f=form.save(commit=False)
+            f.SHOPID = ShopTable.objects.get(LOGINID_id= request.session['loginid']) 
+            f.save()
+            return HttpResponse('''<script>alert("feedback added successfully");window.location=("shop_home")</script>''')
+
+class complaints(View):
+    def get(self,request):
+        obj = ComplaintTable.objects.filter(SHOPID__LOGINID__id =request.session['loginid'])
+        return render(request,'shop/complaintsViewReply.html',{'compData':obj})
+    def post(self,request):
+        form = ComplaintForm(request.POST)
+        if form.is_valid():
+            f = form.save(commit=False)
+            f.SHOPID = ShopTable.objects.get(LOGINID_id= request.session['loginid'])
+            f.save()
+            return HttpResponse('''<script>alert("Complaint sent to admin successfully");window.location=("shop_home")</script>''')
+
     
 #////////////////////////////// STAFF /////////////////////////////////////
 

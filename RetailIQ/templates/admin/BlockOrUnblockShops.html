@@ -22,8 +22,12 @@
             <td>{{ i.phone }}</td>
             <td>{{ i.date_joined }}</td>
             <td>
-                <button>Block</button>
-                <button>unblock</button>
+            {% if i.LOGINID.user_type == 'shop' %}
+
+               <a href="BlockShop/{{i.LOGINID.id}}"> <button>Block</button></a>
+            {% else %}   
+                <a href="UnblockShop/{{i.LOGINID.id}}"><button>unblock</button></a>
+            {% endif %}
             </td>
         </tr>
         {% endfor %}

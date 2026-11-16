@@ -21,8 +21,12 @@
             <td>{{ i.phone }}</td>
             <td>{{ i.date_joined }}</td>
             <td>
-                <button>accept</button>
-                <button>reject</button>
+                {% if i.LOGINID.user_type == 'shop' %}
+                    <a href="acceptShop/{{i.LOGINID.id}}"><button>accept</button></a>
+                {% else %}
+                        <a href="rejectShop/{{i.LOGINID.id}}"></a><button>reject</button></a>
+                {% endif %}
+                    
             </td>
         </tr>
         {% endfor %}

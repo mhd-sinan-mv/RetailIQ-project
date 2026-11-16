@@ -6,7 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    <form>
+    <form method="post">
+        {% csrf_token %}
         <table>
             <tr>
                 <td><label>Rating</label></td>
@@ -14,7 +15,7 @@
             </tr>
             <tr>
                 <td><label>Feedback</label></td>
-                <td><input type="text" name="feedback" placeholder="Enter feedback"></td>
+                <td><input type="text" name="feedback_description" placeholder="Enter feedback"></td>
             </tr>
             <tr>
                 <td>

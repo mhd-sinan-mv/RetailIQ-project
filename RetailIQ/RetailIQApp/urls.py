@@ -28,7 +28,12 @@ urlpatterns = [
     path('BlockOrUnblockShops',BlockOrUnblockShops.as_view(),name='BlockOrUnblockShops'),
     path('ViewAndVerifyShops',ViewAndVerifyShops.as_view(),name='ViewAndVerifyShops'),
     path('ViewComplaintsAndReply',ViewComplaintsAndReply.as_view(),name='ViewComplaintsAndReply'),
+    path('sendReply/<int:c_id>',sendReply.as_view(),name='sendReply'),
     path('ViewRatingAndFeedback',ViewRatingAndFeedback.as_view(),name='ViewRatingAndFeedback'),
+    path('BlockShop/<int:l_id>',BlockShop.as_view(),name='BlockShop'),
+    path('UnblockShop/<int:l_id>',UnblockShop.as_view(),name='UnblockShop'),
+    path('acceptShop/<int:l_id>',acceptShop.as_view(),name='acceptShop'),
+    path('rejectShop/<int:l_id>',rejectShop.as_view(),name='rejectShop'),
 
     # //////////////////////////////////// SHOP ////////////////////////////////////////
 
@@ -47,6 +52,7 @@ urlpatterns = [
     path('ViewStockandUpdateStock',ViewStockandUpdateStock.as_view(),name='ViewStockandUpdateStock'),
     path('RatingAndFeedback',RatingAndFeedback.as_view(),name='ratingAndFeedback'),
     path('addManageCategories',addManageCategories.as_view(),name='addManageCategories'),
+    path('complaints',complaints.as_view(),name="complaints"),
 
     #/////////////////////////////////// STAFF ////////////////////////////////////
     path('staff_home',staff_home.as_view(),name='staff_home'),

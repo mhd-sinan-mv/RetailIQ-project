@@ -6,6 +6,8 @@
     <title>Document</title>
 </head>
 <body>
+   
+        {% csrf_token %}
       <table border="1">
         <tr>
             <th>Complaint ID</th>
@@ -19,13 +21,17 @@
             <td>{{ i.id }}</td>
             <td>{{ i.complaint_description }}</td>
             <td>{{ i.SHOPID.shop_name }}</td>
+             <form method="post" action="sendReply/{{ i.id }}">
+                {% csrf_token %}
             <td>
-                <input type="text" placeholder="Reply">
+                <input type="text" placeholder="Reply" name="reply">
                 <button type="submit">Send Reply</button>
             </td>
+             </form>
             <td>{{ i.complaint_date }}</td>
         </tr>
         {% endfor %}
     </table>
+   
 </body>
 </html>
