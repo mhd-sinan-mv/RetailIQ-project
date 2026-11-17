@@ -37,8 +37,14 @@
             <td>Email: {{ i.supplier_email }}<br> Phone: {{ i.supplier_phone }}</td>
             <td>{{ i.Description }}</td>
             <td>
-                <a href="enableProduct/{{i.id}}"><button>Enable</button></a>
-                <a href="disableProduct/{{i.id}}"><button>Disable</button></a><br> 
+                {% if i.status == 'Enable' %}
+                    <a href="disableProduct/{{i.id}}"><button>Disable</button></a><br> 
+                {% elif i.status == 'Disable' %}
+                    <a href="enableProduct/{{i.id}}"><button>Enable</button></a>
+                {% else %}
+                    <a href="enableProduct/{{i.id}}"><button>Enable</button></a>
+                    <a href="disableProduct/{{i.id}}"><button>Disable</button></a><br>
+                {% endif %}
                 <a href="editProduct/{{i.id}}"><button>Edit</button></a>
                 <a href="deleteProduct/{{i.id}}"><button>Delete</button></a>
             </td>

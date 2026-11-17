@@ -7,12 +7,22 @@ class StaffForm(ModelForm):
         model = StaffTable
         fields = ['staff_code', 'name','phone','email','designation','assigned_counter']
 
+class StaffEditForm(ModelForm):
+    class Meta():
+        model = StaffTable
+        fields = ['staff_code', 'name','phone','email','designation','assigned_counter']
+
 class ShopForm(ModelForm):
     class Meta():
         model = ShopTable
         fields = ['shop_name', 'email','phone']
 
 class CategoryForm(ModelForm):
+    class Meta():
+        model = CategoryTable
+        fields = ['category_name', 'category_description','is_active']
+
+class categoryEditForm(ModelForm):
     class Meta():
         model = CategoryTable
         fields = ['category_name', 'category_description','is_active']

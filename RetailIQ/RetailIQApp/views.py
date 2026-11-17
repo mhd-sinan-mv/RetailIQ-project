@@ -215,7 +215,6 @@ class editOffer(View):
             form.save()
             return HttpResponse('''<script>alert("offer edit successfully");window.location=("/ManageOffers")</script>''')
 
-
 class deleteOffer(View):
     def get(self,request,o_id):
         obj = OfferTable.objects.get(id=o_id)
@@ -247,6 +246,7 @@ class editProduct(View):
         manufacturing_date = str(obj.manufacturing_date)
         expiry_date = str(obj.expiry_date)
         return render(request,'shop/editProduct.html',{'editProduct':obj, 'manufacturing_date':manufacturing_date, 'expiry_date':expiry_date})
+    
     def post(self,request,p_id):
         obj = ProductTable.objects.get(id=p_id)
         form = ProductEditForm(request.POST,instance=obj)
@@ -272,10 +272,48 @@ class addManageCategories(View): #newly added
             f.save()
             return HttpResponse('''<script>alert("Category added successfully");window.location=("addManageCategories")</script>''')
 
+class editCategories(View):
+    def get(self,request,cat_id):
+        obj = CategoryTable.objects.get(id=cat_id)
+        return render(request,'shop/editCategories.html',{'editCategories':obj})
+    def post(self,request,cat_id):
+        obj = CategoryTable.objects.get(id=cat_id)
+        form = categoryEditForm(request.POST,instance=obj)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('''<script>alert("category edit successful");window.location=("/addManageCategories")</script>''')
+
+class deleteCategories(View):
+    def get(self,request,cat_id):
+        obj = CategoryTable.objects.get(id=cat_id)
+        obj.delete()
+        return HttpResponse('''<script>alert("category delete successfully");window.location=("/addManageCategories")</script>''')
+
+    
 class ManageStaff(View):
     def get(self,request):
         obj = StaffTable.objects.filter(SHOPID__LOGINID_id=request.session['loginid'])
         return render(request,'shop/ManageStaff.html', {'staff_data':obj}) 
+
+class editStaff(View):
+    def get(self,request,s_id):
+        obj = StaffTable.objects.get(id=s_id)
+        return render(request,'shop/editStaff.html',{'editStaff':obj})
+    def post(self,request,s_id):
+        obj = StaffTable.objects.get(id=s_id)
+        form = StaffEditForm(request.POST,instance=obj)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('''<script>alert("staff update successful");window.location=("/ManageStaff")</script>''')
+
+class deleteStaff(View):
+    def get(self,request,s_id):
+        obj = StaffTable.objects.get(id=s_id)
+        obj.delete()
+        return HttpResponse('''<script>alert("staff delete successfully");window.location=("/ManageStaff")</script>''')
+
+    
+
 
 class RegisterUser(View):
     def get(self,request):

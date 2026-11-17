@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            <tr>
+            <td><label>Name</label></td>
+            <td><input value="{{editStaff.name}}" type="text" name="name" required></td>
+            </tr>
+            <tr>
+            <td><label>Email</label></td>
+            <td><input value="{{editStaff.email}}" type="email" name="email"></td>
+            </tr>
+            <tr>
+            <td><label>Phone</label></td>
+            <td><input value="{{editStaff.phone}}" type="tel" name="phone" required></td>
+            </tr>
+            <tr>
+            <td><label>Designation</label></td>
+            <td><input value="{{editStaff.designation}}" type="text" name="designation" required></td>
+            </tr>
+            <tr>
+            <td><label>Assigned Counter</label></td>
+            <td><input value="{{editStaff.assigned_counter}}" type="number" name="assigned_counter"></td>
+            </tr>
+            <tr>
+                <td><label>Staff Code</label></td>
+                <td><input value="{{editStaff.staff_code}}" type="text" name="staff_code" required></td>
+            </tr>
+            <tr>
+            <td><label>Assign new Password</label></td>
+            <td><input type="password" name="assigned_password" required></td>
+            </tr>
+            <tr>
+            <td colspan="2">
+                <button type="submit">update Staff</button>
+            </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

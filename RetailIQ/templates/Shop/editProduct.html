@@ -11,59 +11,59 @@
         <table>
             <tr>
                 <td><label>Product Name</label></td>
-                <td><input value="obj.product_name" type="text" name="product_name" required></td>
+                <td><input value="{{editProduct.product_name}}" type="text" name="product_name" required></td>
             </tr>
             <tr>
                 <td><label>Brand</label></td>
-                <td><input value="obj.brand" type="text" name="brand"></td>
+                <td><input value="{{editProduct.brand}}" type="text" name="brand"></td>
             </tr>
             <tr>
                 <td><label>Quantity</label></td>
-                <td><input value="obj.brand" type="number" name="quantity" required></td>
+                <td><input value="" type="number" name="quantity" required></td>
             </tr>
             <tr>
                 <td><label>Purchase Price</label></td>
-                <td><input value="obj.purchase_price" type="number" name="purchase_price" required></td>
+                <td><input value="{{editProduct.purchase_price}}" type="number" name="purchase_price" required></td>
             </tr>
             <tr>
                 <td><label>Selling Price</label></td>
-                <td><input value="obj.selling_price" type="number" name="selling_price" required></td>
+                <td><input value="{{editProduct.selling_price}}" type="number" name="selling_price" required></td>
             </tr>
             <tr>
                 <td><label>Category</label></td>
                 <td><select name="category_name" required>
-                    {% for i in categories %}
+                    {% for i in category %}
                     <option value="{{i.id}}" selected>{{ i.category_name }}</option>
                     {% endfor %}
                 </select></td>
             </tr>
             <tr>
                 <td><label >Unit</label></td>
-                <td><input value="obj.unit" type="text" name="unit" required></td>
+                <td><input value="{{editProduct.unit}}" type="text" name="unit" required></td>
             </tr>
             <tr>
                 <td><label>Manufacturing Date</label></td>
-                <td><input value="obj.manufacturing_date" type="date"  name="manufacturing_date"></td>
+                <td><input value="{{manufacturing_date}}" type="date"  name="manufacturing_date"></td>
             </tr>
             <tr>
                 <td><label>Expiry Date</label></td>
-                <td><input value="obj.expiry_date" type="date"  name="expiry_date" required></td>
+                <td><input value="{{expiry_date}}" type="date"  name="expiry_date" required></td>
             </tr>
             <tr>
                 <td><label>Barcode</label></td>
-                <td><input value="obj.barcode" type="number"  name="barcode" required></td>
+                <td><input value="{{editProduct.barcode}}" type="number"  name="barcode" required></td>
             </tr>
             <tr>
                 <td><label>Supplier Name</label></td>
-                <td><input value="obj.supplier_name" type="text"  name="supplier_name" required></td>
+                <td><input value="{{editProduct.supplier_name}}" type="text"  name="supplier_name" required></td>
             </tr>
             <tr>
                 <td><label>Supplier Email</label></td>
-                <td><input value="obj.supplier_email" type="email"  name="supplier_email"></td>
+                <td><input value="{{editProduct.supplier_email}}" type="email"  name="supplier_email"></td>
             </tr>
             <tr>
                 <td><label>Supplier Phone</label></td>
-                <td><input value="obj.supplier_phone" type="tel"  name="supplier_phone" required></td>
+                <td><input value="{{editProduct.supplier_phone}}" type="tel"  name="supplier_phone" required></td>
             </tr>
             <tr>
                 <td><label>Description</label></td>

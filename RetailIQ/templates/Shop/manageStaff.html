@@ -23,8 +23,9 @@
             <td>{{ i.email }}</td>
             <td>{{ i.designation }} & {{ i.assigned_counter }}</td>
             <td>
+                <a href="editStaff/{{i.id}}"><button>Edit</button></a>
+                <a href="deleteStaff/{{i.id}}"><button>Delete</button></a>
                 
-                <button type="submit">Edit/Delete</button>
             </td>
             
         </tr>

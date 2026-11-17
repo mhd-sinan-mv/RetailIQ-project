@@ -20,7 +20,10 @@
                 <td>
                     {{ i.category_description}}
                 </td>
-                <td><button>delete</button><button>edit</button></td>
+                <td>
+                    <a href="editCategories/{{i.id}}"><button>edit</button></a>
+                    <a href="deleteCategories/{{i.id}}"><button>delete</button></a>
+                </td>
             </tr>
             {% endfor %}
         </table>
