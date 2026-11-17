@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+      <table border="1">
+
+      </table>
+      <br>
+        <form method="post">
+            {% csrf_token %}
+            <label>Offer name</label>
+            <input value="{{editOffer.offer_name}}" type="text" name="offer_name" required> <br>
+            <label>Offer Type</label>
+            <input value="{{editOffer.offer_type}}" type="text" name="offer_type"> <br>
+            <label>Description</label>
+            <input value="offer_description" type="text" name="offer_description" > <br>
+            <label>Offer Period</label>
+            <input value="{{startDate}}" type="date" name="offer_start_date" required> to <input value="{{endDate}}" type="date" name="offer_end_date" required>  <br>
+            <button type="submit">submit</button>
+        </form>
+</body>
+</html>

@@ -117,6 +117,7 @@ class DiscountTable(models.Model):
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10,null=True,blank=True)   
     #set reverse relation with product table to display product name
 
      

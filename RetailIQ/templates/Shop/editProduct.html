@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td><label>Product Name</label></td>
+                <td><input value="obj.product_name" type="text" name="product_name" required></td>
+            </tr>
+            <tr>
+                <td><label>Brand</label></td>
+                <td><input value="obj.brand" type="text" name="brand"></td>
+            </tr>
+            <tr>
+                <td><label>Quantity</label></td>
+                <td><input value="obj.brand" type="number" name="quantity" required></td>
+            </tr>
+            <tr>
+                <td><label>Purchase Price</label></td>
+                <td><input value="obj.purchase_price" type="number" name="purchase_price" required></td>
+            </tr>
+            <tr>
+                <td><label>Selling Price</label></td>
+                <td><input value="obj.selling_price" type="number" name="selling_price" required></td>
+            </tr>
+            <tr>
+                <td><label>Category</label></td>
+                <td><select name="category_name" required>
+                    {% for i in categories %}
+                    <option value="{{i.id}}" selected>{{ i.category_name }}</option>
+                    {% endfor %}
+                </select></td>
+            </tr>
+            <tr>
+                <td><label >Unit</label></td>
+                <td><input value="obj.unit" type="text" name="unit" required></td>
+            </tr>
+            <tr>
+                <td><label>Manufacturing Date</label></td>
+                <td><input value="obj.manufacturing_date" type="date"  name="manufacturing_date"></td>
+            </tr>
+            <tr>
+                <td><label>Expiry Date</label></td>
+                <td><input value="obj.expiry_date" type="date"  name="expiry_date" required></td>
+            </tr>
+            <tr>
+                <td><label>Barcode</label></td>
+                <td><input value="obj.barcode" type="number"  name="barcode" required></td>
+            </tr>
+            <tr>
+                <td><label>Supplier Name</label></td>
+                <td><input value="obj.supplier_name" type="text"  name="supplier_name" required></td>
+            </tr>
+            <tr>
+                <td><label>Supplier Email</label></td>
+                <td><input value="obj.supplier_email" type="email"  name="supplier_email"></td>
+            </tr>
+            <tr>
+                <td><label>Supplier Phone</label></td>
+                <td><input value="obj.supplier_phone" type="tel"  name="supplier_phone" required></td>
+            </tr>
+            <tr>
+                <td><label>Description</label></td>
+                <td><textarea name="description" rows="3"></textarea></td>
+            </tr>
+        </table>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

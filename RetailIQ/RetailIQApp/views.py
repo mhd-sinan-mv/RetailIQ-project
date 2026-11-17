@@ -90,13 +90,13 @@ class ViewComplaintsAndReply(View):
     def get(self,request):
         obj = ComplaintTable.objects.all()
         return render(request,'admin/ViewComplaintsAndReply.html', {'complaint_data':obj})
-    def post(self,request):
-        form = ComplaintForm(request.POST)
-        if form.is_valid():
-            f = form.save(commit=False)
-            f.SHOPID = ShopTable.objects.get(LOGINID_id= request.session['loginid'])
-            f.save()
-            return HttpResponse('''<script>alert("Reply sent back");window.location=("admin_home")</script>''')
+    # def post(self,request):
+    #     form = ComplaintForm(request.POST)
+    #     if form.is_valid():
+    #         f = form.save(commit=False)
+    #         f.SHOPID = ShopTable.objects.get(LOGINID_id= request.session['loginid'])
+    #         f.save()
+    #         return HttpResponse('''<script>alert("Reply sent back");window.location=("admin_home")</script>''')
 
 class sendReply(View):
     def post(self,request,c_id):
@@ -104,7 +104,7 @@ class sendReply(View):
         obj.reply = request.POST['reply']
         obj.reply_date = datetime.now()
         obj.save()
-        return HttpResponse('''<script>alert("Reply sent back");window.location=("admin_home")</script>''')
+        return HttpResponse('''<script>alert("Reply sent back");window.location=("/ViewComplaintsAndReply")</script>''')
 
 
     
@@ -169,6 +169,21 @@ class ManageDiscounts(View):
         obj = DiscountTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
         return render(request,'shop/manageDiscounts.html', {'discount_data':obj})
 
+class startDiscount(View):
+    def get(self,request,d_id):
+        obj = DiscountTable.objects.get(id=d_id)
+        obj.status='Enable'
+        obj.save()
+        return HttpResponse('''<script>alert("discount enabled successfully");window.location=("/ManageDiscounts")</script>''')
+
+class stopDiscount(View):
+    def get(self,request,d_id):
+        obj = DiscountTable.objects.get(id=d_id)
+        obj.status = 'Disable'
+        obj.save()
+        return HttpResponse('''<script>alert("discount disabled successfully");window.location=("/ManageDiscounts")</script>''')
+
+
 class viewNotificationsShop(View):
     def get(self,request):
         obj = NotificationTable.objects.select_related('PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid'])
@@ -187,11 +202,64 @@ class ManageOffers(View):
             f.save()
             return HttpResponse('''<script>alert("offer added successfully");window.location=("ManageOffers")</script>''')
 
+class editOffer(View):
+    def get(self,request,o_id):
+        obj = OfferTable.objects.get(id=o_id)
+        start_date = str(obj.offer_start_date)
+        end_date = str(obj.offer_end_date)
+        return render(request,'shop/editOffer.html',{'editOffer':obj, 'startDate':start_date, 'endDate':end_date})
+    def post(self,request,o_id):
+        obj = OfferTable.objects.get(id=o_id)
+        form = OfferEditForm(request.POST,instance=obj)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('''<script>alert("offer edit successfully");window.location=("/ManageOffers")</script>''')
+
+
+class deleteOffer(View):
+    def get(self,request,o_id):
+        obj = OfferTable.objects.get(id=o_id)
+        obj.delete()
+        return HttpResponse('''<script>alert("offer delete successfully");window.location=("/ManageOffers")</script>''')
+    
 class ManageProducts(View):
     def get(self,request):
         obj = ProductTable.objects.select_related('CATEGORY','STOCK').filter(SHOPID__LOGINID_id=request.session['loginid'])
         return render(request,'shop/ManageProducts.html', {'product_data':obj}) 
 
+class enableProduct(View):
+    def get(self,request,p_id):
+        obj = ProductTable.objects.get(id=p_id)
+        obj.status='Enable'
+        obj.save()
+        return HttpResponse('''<script>alert("product enabled successfully");window.location=("/ManageProducts")</script>''')
+
+class disableProduct(View):
+    def get(self,request,p_id):
+        obj = ProductTable.objects.get(id=p_id)
+        obj.status='Disable'
+        obj.save()
+        return HttpResponse('''<script>alert("product disabled successfully");window.location=("/ManageProducts")</script>''')
+
+class editProduct(View):
+    def get(self,request,p_id):
+        obj = ProductTable.objects.get(id=p_id)
+        manufacturing_date = str(obj.manufacturing_date)
+        expiry_date = str(obj.expiry_date)
+        return render(request,'shop/editProduct.html',{'editProduct':obj, 'manufacturing_date':manufacturing_date, 'expiry_date':expiry_date})
+    def post(self,request,p_id):
+        obj = ProductTable.objects.get(id=p_id)
+        form = ProductEditForm(request.POST,instance=obj)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('''<script>alert("product edit successfully");window.location=("/ManageProducts")</script>''')
+
+class deleteProduct(View):
+    def get(self,request,p_id):
+        obj = ProductTable.objects.get(id=p_id)
+        obj.delete()
+        return HttpResponse('''<script>alert("product delete successfully");window.location=("/ManageProducts")</script>''')
+    
 class addManageCategories(View): #newly added
     def get(self,request):
         obj = CategoryTable.objects.filter(SHOPID__LOGINID_id=request.session['loginid'])
@@ -213,15 +281,14 @@ class RegisterUser(View):
     def get(self,request):
         return render(request,'shop/Register.html') 
 
-    def post(self,request):
+    def post(self,request):  #confirm whether this creates shop correctly?
         form = ShopForm(request.POST)
         if form.is_valid():
             password=request.POST['password']
             confirmPasword=request.POST['confirmPassword']
             if password == confirmPasword:
-                f=form.save(commit=False)
-                f.SHOPID = ShopTable.objects.get(LOGINID_id= request.session['loginid'])
-                f.LOGINID = LoginTable.objects.create(login_identifier=request.POST['email'], password=request.POST['password'], user_type='shop')
+                f=form.save(commit=False)  
+                f.LOGINID = LoginTable.objects.create(login_identifier=request.POST['email'], password=request.POST['password'], user_type='shopToAccept')
                 f.save()
                 return HttpResponse('''<script>alert("New user registered successfully");window.location=("")</script>''')
             else:

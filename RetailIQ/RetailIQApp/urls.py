@@ -44,7 +44,13 @@ urlpatterns = [
     path('ManageDiscounts',ManageDiscounts.as_view(),name='ManageDiscounts'),
     path('ViewNotificationsShop',viewNotificationsShop.as_view(),name='ViewNotificationsShop'),
     path('ManageOffers',ManageOffers.as_view(),name='ManageOffers'),
+    path('editOffer/<int:o_id>',editOffer.as_view(),name='editOffer'),
+    path('deleteOffer/<int:o_id>',deleteOffer.as_view(),name='deleteOffer'),
     path('ManageProducts',ManageProducts.as_view(),name='ManageProducts'),
+    path('enableProduct/<int:p_id>',enableProduct.as_view(),name='enableProduct'),
+    path('disableProduct/<int:p_id>',disableProduct.as_view(),name='disableProduct'),
+    path('editProduct/<int:p_id>',editProduct.as_view(),name='editProduct'),
+    path('deleteProduct/<int:p_id>',deleteProduct.as_view(),name='deleteProduct'),
     path('ManageStaff',ManageStaff.as_view(),name='ManageStaff'),
     path('Register',RegisterUser.as_view(),name='Register'),
     path('ViewCustomers',ViewCustomers.as_view(),name='ViewCustomers'),
@@ -53,6 +59,9 @@ urlpatterns = [
     path('RatingAndFeedback',RatingAndFeedback.as_view(),name='ratingAndFeedback'),
     path('addManageCategories',addManageCategories.as_view(),name='addManageCategories'),
     path('complaints',complaints.as_view(),name="complaints"),
+    path('startDiscount/<int:d_id>',startDiscount.as_view(),name='startDiscount'),
+    path('stopDiscount/<int:d_id>',stopDiscount.as_view(),name='stopDiscount'),
+
 
     #/////////////////////////////////// STAFF ////////////////////////////////////
     path('staff_home',staff_home.as_view(),name='staff_home'),

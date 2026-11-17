@@ -23,7 +23,8 @@
             <td>{{ i.offer_description }}</td>
             <td>{{ i.offer_start_date }} to {{ i.offer_end_date }}</td>
             <td>
-                <button type="submit">Edit/Delete</button>
+                <a href="editOffer/{{i.id}}"><button>Edit</button></a>
+                <a href="deleteOffer/{{i.id}}"><button>Delete</button></td></a>
             </td>
         </tr>
         {% endfor %}

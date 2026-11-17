@@ -21,10 +21,14 @@
             <td>{{ i.phone }}</td>
             <td>{{ i.date_joined }}</td>
             <td>
-                {% if i.LOGINID.user_type == 'shop' %}
+                {% if i.LOGINID.user_type == 'shopToAccept' %}
+                    <a href="acceptShop/{{i.LOGINID.id}}"><button>accept</button></a>
+                    <a href="rejectShop/{{i.LOGINID.id}}"><button>reject</button></a>
+                    
+                {% elif i.LOGINID.user_type == 'shopRejected' %}
                     <a href="acceptShop/{{i.LOGINID.id}}"><button>accept</button></a>
                 {% else %}
-                        <a href="rejectShop/{{i.LOGINID.id}}"></a><button>reject</button></a>
+                    <a href="rejectShop/{{i.LOGINID.id}}"><button>reject</button></a>
                 {% endif %}
                     
             </td>

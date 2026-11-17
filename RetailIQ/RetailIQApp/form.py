@@ -27,6 +27,11 @@ class ProductForm(ModelForm):
         model = ProductTable
         fields = ['product_name', 'brand','expiry_date','manufacturing_date','barcode','purchase_price','selling_price','unit','description','supplier_name','supplier_email','supplier_phone']
 
+class ProductEditForm(ModelForm):
+    class Meta():
+        model = ProductTable
+        fields = ['product_name', 'brand','expiry_date','manufacturing_date','barcode','purchase_price','selling_price','unit','description','supplier_name','supplier_email','supplier_phone']
+
 
 class CustomerForm(ModelForm):
     class Meta():
@@ -44,6 +49,11 @@ class OrderItemForm(ModelForm):
         fields = ['quantity', 'unit_price','total_price','discount_amount']
 
 class OfferForm(ModelForm):
+    class Meta():
+        model = OfferTable
+        fields = ['offer_name', 'offer_description','offer_type','offer_start_date','offer_end_date','is_active']
+
+class OfferEditForm(ModelForm):
     class Meta():
         model = OfferTable
         fields = ['offer_name', 'offer_description','offer_type','offer_start_date','offer_end_date','is_active']

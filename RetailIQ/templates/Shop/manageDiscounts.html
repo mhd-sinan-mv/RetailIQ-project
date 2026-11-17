@@ -22,7 +22,13 @@
             <td>{{ i.discount_value }}</td>
             <td>{{ i.active_status }}</td> <!-- can use javascript here to show active/inactive status from dates -->
             <td>{{ i.start_date }} to {{i.end_date}}</td>
-            <td><button type="">Start</button>  <button type="">Stop</button> </td>
+            <td>
+                {% if i.status == 'Disable' %}
+                    <a href="startDiscount/{{i.id}}"><button>Enable</button></a>  
+                {% else %}
+                    <a href="stopDiscount/{{i.id}}"><button>Disable</button></a>
+                </td>
+                {% endif %}
         </tr>
         {% endfor %}
     </table>
