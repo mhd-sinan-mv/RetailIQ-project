@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -129,5 +131,5 @@ EMAIL_HOST = 'smtp.gmail.com'  # Use your email provider's SMTP server
 EMAIL_PORT = 587  # Typically 587 for TLS, or 465 for SSL
 EMAIL_USE_TLS = True  # Use TLS (True if PORT=587)
 EMAIL_USE_SSL = False  # Set True if PORT=465
-EMAIL_HOST_USER = ''  # Your email address
-EMAIL_HOST_PASSWORD = '' #app key
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Your email address
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD') #app key

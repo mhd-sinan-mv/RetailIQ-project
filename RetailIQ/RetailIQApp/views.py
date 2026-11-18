@@ -7,7 +7,10 @@ from django.views import View
 from RetailIQApp.form import *
 from RetailIQApp.models import *
 
-import random
+import random , os
+from dotenv import load_dotenv
+load_dotenv()
+
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -511,7 +514,7 @@ class ForgetPassword(View):
                     'Password Reset OTP',
                     f'Your OTP for password reset is {otp}. '
                     'This OTP is valid for 5 minutes.',
-                    '@gmail.com', #email id
+                    os.getenv('EMAIL_HOST_USER'), #email id
                     [email],
                     fail_silently=False,
                 )
@@ -562,7 +565,7 @@ class VerifyOTP(View):
                     if newPassword == confirmPassword:
                         login_obj.password = newPassword
                         login_obj.save()
-                        return redirect('/')
+                        return HttpResponse('''<script>alert("Password changed");window.location=("/")</script>''')
                     else:
                      return HttpResponse('''<script>alert("Passwords didn't match");window.location=("/")</script>''')
 
@@ -571,8 +574,3 @@ class VerifyOTP(View):
 
         messages.error(request, "Invalid OTP.")
         return redirect('/VerifyOTP')
-
-
-# class forgotPassword(View):
-#     def get(self,request):
-#         return render(request,'reset_password/forgot_password.html')
