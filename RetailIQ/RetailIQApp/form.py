@@ -32,6 +32,11 @@ class StockForm(ModelForm):
         model = StockTable
         fields = ['quantity','status',]
 
+class StockEditForm(ModelForm):
+    class Meta():
+        model = StockTable
+        fields = ['quantity','status',]
+
 class ProductForm(ModelForm):
     class Meta():
         model = ProductTable
@@ -44,6 +49,11 @@ class ProductEditForm(ModelForm):
 
 
 class CustomerForm(ModelForm):
+    class Meta():
+        model = CustomerTable
+        fields = ['name', 'phone','email','address',]
+
+class CustomerEditForm(ModelForm):
     class Meta():
         model = CustomerTable
         fields = ['name', 'phone','email','address',]

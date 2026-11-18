@@ -1,13 +1,20 @@
 from datetime import datetime
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.views import View
 
 from RetailIQApp.form import *
 from RetailIQApp.models import *
 
-# Create your views here.
+import random
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.views import View
+from django.http import HttpResponse
+from django.utils import timezone
+from datetime import timedelta# Create your views here.
 
 class LoginPage(View):
     def get(self,request):
@@ -207,7 +214,7 @@ class editOffer(View):
         obj = OfferTable.objects.get(id=o_id)
         start_date = str(obj.offer_start_date)
         end_date = str(obj.offer_end_date)
-        return render(request,'shop/editOffer.html',{'editOffer':obj, 'startDate':start_date, 'endDate':end_date})
+        return render(request,'shop/edit/editOffer.html',{'editOffer':obj, 'startDate':start_date, 'endDate':end_date})
     def post(self,request,o_id):
         obj = OfferTable.objects.get(id=o_id)
         form = OfferEditForm(request.POST,instance=obj)
@@ -243,9 +250,10 @@ class disableProduct(View):
 class editProduct(View):
     def get(self,request,p_id):
         obj = ProductTable.objects.get(id=p_id)
+        cat_obj = CategoryTable.objects.all()
         manufacturing_date = str(obj.manufacturing_date)
         expiry_date = str(obj.expiry_date)
-        return render(request,'shop/editProduct.html',{'editProduct':obj, 'manufacturing_date':manufacturing_date, 'expiry_date':expiry_date})
+        return render(request,'shop/edit/editProduct.html',{'editProduct':obj, 'manufacturing_date':manufacturing_date, 'expiry_date':expiry_date, 'category':cat_obj})
     
     def post(self,request,p_id):
         obj = ProductTable.objects.get(id=p_id)
@@ -275,7 +283,7 @@ class addManageCategories(View): #newly added
 class editCategories(View):
     def get(self,request,cat_id):
         obj = CategoryTable.objects.get(id=cat_id)
-        return render(request,'shop/editCategories.html',{'editCategories':obj})
+        return render(request,'shop/edit/editCategories.html',{'editCategories':obj})
     def post(self,request,cat_id):
         obj = CategoryTable.objects.get(id=cat_id)
         form = categoryEditForm(request.POST,instance=obj)
@@ -289,7 +297,6 @@ class deleteCategories(View):
         obj.delete()
         return HttpResponse('''<script>alert("category delete successfully");window.location=("/addManageCategories")</script>''')
 
-    
 class ManageStaff(View):
     def get(self,request):
         obj = StaffTable.objects.filter(SHOPID__LOGINID_id=request.session['loginid'])
@@ -298,9 +305,12 @@ class ManageStaff(View):
 class editStaff(View):
     def get(self,request,s_id):
         obj = StaffTable.objects.get(id=s_id)
-        return render(request,'shop/editStaff.html',{'editStaff':obj})
+        return render(request,'shop/edit/editStaff.html',{'editStaff':obj})
     def post(self,request,s_id):
         obj = StaffTable.objects.get(id=s_id)
+        login_obj = LoginTable.objects.get(id=obj.LOGINID.id)
+        login_obj.password=request.POST['assigned_password']
+        login_obj.save()
         form = StaffEditForm(request.POST,instance=obj)
         if form.is_valid():
             form.save()
@@ -311,8 +321,6 @@ class deleteStaff(View):
         obj = StaffTable.objects.get(id=s_id)
         obj.delete()
         return HttpResponse('''<script>alert("staff delete successfully");window.location=("/ManageStaff")</script>''')
-
-    
 
 
 class RegisterUser(View):
@@ -328,7 +336,7 @@ class RegisterUser(View):
                 f=form.save(commit=False)  
                 f.LOGINID = LoginTable.objects.create(login_identifier=request.POST['email'], password=request.POST['password'], user_type='shopToAccept')
                 f.save()
-                return HttpResponse('''<script>alert("New user registered successfully");window.location=("")</script>''')
+                return HttpResponse('''<script>alert("New user registered successfully");window.location=("/")</script>''')
             else:
                 return HttpResponse('''<script>alert("Passwords didn't match");window.location=("Register")</script>''')
 
@@ -337,7 +345,26 @@ class ViewCustomers(View):
     def get(self,request):
         obj = CustomerTable.objects.filter(SHOPID__LOGINID_id=request.session['loginid'])
         return render(request,'shop/ViewCustomers.html', {'customer_data':obj})
-    
+
+class editCustomer(View):
+    def get(self,request,cust_id):
+        obj = CustomerTable.objects.get(id=cust_id)
+        return render(request,'shop/edit/editCustomer.html',{'cust':obj})
+    def post(self,request,cust_id):
+        obj = CustomerTable.objects.get(id=cust_id)
+        form = CustomerEditForm(request.POST,instance=obj)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('''<script>alert("customer update successful");window.location=("/ViewCustomers")</script>''')
+
+class deleteCustomer(View):
+    def get(self,request,cust_id):
+        obj = CustomerTable.objects.get(id=cust_id)
+        obj.delete()
+        return HttpResponse('''<script>alert("Customer delete successfully");window.location=("/ViewCustomers")</script>''')
+
+
+
 class ViewSales(View):
     def get(self,request):
         obj = OrderItemTable.objects.select_related('ORDER','PRODUCT').filter(PRODUCT__SHOPID__LOGINID_id=request.session['loginid']).prefetch_related('PRODUCT__discounttable_set') #here first got inside product table and then reverse relation to discount table
@@ -347,6 +374,18 @@ class ViewStockandUpdateStock(View):
     def get(self,request):
         obj = ProductTable.objects.filter(SHOPID__LOGINID_id=request.session['loginid']) #select_related not needed?
         return render(request,'shop/ViewStockandUpdateStock.html', {'stock_data':obj})
+
+class updateStock(View):
+    def get(self,request,stock_id):
+        obj = StockTable.objects.get(id=stock_id)
+        return render(request,'shop/edit/updateStock.html',{'updateStock':obj})
+    def post(self,request,stock_id):
+        obj = StockTable.objects.get(id=stock_id)
+        form = StockEditForm(request.POST,instance=obj)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('''<script>alert("stock update successful");window.location=("/ViewStockandUpdateStock")</script>''')
+
 
 class RatingAndFeedback(View):
     def get(self,request):
@@ -438,3 +477,102 @@ class ViewOrders(View):
 #         # obj = ProductTable.objects.select_related('category','quantity','offers','discount').all()
 #         return render(request,'staff/ViewProducts.html', {'product_data_staff':obj})
     
+class ForgetPassword(View):
+
+    def get(self, request):
+        return render(request, 'reset_password/forgot_password.html')
+
+    def post(self, request):
+
+        email = request.POST.get('Email')
+
+        if not email:
+            messages.error(request, "Email is required.")
+            return redirect('/forgotPassword')
+
+        user_tables = [ShopTable]
+
+        for table in user_tables:
+            try:
+                user = table.objects.get(email=email)
+
+                # Generate 6-digit OTP
+                otp = str(random.randint(100000, 999999))
+
+                # Store OTP in session
+                request.session['reset_otp'] = otp
+                request.session['reset_email'] = email
+                request.session['otp_expiry'] = (
+                    timezone.now() + timedelta(minutes=5)
+                ).isoformat()
+
+                # Send OTP
+                send_mail(
+                    'Password Reset OTP',
+                    f'Your OTP for password reset is {otp}. '
+                    'This OTP is valid for 5 minutes.',
+                    '@gmail.com', #email id
+                    [email],
+                    fail_silently=False,
+                )
+
+                return redirect('/VerifyOTP')
+
+            except table.DoesNotExist:
+                continue
+
+        messages.error(request, "Email not found.")
+        return redirect('/forgotPassword')
+
+class VerifyOTP(View):
+
+    def get(self, request):
+        return render(request, 'reset_password/otp_new_pass.html')
+
+    def post(self, request):
+
+        entered_otp = request.POST.get('OTP')
+
+        stored_otp = request.session.get('reset_otp')
+        expiry = request.session.get('otp_expiry')
+
+        if not stored_otp or not expiry:
+            messages.error(request, "Please request a new OTP.")
+            return redirect('/Forgotpassword')
+
+        expiry = timezone.datetime.fromisoformat(expiry)
+
+        if timezone.now() > expiry:
+            request.session.flush()
+            messages.error(request, "OTP expired. Request a new one.")
+            return redirect('/Forgotpassword')
+
+        if entered_otp == stored_otp:
+
+            request.session['otp_verified'] = True
+            request.session.pop('reset_otp', None)
+            user_tables = [ShopTable]
+            
+            for table in user_tables:
+                try:
+                    user = table.objects.get(email=request.session.get('reset_email'))
+                    login_obj = LoginTable.objects.get(id=user.LOGINID.id)
+                    newPassword = request.POST['newPassword']
+                    confirmPassword = request.POST['confirmPassword']
+                    if newPassword == confirmPassword:
+                        login_obj.password = newPassword
+                        login_obj.save()
+                        return redirect('/')
+                    else:
+                     return HttpResponse('''<script>alert("Passwords didn't match");window.location=("/")</script>''')
+
+                except:
+                     return HttpResponse('''<script>alert("user not found");window.location=("/")</script>''')
+
+        messages.error(request, "Invalid OTP.")
+        return redirect('/VerifyOTP')
+
+
+# class forgotPassword(View):
+#     def get(self,request):
+#         return render(request,'reset_password/forgot_password.html')

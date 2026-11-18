@@ -22,6 +22,8 @@ from django.urls import path
 from RetailIQApp.views import *
 urlpatterns = [
     path('',LoginPage.as_view(),name='LoginPage'),
+    path('forgotPassword',ForgetPassword.as_view(),name='forgotPassword'),
+    path('VerifyOTP',VerifyOTP.as_view(),name='VerifyOTP'),
 
     # ////////////////////////////////////// ADMIN /////////////////////////////////////
     path('admin_home',admin_home.as_view(),name='admin_home'),
@@ -56,8 +58,11 @@ urlpatterns = [
     path('deleteStaff/<int:s_id>',deleteStaff.as_view(),name='deleteStaff'),
     path('Register',RegisterUser.as_view(),name='Register'),
     path('ViewCustomers',ViewCustomers.as_view(),name='ViewCustomers'),
+    path('editCustomer/<int:cust_id>',editCustomer.as_view(),name='editCustomer'),
+    path('deleteCustomer/<int:cust_id>',deleteCustomer.as_view(),name='deleteCustomer'),
     path('ViewSales',ViewSales.as_view(),name='ViewSales'),
     path('ViewStockandUpdateStock',ViewStockandUpdateStock.as_view(),name='ViewStockandUpdateStock'),
+    path('updateStock/<int:stock_id>',updateStock.as_view(),name='updateStock'),
     path('RatingAndFeedback',RatingAndFeedback.as_view(),name='ratingAndFeedback'),
     path('addManageCategories',addManageCategories.as_view(),name='addManageCategories'),
     path('editCategories/<int:cat_id>',editCategories.as_view(),name = 'editCategories'),
@@ -78,24 +83,6 @@ urlpatterns = [
     path('ViewNotifications',viewNotifications.as_view(),name='ViewNotifications'),
               
     
-
-
-
-
-
-
-
-
-    
-
-
-
-    
-    
-
-
-
-
 
 
     

@@ -19,7 +19,7 @@
             <td>Name : {{ i.PRODUCT.product_name }}<br> Brand : {{ i.PRODUCT.brand }}</td>
             <td>{{ i.discount_type }}</td>
             <td>{{ i.discount_value }}</td>
-            <td>{{ i.active_status }}</td> <!-- can use javascript here to show active/inactive status from dates -->
+            <td>{{ i.status }}</td> <!-- can use javascript here to show active/inactive status from dates -->
             <td>{{ i.start_date }} to {{ i.end_date }}</td>
         </tr>
         {% endfor %}

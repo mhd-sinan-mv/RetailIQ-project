@@ -24,7 +24,7 @@
             <td>{{ i.CATEGORY.category_name }}</td>
             <td>{{ i.STOCK.last_updated }}</td>
             <td>{{ i.STOCK.status }}</td>
-            <td><button>Add stock</button> <br> <button>Remove</button></td>
+            <td><a href="updateStock/{{i.STOCK.id}}"><button>Update stock</button></a></td>
         </tr>
         {% endfor %}
     </table>
