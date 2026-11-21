@@ -9,3 +9,7 @@ __pycache__/
 
 # IDE/editor files
 .vscode/
+
+.env
+.env.*
+!.env.example
