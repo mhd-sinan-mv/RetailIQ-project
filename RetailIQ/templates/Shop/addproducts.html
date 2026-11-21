@@ -1,76 +1,409 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>RetailIQ | Add Products</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        .main {
+            padding: 35px;
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        /* HEADER */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            font-size: 25px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .page-heading p {
+            color: #8491a5;
+            font-size: 13px;
+            margin-top: 7px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 11px 17px;
+            border-radius: 9px;
+            color: #151617;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(5, 150, 105, 0.15);
+        }
+
+        /* FORM CONTAINER */
+
+        .form-container {
+            background: white;
+            border: 1px solid #e9edf3;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.025);
+        }
+
+        .form-title {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding-bottom: 23px;
+            border-bottom: 1px solid #edf0f5;
+            margin-bottom: 25px;
+        }
+
+        .form-icon {
+            width: 45px;
+            height: 45px;
+            background: #ecfdf5;
+            color: #059669;
+            border-radius: 11px;
+            display: grid;
+            place-items: center;
+            font-size: 19px;
+        }
+
+        .form-title h2 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .form-title p {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        /* FORM GRID */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #dfe5ed;
+            border-radius: 8px;
+            background: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #334155;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.10);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        /* SECTION DIVIDER */
+
+        .section-heading {
+            grid-column: span 2;
+            font-size: 13px;
+            font-weight: 700;
+            color: #059669;
+            padding-bottom: 11px;
+            border-bottom: 1px solid #edf0f5;
+            margin-top: 8px;
+        }
+
+        /* BUTTONS */
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 30px;
+            padding-top: 22px;
+            border-top: 1px solid #edf0f5;
+        }
+
+        .submit-btn {
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        .cancel-btn {
+            background: white;
+            border: 1px solid #dfe5ed;
+            color: #64748b;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .cancel-btn:hover {
+            background: #f8fafc;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 650px) {
+            .main {
+                padding: 20px 14px;
+            }
+
+            .form-container {
+                padding: 20px 16px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .full-width,
+            .section-heading {
+                grid-column: span 1;
+            }
+
+            .page-heading h1 {
+                font-size: 20px;
+            }
+
+            .back-btn {
+                padding: 9px 11px;
+            }
+        }
+
+    </style>
 </head>
+
 <body>
-    <form method="post">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td><label>Product Name</label></td>
-                <td><input type="text" name="product_name" required></td>
-            </tr>
-            <tr>
-                <td><label>Brand</label></td>
-                <td><input type="text" name="brand"></td>
-            </tr>
-            <tr>
-                <td><label>Quantity</label></td>
-                <td><input type="number" name="quantity" required></td>
-            </tr>
-            <tr>
-                <td><label>Purchase Price</label></td>
-                <td><input type="number" name="purchase_price" required></td>
-            </tr>
-            <tr>
-                <td><label>Selling Price</label></td>
-                <td><input type="number" name="selling_price" required></td>
-            </tr>
-            <tr>
-                <td><label>Category</label></td>
-                <td><select name="category_name" required>
-                    {% for i in categories %}
-                    <option value="{{i.id}}" selected>{{ i.category_name }}</option>
-                    {% endfor %}
-                </select></td>
-            </tr>
-            <tr>
-                <td><label >Unit</label></td>
-                <td><input type="text" name="unit" required></td>
-            </tr>
-            <tr>
-                <td><label>Manufacturing Date</label></td>
-                <td><input type="date"  name="manufacturing_date"></td>
-            </tr>
-            <tr>
-                <td><label>Expiry Date</label></td>
-                <td><input type="date"  name="expiry_date" required></td>
-            </tr>
-            <tr>
-                <td><label>Barcode</label></td>
-                <td><input type="number"  name="barcode" required></td>
-            </tr>
-            <tr>
-                <td><label>Supplier Name</label></td>
-                <td><input type="text"  name="supplier_name" required></td>
-            </tr>
-            <tr>
-                <td><label>Supplier Email</label></td>
-                <td><input type="email"  name="supplier_email"></td>
-            </tr>
-            <tr>
-                <td><label>Supplier Phone</label></td>
-                <td><input type="tel"  name="supplier_phone" required></td>
-            </tr>
-            <tr>
-                <td><label>Description</label></td>
-                <td><textarea  name="description" rows="3"></textarea></td>
-            </tr>
-        </table>
-        <button type="submit">Submit</button>
-    </form>
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div class="page-heading">
+                <h1>Add Products</h1>
+                <p>Add new products and maintain your store inventory.</p>
+            </div>
+
+            <a href="shop_home" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </a>
+
+        </header>
+
+        <!-- FORM -->
+
+        <div class="form-container">
+
+            <div class="form-title">
+
+                <div class="form-icon">
+                    <i class="fa-solid fa-box-open"></i>
+                </div>
+
+                <div>
+                    <h2>Product Information</h2>
+                    <p>Enter the details of the product you want to add.</p>
+                </div>
+
+            </div>
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="form-grid">
+
+                    <div class="section-heading">
+                        <i class="fa-solid fa-box"></i> Basic Product Details
+                    </div>
+
+                    <div class="form-group">
+                        <label>Product Name *</label>
+                        <input type="text" name="product_name" placeholder="Enter product name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <input type="text" name="brand" placeholder="Enter brand name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select name="category_name" required>
+                            {% for i in categories %}
+                            <option value="{{i.id}}">{{ i.category_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Unit *</label>
+                        <input type="text" name="unit" placeholder="e.g. kg, litre, piece" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Description</label>
+                        <textarea name="description" rows="3" placeholder="Enter product description..."></textarea>
+                    </div>
+
+
+                    <div class="section-heading">
+                        <i class="fa-solid fa-indian-rupee-sign"></i> Pricing & Stock Details
+                    </div>
+
+                    <div class="form-group">
+                        <label>Quantity *</label>
+                        <input type="number" name="quantity" placeholder="Enter quantity" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Purchase Price *</label>
+                        <input type="number" name="purchase_price" placeholder="Enter purchase price" min="0" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Selling Price *</label>
+                        <input type="number" name="selling_price" placeholder="Enter selling price" min="0" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Barcode *</label>
+                        <input type="number" name="barcode" placeholder="Enter barcode" required>
+                    </div>
+
+
+                    <div class="section-heading">
+                        <i class="fa-regular fa-calendar"></i> Product Dates
+                    </div>
+
+                    <div class="form-group">
+                        <label>Manufacturing Date</label>
+                        <input type="date" name="manufacturing_date">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Expiry Date *</label>
+                        <input type="date" name="expiry_date" required>
+                    </div>
+
+
+                    <div class="section-heading">
+                        <i class="fa-solid fa-truck"></i> Supplier Information
+                    </div>
+
+                    <div class="form-group">
+                        <label>Supplier Name *</label>
+                        <input type="text" name="supplier_name" placeholder="Enter supplier name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Supplier Email</label>
+                        <input type="email" name="supplier_email" placeholder="Enter supplier email">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Supplier Phone *</label>
+                        <input type="tel" name="supplier_phone" placeholder="Enter phone number" required>
+                    </div>
+
+                </div>
+
+                <!-- ACTION BUTTONS -->
+
+                <div class="form-actions">
+
+                    <a href="ShopHome" class="cancel-btn">Cancel</a>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fa-solid fa-plus"></i> Add Product
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
 </body>
 </html>

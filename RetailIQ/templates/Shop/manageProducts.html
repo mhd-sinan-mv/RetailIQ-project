@@ -1,56 +1,466 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>RetailIQ | Manage Products</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        .main {
+            padding: 35px;
+            max-width: 1600px;
+            margin: auto;
+        }
+
+        /* HEADER */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .page-heading p {
+            font-size: 13px;
+            color: #8491a5;
+            margin-top: 7px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 11px 17px;
+            border-radius: 9px;
+            color: #151617;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(5, 150, 105, 0.15);
+        }
+
+        /* TABLE CONTAINER */
+
+        .table-container {
+            background: white;
+            border: 1px solid #e9edf3;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.025);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .table-header h2 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .table-header p {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        .table-icon {
+            width: 42px;
+            height: 42px;
+            background: #ecfdf5;
+            color: #059669;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-size: 18px;
+        }
+
+        /* TABLE */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid #edf0f5;
+            border-radius: 9px;
+        }
+
+        table {
+            width: 100%;
+            min-width: 1500px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        thead {
+            background: #f8fafc;
+        }
+
+        th {
+            padding: 16px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            white-space: nowrap;
+            border-bottom: 1px solid #e9edf3;
+        }
+
+        td {
+            padding: 15px 14px;
+            font-size: 11px;
+            color: #475569;
+            border-bottom: 1px solid #f0f2f6;
+            line-height: 1.7;
+            vertical-align: middle;
+        }
+
+        tbody tr {
+            transition: 0.2s;
+        }
+
+        tbody tr:hover {
+            background: #f8fffb;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* PRODUCT NAME */
+
+        .product-name {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .barcode {
+            color: #64748b;
+            font-family: monospace;
+        }
+
+        /* ACTION BUTTONS */
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            min-width: 175px;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .enable-btn {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .enable-btn:hover {
+            background: #bbf7d0;
+        }
+
+        .disable-btn {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .disable-btn:hover {
+            background: #ffedd5;
+        }
+
+        .edit-btn {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .edit-btn:hover {
+            background: #dbeafe;
+        }
+
+        .delete-btn {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .delete-btn:hover {
+            background: #fee2e2;
+        }
+
+        /* EMPTY STATE */
+
+        .empty-state {
+            text-align: center;
+            padding: 45px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state i {
+            font-size: 35px;
+            margin-bottom: 15px;
+            color: #cbd5e1;
+        }
+
+        .empty-state h3 {
+            color: #475569;
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            font-size: 11px;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 11px;
+            margin-top: 30px;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 650px) {
+
+            .main {
+                padding: 20px 12px;
+            }
+
+            .page-heading h1 {
+                font-size: 20px;
+            }
+
+            .table-container {
+                padding: 15px 10px;
+            }
+
+            .table-header {
+                gap: 10px;
+            }
+
+            .back-btn {
+                padding: 9px 10px;
+                font-size: 10px;
+            }
+
+        }
+
+    </style>
 </head>
+
 <body>
-    <table border="1">
-        <tr>
-            <th>Barcode</th>
-            <th>Product name</th>
-            <th>Brand</th>
-            <th>Quantity</th>
-            <th>Purchase price</th>
-            <th>Selling price</th>
-            <th>Category</th>
-            <th>Manufacturing date</th>
-            <th>Expiry date</th>
-            <th>Supplier name</th>
-            <th>Supplier contact</th>
-            <th>Description</th>
-            <th>Action</th>
-        </tr>
-        {% for i in product_data %}
-        <tr>
-            <td>{{ i.barcode }}</td>
-            <td>{{ i.product_name }}</td>
-            <td>{{ i.brand }}</td>
-            <td>{{ i.STOCK.quantity }}</td>
-            <td>{{ i.purchase_price }}</td>
-            <td>{{ i.selling_price }}</td>
-            <td>{{ i.CATEGORY.category_name }}</td>
-            <td>{{ i.manufacturing_date }}</td>
-            <td>{{ i.expiry_date }}</td>
-            <td>{{ i.supplier_name }}</td>
-            <td>Email: {{ i.supplier_email }}<br> Phone: {{ i.supplier_phone }}</td>
-            <td>{{ i.Description }}</td>
-            <td>
-                {% if i.status == 'Enable' %}
-                    <a href="disableProduct/{{i.id}}"><button>Disable</button></a><br> 
-                {% elif i.status == 'Disable' %}
-                    <a href="enableProduct/{{i.id}}"><button>Enable</button></a>
-                {% else %}
-                    <a href="enableProduct/{{i.id}}"><button>Enable</button></a>
-                    <a href="disableProduct/{{i.id}}"><button>Disable</button></a><br>
-                {% endif %}
-                <a href="editProduct/{{i.id}}"><button>Edit</button></a>
-                <a href="deleteProduct/{{i.id}}"><button>Delete</button></a>
-            </td>
-            
-        </tr>
-        {% endfor %}
-    </table>
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div class="page-heading">
+                <h1>Manage Products</h1>
+                <p>View, manage and update your store products.</p>
+            </div>
+
+            <a href="/shop_home" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Dashboard
+            </a>
+
+        </header>
+
+
+        <!-- PRODUCT TABLE -->
+
+        <div class="table-container">
+
+            <div class="table-header">
+
+                <div>
+                    <h2>Product Inventory</h2>
+                    <p>Manage product details, pricing, stock and availability.</p>
+                </div>
+
+                <div class="table-icon">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Barcode</th>
+                            <th>Product Name</th>
+                            <th>Brand</th>
+                            <th>Quantity</th>
+                            <th>Purchase Price</th>
+                            <th>Selling Price</th>
+                            <th>Category</th>
+                            <th>Manufacturing Date</th>
+                            <th>Expiry Date</th>
+                            <th>Supplier Name</th>
+                            <th>Supplier Contact</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for i in product_data %}
+
+                        <tr>
+
+                            <td class="barcode">{{ i.barcode }}</td>
+
+                            <td>
+                                <span class="product-name">{{ i.product_name }}</span>
+                            </td>
+
+                            <td>{{ i.brand }}</td>
+
+                            <td>{{ i.STOCK.quantity }}</td>
+
+                            <td>₹ {{ i.purchase_price }}</td>
+
+                            <td>₹ {{ i.selling_price }}</td>
+
+                            <td>{{ i.CATEGORY.category_name }}</td>
+
+                            <td>{{ i.manufacturing_date }}</td>
+
+                            <td>{{ i.expiry_date }}</td>
+
+                            <td>{{ i.supplier_name }}</td>
+
+                            <td>
+                                Email: {{ i.supplier_email }}<br>
+                                Phone: {{ i.supplier_phone }}
+                            </td>
+
+                            <td>{{ i.Description }}</td>
+
+                            <td>
+
+                                <div class="actions">
+
+                                    {% if i.status == 'Enable' %}
+
+                                        <a href="disableProduct/{{i.id}}" class="action-btn disable-btn">
+                                            <i class="fa-solid fa-ban"></i> Disable
+                                        </a>
+
+                                    {% elif i.status == 'Disable' %}
+
+                                        <a href="enableProduct/{{i.id}}" class="action-btn enable-btn">
+                                            <i class="fa-solid fa-check"></i> Enable
+                                        </a>
+
+                                    {% else %}
+
+                                        <a href="enableProduct/{{i.id}}" class="action-btn enable-btn">
+                                            <i class="fa-solid fa-check"></i> Enable
+                                        </a>
+
+                                        <a href="disableProduct/{{i.id}}" class="action-btn disable-btn">
+                                            <i class="fa-solid fa-ban"></i> Disable
+                                        </a>
+
+                                    {% endif %}
+
+                                    <a href="editProduct/{{i.id}}" class="action-btn edit-btn">
+                                        <i class="fa-solid fa-pen"></i> Edit
+                                    </a>
+
+                                    <a href="deleteProduct/{{i.id}}" class="action-btn delete-btn">
+                                        <i class="fa-solid fa-trash"></i> Delete
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="13">
+
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-box-open"></i>
+                                    <h3>No Products Found</h3>
+                                    <p>Your product inventory is currently empty.</p>
+                                </div>
+
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer">
+            © 2026 RetailIQ. All rights reserved.
+        </div>
+
+    </main>
+
 </body>
 </html>

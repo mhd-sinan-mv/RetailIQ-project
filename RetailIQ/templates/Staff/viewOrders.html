@@ -2,40 +2,450 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f5f7fb;
+            color: #1e293b;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .top-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            transition: 0.2s;
+        }
+
+        .top-link:hover {
+            color: #059669;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .heading-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .heading-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #f0fdf4;
+            color: #16a34a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        h1 {
+            font-size: 23px;
+            font-weight: 700;
+            color: #111c2e;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .count-box {
+            background: white;
+            border: 1px solid #e8edf3;
+            padding: 10px 15px;
+            border-radius: 9px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .count-box strong {
+            color: #16a34a;
+            font-size: 15px;
+            margin-right: 4px;
+        }
+
+        .info-banner {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 11px;
+            padding: 15px 18px;
+            margin-bottom: 22px;
+            color: #166534;
+        }
+
+        .info-banner i {
+            margin-top: 2px;
+        }
+
+        .info-banner p {
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .table-card {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.03);
+        }
+
+        .table-top {
+            padding: 20px 22px;
+            border-bottom: 1px solid #edf0f4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-top h3 {
+            font-size: 15px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .table-top span {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 1100px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            text-align: left;
+            padding: 15px 17px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 17px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 12px;
+            color: #475569;
+            vertical-align: middle;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #fbfdfd;
+        }
+
+        .bill-no {
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .customer-name {
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .product-name {
+            color: #334155;
+        }
+
+        .date-time {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #64748b;
+            white-space: nowrap;
+        }
+
+        .amount {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .discount {
+            color: #d97706;
+            font-weight: 600;
+        }
+
+        .final-amount {
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        .payment-method {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 7px;
+            background: #f1f5f9;
+            color: #334155;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .total-row td {
+            background: #f8fafc;
+            font-weight: 700;
+            color: #1e293b;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 55px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state i {
+            font-size: 35px;
+            margin-bottom: 15px;
+            color: #cbd5e1;
+        }
+
+        .empty-state h3 {
+            color: #334155;
+            font-size: 15px;
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            font-size: 12px;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 18px 12px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .table-top {
+                padding: 17px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <!-- this page is moved from shops , because there is already a page to view sales , so this page is moved to staffs for viewing/checking orders  -->
-    <table border="1">
-        <tr>
-            <th>Bill No.</th>
-            <th>Customer name</th>
-            <th>Product name</th>
-            <th>Date & time</th>
-            <th>Unit price</th>
-            <th>Total amount</th>
-            <th>Discount / offer</th>
-            <th>Final amount</th>
-            <th>Payment method</th>
-        </tr>
-        {% for i in order_data %}
-        <tr>
-            <td>{{ i.ORDER.bill_number }}</td>
-            <td>{{ i.ORDER.CUSTOMER.name }}</td>
-            <td>{{ i.PRODUCT.product_name }}</td>
-            <td>{{ i.ORDER.date_time }}</td>
-            <td>{{ i.unit_price }}</td>
-            <td>{{ i.total_price }}</td>
-            <td>{{ i.discount_amount }}</td>
-            <td>{{ i.ORDER.final_price }}</td>
-            <td>{{ i.ORDER.payment_method }}</td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <td colspan="6" style="text-align: right;"><strong>Total :</strong></td>
-            <td colspan="3"></td> <!--  javascript for calculating total amount of discount and final amount -->
-        </tr>
-    </table>
+
+    <div class="container">
+
+        <a href="staff_home" class="top-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Staff Dashboard
+        </a>
+
+        <div class="page-header">
+
+            <div class="heading-left">
+                <div class="heading-icon">
+                    <i class="fa-solid fa-receipt"></i>
+                </div>
+
+                <div>
+                    <h1>Orders</h1>
+                    <p class="subtitle">
+                        View all customer orders and payment details.
+                    </p>
+                </div>
+            </div>
+
+            <div class="count-box">
+                <strong id="orderCount">0</strong> Orders Listed
+            </div>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <div class="table-top">
+                <h3>Order Details</h3>
+                <span>Order and payment information</span>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bill No.</th>
+                            <th>Customer name</th>
+                            <th>Product name</th>
+                            <th>Date & time</th>
+                            <th>Unit price</th>
+                            <th>Total amount</th>
+                            <th>Discount / offer</th>
+                            <th>Final amount</th>
+                            <th>Payment method</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for i in order_data %}
+
+                        <tr class="order-row">
+
+                            <td>
+                                <div class="bill-no">
+                                    {{ i.ORDER.bill_number }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="customer-name">{{ i.ORDER.CUSTOMER.name }}</span>
+                            </td>
+
+                            <td>
+                                <span class="product-name">{{ i.PRODUCT.product_name }}</span>
+                            </td>
+
+                            <td>
+                                <span class="date-time">
+                                    <i class="fa-regular fa-calendar"></i>
+                                    {{ i.ORDER.date_time }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="amount">{{ i.unit_price }}</span>
+                            </td>
+
+                            <td>
+                                <span class="amount">{{ i.total_price }}</span>
+                            </td>
+
+                            <td>
+                                <span class="discount">{{ i.discount_amount }}</span>
+                            </td>
+
+                            <td>
+                                <span class="final-amount">{{ i.ORDER.final_price }}</span>
+                            </td>
+
+                            <td>
+                                <span class="payment-method">
+                                    <i class="fa-solid fa-credit-card"></i>
+                                    {{ i.ORDER.payment_method }}
+                                </span>
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="9">
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-receipt"></i>
+                                    <h3>No Orders Found</h3>
+                                    <p>There are currently no orders in this list.</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                        <tr class="total-row">
+                            <td colspan="5" style="text-align: right;">Total :</td>
+                            <td id="totalAmount"></td>
+                            <td id="totalDiscount"></td>
+                            <td id="finalTotal"></td>
+                            <td></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rows = document.querySelectorAll(".order-row");
+            document.getElementById("orderCount").textContent = rows.length;
+
+            let totalAmount = 0;
+            let totalDiscount = 0;
+            let finalTotal = 0;
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll("td");
+                const total = parseFloat(cells[5].textContent) || 0;
+                const discount = parseFloat(cells[6].textContent) || 0;
+                const finalAmt = parseFloat(cells[7].textContent) || 0;
+                totalAmount += total;
+                totalDiscount += discount;
+                finalTotal += finalAmt;
+            });
+
+            document.getElementById("totalAmount").textContent = totalAmount.toFixed(2);
+            document.getElementById("totalDiscount").textContent = totalDiscount.toFixed(2);
+            document.getElementById("finalTotal").textContent = finalTotal.toFixed(2);
+        });
+    </script>
+
 </body>
 </html>

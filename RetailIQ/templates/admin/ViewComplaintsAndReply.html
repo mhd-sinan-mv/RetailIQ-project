@@ -3,35 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Complaints | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f5f7fb;
+            color: #1e293b;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .top-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            transition: 0.2s;
+        }
+
+        .top-link:hover {
+            color: #059669;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .heading-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .heading-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #fef2f2;
+            color: #dc2626;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        h1 {
+            font-size: 23px;
+            font-weight: 700;
+            color: #111c2e;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .count-box {
+            background: white;
+            border: 1px solid #e8edf3;
+            padding: 10px 15px;
+            border-radius: 9px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .count-box strong {
+            color: #dc2626;
+            font-size: 15px;
+            margin-right: 4px;
+        }
+
+        .table-card {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.03);
+        }
+
+        .table-top {
+            padding: 20px 22px;
+            border-bottom: 1px solid #edf0f4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-top h3 {
+            font-size: 15px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .table-top span {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 950px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            text-align: left;
+            padding: 15px 17px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 17px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 12px;
+            color: #475569;
+            vertical-align: middle;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #fbfdfd;
+        }
+
+        .reply-form {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .reply-form input[type="text"] {
+            padding: 8px 12px;
+            border: 1px solid #e8edf3;
+            border-radius: 6px;
+            font-size: 11px;
+            color: #1e293b;
+            font-family: inherit;
+            width: 150px;
+        }
+
+        .reply-form input[type="text"]:focus {
+            outline: none;
+            border-color: #dc2626;
+        }
+
+        .reply-form button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            background: #dc2626;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .reply-form button:hover {
+            background: #b91c1c;
+        }
+
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            transition: 0.2s;
+        }
+
+        .action-button.accept {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .action-button.accept:hover {
+            background: #bbf7d0;
+        }
+
+        .action-button.reject {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .action-button.reject:hover {
+            background: #fecaca;
+        }
+
+        .action-button.block {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .action-button.block:hover {
+            background: #fee2e2;
+        }
+
+        .action-button.unblock {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .action-button.unblock:hover {
+            background: #bbf7d0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 55px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state i {
+            font-size: 35px;
+            margin-bottom: 15px;
+            color: #cbd5e1;
+        }
+
+        .empty-state h3 {
+            color: #334155;
+            font-size: 15px;
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            font-size: 12px;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 18px 12px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .table-top {
+                padding: 17px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-   
-        {% csrf_token %}
-      <table border="1">
-        <tr>
-            <th>Complaint ID</th>
-            <th>Complaint</th>
-            <th>Shop</th>
-            <th>Give Reply</th>
-            <th>Date</th>
-        </tr>
-        {% for i in complaint_data %}
-        <tr>
-            <td>{{ i.id }}</td>
-            <td>{{ i.complaint_description }}</td>
-            <td>{{ i.SHOPID.shop_name }}</td>
-             <form method="post" action="sendReply/{{ i.id }}">
-                {% csrf_token %}
-            <td>
-                <input type="text" placeholder="Reply" name="reply">
-                <button type="submit">Send Reply</button>
-            </td>
-             </form>
-            <td>{{ i.complaint_date }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-   
+
+    <div class="container">
+
+        <a href="admin_home" class="top-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Admin Dashboard
+        </a>
+
+        <div class="page-header">
+
+            <div class="heading-left">
+                <div class="heading-icon">
+                    <i class="fa-solid fa-comments"></i>
+                </div>
+
+                <div>
+                    <h1>Complaints &amp; Replies</h1>
+                    <p class="subtitle">
+                        View customer complaints and send replies.
+                    </p>
+                </div>
+            </div>
+
+            <div class="count-box">
+                <strong id="complaintCount">0</strong> Complaints Listed
+            </div>
+
+        </div>
+
+        <div class="table-card">
+
+            <div class="table-top">
+                <h3>Complaint Details</h3>
+                <span>Complaint and reply information</span>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Complaint ID</th>
+                            <th>Complaint</th>
+                            <th>Shop</th>
+                            <th>Give Reply</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% csrf_token %}
+
+                        {% for i in complaint_data %}
+
+                        <tr class="complaint-row">
+
+                            <td>{{ i.id }}</td>
+                            <td>{{ i.complaint_description }}</td>
+                            <td>{{ i.SHOPID.shop_name }}</td>
+
+                            <td>
+                                <form method="post" action="sendReply/{{ i.id }}">
+                                    {% csrf_token %}
+                                    <div class="reply-form">
+                                        <input type="text" placeholder="Reply" name="reply">
+                                        <button type="submit">Send Reply</button>
+                                    </div>
+                                </form>
+                            </td>
+
+                            <td>{{ i.complaint_date }}</td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-comments"></i>
+                                    <h3>No Complaints Found</h3>
+                                    <p>There are currently no complaints in this list.</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rows = document.querySelectorAll(".complaint-row");
+            document.getElementById("complaintCount").textContent = rows.length;
+        });
+    </script>
+
 </body>
 </html>

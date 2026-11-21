@@ -1,31 +1,390 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Complaints | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        .main {
+            max-width: 1450px;
+            margin: auto;
+            padding: 35px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .page-title h2 {
+            font-size: 25px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .page-title p {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 7px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 11px 17px;
+            border-radius: 9px;
+            color: #151617;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(5, 150, 105, 0.15);
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 13px;
+            padding: 25px;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.03);
+            margin-bottom: 25px;
+        }
+
+        .card-header {
+            margin-bottom: 23px;
+        }
+
+        .card-header h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .card-header p {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 6px;
+        }
+
+        .complaint-form label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 10px;
+        }
+
+        .complaint-form textarea {
+            width: 100%;
+            min-height: 125px;
+            padding: 13px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 13px;
+            color: #334155;
+            resize: vertical;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .complaint-form textarea:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .complaint-form textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        .submit-btn {
+            margin-top: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 12px 20px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 750px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            padding: 15px 13px;
+            text-align: left;
+            border-bottom: 1px solid #e8edf3;
+        }
+
+        td {
+            padding: 17px 13px;
+            font-size: 13px;
+            color: #475569;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+            line-height: 1.6;
+        }
+
+        tbody tr:hover {
+            background: #fafcfb;
+        }
+
+        .complaint-text {
+            min-width: 220px;
+            max-width: 400px;
+            white-space: normal;
+            overflow-wrap: anywhere;
+        }
+
+        .reply-text {
+            min-width: 180px;
+            max-width: 350px;
+            white-space: normal;
+            overflow-wrap: anywhere;
+        }
+
+        .date-text {
+            white-space: nowrap;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .reply-pending {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            background: #fff7ed;
+            color: #c2410c;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .reply-received {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            background: #ecfdf5;
+            color: #047857;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 45px 15px;
+            color: #94a3b8;
+        }
+
+        .empty-state i {
+            font-size: 35px;
+            margin-bottom: 13px;
+            color: #cbd5e1;
+        }
+
+        .empty-state h4 {
+            font-size: 15px;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+
+        .empty-state p {
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .main {
+                padding: 20px 14px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .page-title h2 {
+                font-size: 21px;
+            }
+
+            .card {
+                padding: 17px;
+            }
+
+            .submit-btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <form method="post">
-        {% csrf_token %}
-            Enter complaint :<textarea name="complaint_description"></textarea>
-            <button type="submit">Submit</button>
-    </form>
-    <table border="1">
-        <tr>
-            <th>Complaint Date</th>
-            <th>Complaint</th>
-            <th>Reply</th>
-            <th>Reply Date</th>
-        </tr>
-        {% for i in compData %}
-        <tr>
-            <td>{{ i.complaint_date }}</td>
-            <td>{{ i.complaint_description }}</td>
-            <td>{{ i.reply }}</td>
-            <td>{{ i.reply_date }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+
+<div class="main">
+
+    <div class="topbar">
+        <div class="page-title">
+            <h2>Complaint Management</h2>
+            <p>Submit complaints and track responses from your shop.</p>
+        </div>
+
+        <a href="shop_home" class="back-btn">
+           <i class="fa-solid fa-arrow-left"></i> Dashboard
+        </a>
+    </div>
+
+    <!-- Submit Complaint -->
+    <div class="card">
+
+        <div class="card-header">
+            <h3><i class="fa-solid fa-pen-to-square" style="color:#059669; margin-right:8px;"></i>Submit a Complaint</h3>
+            <p>Describe your issue clearly so it can be reviewed and resolved.</p>
+        </div>
+
+        <form method="post" class="complaint-form">
+            {% csrf_token %}
+
+            <label for="complaint">Enter Complaint</label>
+
+            <textarea
+                id="complaint"
+                name="complaint_description"
+                placeholder="Describe your complaint here..."
+                required
+            ></textarea>
+
+            <button type="submit" class="submit-btn">
+                <i class="fa-solid fa-paper-plane"></i>
+                Submit Complaint
+            </button>
+        </form>
+
+    </div>
+
+    <!-- Complaint History -->
+    <div class="card">
+
+        <div class="card-header">
+            <h3><i class="fa-solid fa-clock-rotate-left" style="color:#059669; margin-right:8px;"></i>Complaint History</h3>
+            <p>View your previously submitted complaints and their replies.</p>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Complaint Date</th>
+                        <th>Complaint</th>
+                        <th>Reply</th>
+                        <th>Reply Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for i in compData %}
+                    <tr>
+                        <td class="date-text">
+                            {{ i.complaint_date }}
+                        </td>
+
+                        <td class="complaint-text">
+                            {{ i.complaint_description }}
+                        </td>
+
+                        <td class="reply-text">
+                            {% if i.reply %}
+                                <span class="reply-received">
+                                    <i class="fa-solid fa-check-circle"></i>
+                                    Replied
+                                </span>
+                                <p style="margin-top:8px;">{{ i.reply }}</p>
+                            {% else %}
+                                <span class="reply-pending">
+                                    <i class="fa-solid fa-hourglass-half"></i>
+                                    Awaiting Reply
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="date-text">
+                            {% if i.reply_date %}
+                                {{ i.reply_date }}
+                            {% else %}
+                                <span style="color:#94a3b8;">—</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">
+                            <div class="empty-state">
+                                <i class="fa-regular fa-folder-open"></i>
+                                <h4>No Complaints Yet</h4>
+                                <p>Your submitted complaints will appear here.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

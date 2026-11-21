@@ -1,42 +1,368 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Registration</title>
+    <title>Shop Registration | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+            background: #f1f5f9;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 470px;
+            background: white;
+            padding: 38px;
+            border-radius: 16px;
+            border: 1px solid #e8edf3;
+            box-shadow: 0 15px 45px rgba(15, 23, 42, 0.08);
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .brand-icon {
+            width: 55px;
+            height: 55px;
+            margin: 0 auto 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ecfdf5;
+            color: #059669;
+            border-radius: 14px;
+            font-size: 24px;
+        }
+
+        .brand h1 {
+            font-size: 25px;
+            font-weight: 800;
+            color: #172033;
+        }
+
+        .brand h1 span {
+            color: #059669;
+        }
+
+        .brand p {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 7px;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h2 {
+            font-size: 20px;
+            color: #1e293b;
+            margin-bottom: 7px;
+        }
+
+        .heading p {
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            color: #475569;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-box > i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 42px;
+            border: 1px solid #dce3eb;
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+            font-size: 13px;
+            color: #334155;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        input::placeholder {
+            color: #b0bac8;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 14px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: 0.2s;
+        }
+
+        .register-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        .register-btn i {
+            margin-right: 8px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 24px 0;
+            color: #cbd5e1;
+            font-size: 11px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e8edf3;
+        }
+
+        .login-link {
+            text-align: center;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .login-link a {
+            color: #059669;
+            font-weight: 700;
+            text-decoration: none;
+            margin-left: 3px;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 27px;
+            color: #94a3b8;
+            font-size: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .register-container {
+                padding: 30px 22px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <form method="post">
+
+<div class="register-container">
+
+    <div class="brand">
+        <div class="brand-icon">
+            <i class="fa-solid fa-chart-line"></i>
+        </div>
+
+        <h1>Retail<span>IQ</span></h1>
+        <p>Smart Retail Management Platform</p>
+    </div>
+
+    <div class="heading">
+        <h2>Create Your Shop Account</h2>
+        <p>Register your shop to get started with RetailIQ.</p>
+    </div>
+
+    <form method="post" id="registerForm">
         {% csrf_token %}
-        <table>
-            <tr>
-                <td><label>Shop Name :</label></td>
-                <td><input type="text" name="shop_name" placeholder="enter shop name"></td>
-            </tr>
-            <tr>
-                <td><label>Email :</label></td>
-                <td><input type="email" name="email" placeholder="enter your email"></td>
-            </tr>
-            <tr>
-                <td><label>Phone :</label></td>
-                <td><input type="tel" name="phone" placeholder="enter your number"></td>
-            </tr>
-            <tr>
-                <td><label>Password :</label></td>
-                <td><input type="password" name="password" placeholder="enter your password"></td>
-            </tr>
-            <tr>
-                <td><label>Confirm Password :</label></td>
-                <td><input type="password" name="confirmPassword" placeholder="confirm your password"></td>
-            </tr>
-            <tr>
-                <td>
-                    <button type="submit">Register</button>
-                </td>
-            </tr>
-        </table>
+
+        <div class="form-group">
+            <label>Shop Name</label>
+
+            <div class="input-box">
+                <i class="fa-solid fa-store"></i>
+                <input
+                    type="text"
+                    name="shop_name"
+                    placeholder="Enter shop name"
+                    required
+                >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Email Address</label>
+
+            <div class="input-box">
+                <i class="fa-solid fa-envelope"></i>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Phone Number</label>
+
+            <div class="input-box">
+                <i class="fa-solid fa-phone"></i>
+                <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Enter your phone number"
+                    required
+                >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+
+            <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Create a password"
+                    required
+                >
+
+                <button type="button" class="toggle-password"
+                    onclick="togglePassword('password', this)">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Confirm Password</label>
+
+            <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input
+                    type="password"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    placeholder="Confirm your password"
+                    required
+                >
+
+                <button type="button" class="toggle-password"
+                    onclick="togglePassword('confirmPassword', this)">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+            </div>
+        </div>
+
+        <button type="submit" class="register-btn">
+            <i class="fa-solid fa-user-plus"></i>
+            Register Your Shop
+        </button>
+
     </form>
-    Already a user ? <a href="{% url 'LoginPage' %}">Login</a>
+
+    <div class="divider">OR</div>
+
+    <div class="login-link">
+        Already a user?
+        <a href="/">Login</a>
+    </div>
+
+    <div class="footer">
+        © 2026 RetailIQ. All rights reserved.
+    </div>
+
+</div>
+
+<script>
+    function togglePassword(id, button) {
+        const input = document.getElementById(id);
+        const icon = button.querySelector('i');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password !== confirmPassword) {
+            e.preventDefault();
+            alert('Passwords do not match. Please try again.');
+        }
+    });
+</script>
 
 </body>
 </html>

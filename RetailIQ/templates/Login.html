@@ -1,35 +1,325 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form method="POST">
-        {% csrf_token %}    
-        <table>
-            <tr>
-                <td><label>Username</label></td>
-                <td><input type="text" name="username" placeholder="Enter username"></td>
-            </tr>
-            <tr>
-                <td><label>Password</label></td>
-                <td><input type="password" name="password" placeholder="Enter password"></td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <button type="submit">Login</button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <a href="forgotPassword">Forgot password ?</a>
-                </td>
-            </tr>
-        </table>
-    </form>
+    <title>Login | RetailIQ</title>
 
-    New user? <a href="Register">Register</a> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #f1f5f9;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid #e8edf3;
+            box-shadow: 0 15px 45px rgba(15, 23, 42, 0.08);
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .brand-icon {
+            width: 55px;
+            height: 55px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ecfdf5;
+            color: #059669;
+            border-radius: 14px;
+            font-size: 24px;
+        }
+
+        .brand h1 {
+            font-size: 25px;
+            font-weight: 800;
+            color: #172033;
+            letter-spacing: -0.7px;
+        }
+
+        .brand h1 span {
+            color: #059669;
+        }
+
+        .brand p {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .form-title {
+            margin-bottom: 23px;
+        }
+
+        .form-title h2 {
+            font-size: 19px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .form-title p {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        label {
+            display: block;
+            color: #475569;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 9px;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 14px 13px 42px;
+            border: 1px solid #dce3eb;
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+            font-size: 13px;
+            color: #334155;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        input::placeholder {
+            color: #b0bac8;
+        }
+
+        .forgot {
+            text-align: right;
+            margin-top: -5px;
+            margin-bottom: 22px;
+        }
+
+        a {
+            color: #059669;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        a:hover {
+            color: #047857;
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .login-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        .login-btn i {
+            margin-right: 8px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 25px 0;
+            color: #cbd5e1;
+            font-size: 11px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e8edf3;
+        }
+
+        .register {
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .register a {
+            margin-left: 3px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 28px;
+            color: #94a3b8;
+            font-size: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+
+            <h1>Retail<span>IQ</span></h1>
+            <p>Smart Retail Management Platform</p>
+        </div>
+
+        <div class="form-title">
+            <h2>Welcome back!</h2>
+            <p>Sign in to access your account.</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Username</label>
+
+                <div class="input-box">
+                    <i class="fa-solid fa-user"></i>
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Enter your username"
+                        required
+                    >
+                </div>
+            </div>
+
+                   <div class="form-group">
+            <label>Password</label>
+
+            <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Create a password"
+                    required
+                >
+
+                <button type="button" class="toggle-password"
+                    onclick="togglePassword('password', this)">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+            </div>
+        </div>
+
+            <div class="forgot">
+                <a href="forgotPassword">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="login-btn">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                Login to Account
+            </button>
+
+        </form>
+
+        <div class="divider">OR</div>
+
+        <div class="register">
+            New to RetailIQ?
+            <a href="Register">Create an account</a>
+        </div>
+
+        <div class="footer">
+            © 2026 RetailIQ. All rights reserved.
+        </div>
+
+    </div>
+
 </body>
+<script>
+        function togglePassword(id, button) {
+        const input = document.getElementById(id);
+        const icon = button.querySelector('i');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+</script>
 </html>

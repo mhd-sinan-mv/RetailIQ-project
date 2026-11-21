@@ -1,16 +1,213 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Update Stock | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f5f7fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #1e293b;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 460px;
+        }
+
+        .top-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: color 0.2s;
+        }
+
+        .top-link:hover {
+            color: #059669;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e8edf3;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.05);
+        }
+
+        .icon-box {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ecfdf5;
+            color: #059669;
+            border-radius: 13px;
+            font-size: 21px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111c2e;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 9px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            height: 48px;
+            padding: 0 14px 0 42px;
+            border: 1px solid #dbe2ea;
+            border-radius: 9px;
+            background: #fff;
+            color: #1e293b;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+        }
+
+        .hint {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+
+        button {
+            width: 100%;
+            height: 47px;
+            border: none;
+            border-radius: 9px;
+            background: #059669;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(5, 150, 105, 0.2);
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <form method="post">
-        {% csrf_token %}
-        <label>Update Stock</label>
-        <input value="{{updateStock.quantity}}" type="number" name="quantity">
-        <button type="submit">Submit</button>
-    </form>
+
+    <div class="container">
+
+        <a href="/ViewStockandUpdateStock" class="top-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Stock Management
+        </a>
+
+        <div class="card">
+
+            <div class="icon-box">
+                <i class="fa-solid fa-boxes-stacked"></i>
+            </div>
+
+            <h2>Update Stock</h2>
+            <p class="subtitle">
+                Update the available quantity of your product to keep your inventory accurate.
+            </p>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="quantity">Available Quantity</label>
+
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-cubes"></i>
+                        <input
+                            id="quantity"
+                            value="{{updateStock.quantity}}"
+                            type="number"
+                            name="quantity"
+                            min="0"
+                            required
+                        >
+                    </div>
+
+                    <p class="hint">Enter the updated stock quantity.</p>
+                </div>
+
+                <button type="submit">
+                    <i class="fa-solid fa-check"></i>
+                    &nbsp; Update Stock
+                </button>
+
+            </form>
+        </div>
+    </div>
+
 </body>
 </html>

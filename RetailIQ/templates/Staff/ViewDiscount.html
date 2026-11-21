@@ -1,28 +1,483 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>View Discounts | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1e293b;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .top-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            transition: 0.2s;
+        }
+
+        .top-link:hover {
+            color: #059669;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .heading-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .heading-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #ecfdf5;
+            color: #059669;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        h1 {
+            font-size: 23px;
+            font-weight: 700;
+            color: #111c2e;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .discount-count {
+            background: white;
+            border: 1px solid #e8edf3;
+            padding: 10px 15px;
+            border-radius: 9px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .discount-count strong {
+            color: #059669;
+            font-size: 15px;
+            margin-right: 4px;
+        }
+
+        .table-card {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.03);
+        }
+
+        .table-top {
+            padding: 20px 22px;
+            border-bottom: 1px solid #edf0f4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-top h3 {
+            font-size: 15px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .table-top span {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            text-align: left;
+            padding: 15px 18px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 17px 18px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 12px;
+            color: #475569;
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #fbfdfd;
+        }
+
+        .product-name {
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .product-brand {
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        .discount-type {
+            display: inline-block;
+            padding: 5px 9px;
+            background: #eff6ff;
+            color: #2563eb;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .discount-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: #059669;
+        }
+
+        .status,
+        .date-status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status.enabled {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status.disabled {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .status.unknown {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .date-status.active {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .date-status.upcoming {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .date-status.expired {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .date-status.invalid {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .date-range {
+            color: #475569;
+            font-size: 11px;
+            line-height: 1.8;
+            white-space: nowrap;
+        }
+
+        .date-range i {
+            color: #94a3b8;
+            margin-right: 5px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 55px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state i {
+            font-size: 35px;
+            margin-bottom: 15px;
+            color: #cbd5e1;
+        }
+
+        .empty-state h3 {
+            color: #334155;
+            font-size: 15px;
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            font-size: 12px;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 18px 12px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .table-top {
+                padding: 17px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <table border="1">
-        <tr>
-            <th>Product</th>
-            <th>Discount Type</th>
-            <th>Dicount Value</th>
-            <th>Active Status</th>
-            <th>Time Period</th>
-        </tr>
-        {% for i in discount_data %}
-        <tr>
-            <td>Name : {{ i.PRODUCT.product_name }}<br> Brand : {{ i.PRODUCT.brand }}</td>
-            <td>{{ i.discount_type }}</td>
-            <td>{{ i.discount_value }}</td>
-            <td>{{ i.status }}</td> <!-- can use javascript here to show active/inactive status from dates -->
-            <td>{{ i.start_date }} to {{ i.end_date }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+
+    <div class="container">
+
+        <a href="staff_home" class="top-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Staff Dashboard
+        </a>
+
+        <div class="page-header">
+
+            <div class="heading-left">
+                <div class="heading-icon">
+                    <i class="fa-solid fa-tags"></i>
+                </div>
+
+                <div>
+                    <h1>Product Discounts</h1>
+                    <p class="subtitle">View available discounts and their validity periods.</p>
+                </div>
+            </div>
+
+            <div class="discount-count">
+                <strong id="discountCount">0</strong> Discounts Available
+            </div>
+
+        </div>
+
+        <div class="table-card">
+
+            <div class="table-top">
+                <h3>Discount Details</h3>
+                <span>Product-wise discount information</span>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Discount Type</th>
+                            <th>Discount Value</th>
+                            <th>Shop Status</th>
+                            <th>Date Status</th>
+                            <th>Time Period</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for i in discount_data %}
+
+                        <tr class="discount-row"
+                            data-start="{{ i.start_date|date:'Y-m-d' }}"
+                            data-end="{{ i.end_date|date:'Y-m-d' }}">
+
+                            <td>
+                                <div class="product-name">
+                                    {{ i.PRODUCT.product_name }}
+                                </div>
+                                <div class="product-brand">
+                                    Brand: {{ i.PRODUCT.brand }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="discount-type">
+                                    {{ i.discount_type }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="discount-value">
+                                    {{ i.discount_value }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {% if i.status == 'Enable' %}
+                                    <span class="status enabled">Enabled</span>
+                                {% elif i.status == 'Disable' %}
+                                    <span class="status disabled">Disabled</span>
+                                {% else %}
+                                    <span class="status unknown">{{ i.status }}</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <span class="date-status">Checking...</span>
+                            </td>
+
+                            <td>
+                                <div class="date-range">
+                                    <div>
+                                        <i class="fa-regular fa-calendar"></i>
+                                        {{ i.start_date }}
+                                    </div>
+                                    <div>
+                                        <i class="fa-solid fa-arrow-down"></i>
+                                        {{ i.end_date }}
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="6">
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-tags"></i>
+                                    <h3>No Discounts Found</h3>
+                                    <p>There are currently no discounts to display.</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function getLocalDateString() {
+            const now = new Date();
+
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+
+            return `${year}-${month}-${day}`;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const rows = document.querySelectorAll(".discount-row");
+            const today = getLocalDateString();
+
+            let count = 0;
+
+            rows.forEach(row => {
+
+                count++;
+
+                const startDate = row.dataset.start;
+                const endDate = row.dataset.end;
+                const statusElement = row.querySelector(".date-status");
+
+                if (!startDate || !endDate) {
+                    statusElement.textContent = "Invalid Dates";
+                    statusElement.classList.add("invalid");
+                    return;
+                }
+
+                if (startDate > endDate) {
+                    statusElement.textContent = "Invalid Period";
+                    statusElement.classList.add("invalid");
+                    return;
+                }
+
+                if (today < startDate) {
+                    statusElement.textContent = "Upcoming";
+                    statusElement.classList.add("upcoming");
+                }
+                else if (today > endDate) {
+                    statusElement.textContent = "Expired";
+                    statusElement.classList.add("expired");
+                }
+                else {
+                    statusElement.textContent = "Active";
+                    statusElement.classList.add("active");
+                }
+            });
+
+            document.getElementById("discountCount").textContent = count;
+
+        });
+    </script>
+
 </body>
 </html>

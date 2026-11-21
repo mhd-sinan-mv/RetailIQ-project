@@ -1,63 +1,364 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notification</title>
-</head>
-<body>
-    <form action="" method="post" enctype="multipart/form-data">
-        <table>
-            <tr>
-                <td><label>Notification ID:</label></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><label>Title:</label></td>
-                <td><input type="text" name="title" placeholder="Enter title"></td>
-            </tr>
-            <tr>
-                <td><label>Message:</label></td>
-                <td><textarea name="message" rows="4" placeholder="Enter message"></textarea></td>
-            </tr>
-            <tr>
-                <td><label>Add Image:</label></td>
-                <td><input type="file" name="notificationImage" accept="image/*"></td>
-            </tr>
-            <tr>
-                <td>
-                    <button type="submit">Submit Notification</button>
-                </td>
-            </tr>
-        </table>
-    </form>
-</body>
-</html> -->
-
-<!-- previous code is commented because this has to be a viewing page not an input page -->
- <!-- renamed to viewNotifications.html from ManageNotifications.html -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notification</title> 
+    <title>Notifications | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f5f7fb;
+            color: #1e293b;
+            padding: 35px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        /* Top Navigation */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+            gap: 8px;
+            padding: 10px 15px;
+            color: #030303;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .dashboard-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(5, 150, 105, 0.15);
+        }
+
+        /* Page Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            gap: 15px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 13px;
+            background: #ecfdf5;
+            color: #059669;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #111c2e;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .notification-count {
+            background: #ecfdf5;
+            color: #047857;
+            padding: 9px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* Notification List */
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .notification-card {
+            background: #fff;
+            border: 1px solid #e8edf3;
+            border-radius: 13px;
+            padding: 22px;
+            display: flex;
+            gap: 17px;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.025);
+            transition: 0.2s;
+        }
+
+        .notification-card:hover {
+            border-color: #a7f3d0;
+            box-shadow: 0 7px 20px rgba(15, 23, 42, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .notification-icon {
+            width: 42px;
+            height: 42px;
+            min-width: 42px;
+            border-radius: 11px;
+            background: #f0fdf4;
+            color: #059669;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+        }
+
+        .notification-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notification-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .notification-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.5;
+        }
+
+        .notification-date {
+            font-size: 11px;
+            color: #94a3b8;
+            white-space: nowrap;
+        }
+
+        .notification-message {
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .product-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 14px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Empty State */
+        .empty-state {
+            background: #fff;
+            border: 1px dashed #cbd5e1;
+            border-radius: 14px;
+            padding: 55px 20px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            font-size: 23px;
+        }
+
+        .empty-state h3 {
+            font-size: 16px;
+            color: #334155;
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media(max-width: 600px) {
+            body {
+                padding: 20px 14px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .notification-card {
+                padding: 17px;
+                gap: 12px;
+            }
+
+            .notification-top {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .notification-date {
+                white-space: normal;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <table border="1">
-        <tr>
-            <th>Date</th>
-            <th>Title</th>
-            <th>Message</th>
-            <th>Product related</th>
-        </tr>
+
+<div class="container">
+
+    <!-- Dashboard Button -->
+    <div class="top-bar">
+        <a href="shop_home" class="dashboard-btn">
+            <i class="fa-solid fa-arrow-left"></i> Dashboard
+        </a>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+
+        <div class="header-left">
+            <div class="header-icon">
+                <i class="fa-solid fa-bell"></i>
+            </div>
+
+            <div>
+                <h1>Notifications</h1>
+                <p class="subtitle">
+                    Stay updated with your shop notifications.
+                </p>
+            </div>
+        </div>
+
+        <div class="notification-count">
+            <i class="fa-solid fa-bell"></i>
+            &nbsp; {{ notification_data|length }} Notifications
+        </div>
+
+    </div>
+
+    <!-- Notification List -->
+    <div class="notification-list">
+
         {% for i in notification_data %}
-        <tr>
-            <td>{{ i.notification_date }}</td>
-            <td>{{ i.notification_title }}</td>
-            <td>{{ i.notification_message }}</td>
-            <td>{{ i.PRODUCT.product_name }}</td>
-        </tr>
+
+        <div class="notification-card">
+
+            <div class="notification-icon">
+                <i class="fa-solid fa-bell"></i>
+            </div>
+
+            <div class="notification-content">
+
+                <div class="notification-top">
+
+                    <h3 class="notification-title">
+                        {{ i.notification_title }}
+                    </h3>
+
+                    <span class="notification-date">
+                        <i class="fa-regular fa-calendar"></i>
+                        &nbsp; {{ i.notification_date }}
+                    </span>
+
+                </div>
+
+                <p class="notification-message">
+                    {{ i.notification_message }}
+                </p>
+
+                {% if i.PRODUCT %}
+
+                <div class="product-tag">
+                    <i class="fa-solid fa-box"></i>
+                    Related Product: {{ i.PRODUCT.product_name }}
+                </div>
+
+                {% else %}
+
+                <div class="product-tag">
+                    <i class="fa-solid fa-store"></i>
+                    General Notification
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                <i class="fa-regular fa-bell-slash"></i>
+            </div>
+
+            <h3>No Notifications Yet</h3>
+
+            <p>
+                New shop notifications will appear here.
+            </p>
+
+        </div>
+
         {% endfor %}
-    </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

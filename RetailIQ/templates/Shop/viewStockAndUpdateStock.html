@@ -1,32 +1,401 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>RetailIQ | Stock Management</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        .main {
+            padding: 35px;
+            max-width: 1500px;
+            margin: auto;
+        }
+
+        /* HEADER */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .page-heading p {
+            font-size: 13px;
+            color: #8491a5;
+            margin-top: 7px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 11px 17px;
+            border-radius: 9px;
+            color: #151617;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(5, 150, 105, 0.15);
+        }
+
+        /* TABLE CONTAINER */
+
+        .table-container {
+            background: white;
+            border: 1px solid #e9edf3;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.025);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .table-header h2 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .table-header p {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        .table-icon {
+            width: 42px;
+            height: 42px;
+            background: #ecfdf5;
+            color: #059669;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-size: 18px;
+        }
+
+        /* TABLE */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid #edf0f5;
+            border-radius: 9px;
+        }
+
+        table {
+            width: 100%;
+            min-width: 900px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        thead {
+            background: #f8fafc;
+        }
+
+        th {
+            padding: 16px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            white-space: nowrap;
+            border-bottom: 1px solid #e9edf3;
+        }
+
+        td {
+            padding: 16px;
+            font-size: 12px;
+            color: #475569;
+            border-bottom: 1px solid #f0f2f6;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        tbody tr {
+            transition: 0.2s;
+        }
+
+        tbody tr:hover {
+            background: #f8fffb;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .product-name {
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        /* STOCK STATUS */
+
+        .status {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .status.available {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status.low {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .status.out {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        /* UPDATE BUTTON */
+
+        .update-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 9px 13px;
+            border-radius: 7px;
+            background: #ecfdf5;
+            color: #059669;
+            border: 1px solid #bbf7d0;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .update-btn:hover {
+            background: #059669;
+            color: white;
+            border-color: #059669;
+        }
+
+        /* EMPTY STATE */
+
+        .empty-state {
+            text-align: center;
+            padding: 45px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state i {
+            font-size: 35px;
+            margin-bottom: 15px;
+            color: #cbd5e1;
+        }
+
+        .empty-state h3 {
+            color: #475569;
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            font-size: 11px;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 11px;
+            margin-top: 30px;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 650px) {
+
+            .main {
+                padding: 20px 12px;
+            }
+
+            .page-heading h1 {
+                font-size: 20px;
+            }
+
+            .table-container {
+                padding: 15px 10px;
+            }
+
+            .back-btn {
+                padding: 9px 10px;
+                font-size: 10px;
+            }
+
+        }
+
+    </style>
 </head>
+
 <body>
-    <table border="1">
-        <tr>
-            <th>Product name</th>
-            <th>Brand</th>
-            <th>Quantity</th>
-            <th>Category</th>
-            <th>Last updated</th>
-            <th>status</th>
-            <th>Action</th>
-        </tr>
-        {% for i in stock_data %}
-        <tr>
-            <td>{{ i.product_name }}</td>
-            <td>{{ i.brand }}</td>
-            <td>{{ i.STOCK.quantity }}</td>
-            <td>{{ i.CATEGORY.category_name }}</td>
-            <td>{{ i.STOCK.last_updated }}</td>
-            <td>{{ i.STOCK.status }}</td>
-            <td><a href="updateStock/{{i.STOCK.id}}"><button>Update stock</button></a></td>
-        </tr>
-        {% endfor %}
-    </table>
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div class="page-heading">
+                <h1>Stock Management</h1>
+                <p>Monitor product quantities and keep your inventory updated.</p>
+            </div>
+
+            <a href="/shop_home" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Dashboard
+            </a>
+
+        </header>
+
+
+        <!-- STOCK TABLE -->
+
+        <div class="table-container">
+
+            <div class="table-header">
+
+                <div>
+                    <h2>Inventory Overview</h2>
+                    <p>View current stock levels and update product quantities.</p>
+                </div>
+
+                <div class="table-icon">
+                    <i class="fa-solid fa-warehouse"></i>
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Brand</th>
+                            <th>Quantity</th>
+                            <th>Category</th>
+                            <th>Last Updated</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for i in stock_data %}
+
+                        <tr>
+
+                            <td class="product-name">
+                                {{ i.product_name }}
+                            </td>
+
+                            <td>{{ i.brand }}</td>
+
+                            <td>
+                                {{ i.STOCK.quantity }}
+                            </td>
+
+                            <td>
+                                {{ i.CATEGORY.category_name }}
+                            </td>
+
+                            <td>
+                                {{ i.STOCK.last_updated }}
+                            </td>
+
+                            <td>
+                                <span class="status">
+                                    {{ i.STOCK.status }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <a href="updateStock/{{i.STOCK.id}}" class="update-btn">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Update Stock
+                                </a>
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="7">
+
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-box-open"></i>
+                                    <h3>No Stock Records Found</h3>
+                                    <p>Your inventory currently has no stock records.</p>
+                                </div>
+
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer">
+            © 2026 RetailIQ. All rights reserved.
+        </div>
+
+    </main>
+
 </body>
 </html>

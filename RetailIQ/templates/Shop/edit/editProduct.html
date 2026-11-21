@@ -1,76 +1,432 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edit Product | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1e293b;
+            padding: 35px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            font-size: 25px;
+            font-weight: 700;
+            color: #142238;
+        }
+
+        .page-header p {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 7px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            color: #334155;
+            padding: 11px 17px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: #f1f5f9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 13px;
+            padding: 30px;
+            border: 1px solid #e9edf3;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+        }
+
+        .card-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #edf0f4;
+        }
+
+        .heading-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: #ecfdf5;
+            color: #059669;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .card-heading h2 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #17243a;
+        }
+
+        .card-heading p {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #059669;
+            margin: 25px 0 17px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #edf0f4;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #dce3ec;
+            border-radius: 7px;
+            outline: none;
+            background: #fff;
+            font-size: 13px;
+            color: #334155;
+            transition: 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #b0bac8;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid #edf0f4;
+        }
+
+        .submit-btn {
+            padding: 12px 24px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #047857;
+        }
+
+        .submit-btn i {
+            margin-right: 7px;
+        }
+
+        @media(max-width: 650px) {
+            body {
+                padding: 18px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .page-header h1 {
+                font-size: 21px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <form method="post">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td><label>Product Name</label></td>
-                <td><input value="{{editProduct.product_name}}" type="text" name="product_name" required></td>
-            </tr>
-            <tr>
-                <td><label>Brand</label></td>
-                <td><input value="{{editProduct.brand}}" type="text" name="brand"></td>
-            </tr>
-            <tr>
-                <td><label>Quantity</label></td>
-                <td><input value="{{editProduct.STOCK.quantity}}" type="number" name="quantity" required></td>
-            </tr>
-            <tr>
-                <td><label>Purchase Price</label></td>
-                <td><input value="{{editProduct.purchase_price}}" type="number" name="purchase_price" required></td>
-            </tr>
-            <tr>
-                <td><label>Selling Price</label></td>
-                <td><input value="{{editProduct.selling_price}}" type="number" name="selling_price" required></td>
-            </tr>
-            <tr>
-                <td><label>Category</label></td>
-                <td><select name="category_name" required>
-                    {% for i in category %}
-                    <option value="{{i.id}}" selected>{{ i.category_name }}</option>
-                    {% endfor %}
-                </select></td>
-            </tr>
-            <tr>
-                <td><label >Unit</label></td>
-                <td><input value="{{editProduct.unit}}" type="text" name="unit" required></td>
-            </tr>
-            <tr>
-                <td><label>Manufacturing Date</label></td>
-                <td><input value="{{manufacturing_date}}" type="date"  name="manufacturing_date"></td>
-            </tr>
-            <tr>
-                <td><label>Expiry Date</label></td>
-                <td><input value="{{expiry_date}}" type="date"  name="expiry_date" required></td>
-            </tr>
-            <tr>
-                <td><label>Barcode</label></td>
-                <td><input value="{{editProduct.barcode}}" type="number"  name="barcode" required></td>
-            </tr>
-            <tr>
-                <td><label>Supplier Name</label></td>
-                <td><input value="{{editProduct.supplier_name}}" type="text"  name="supplier_name" required></td>
-            </tr>
-            <tr>
-                <td><label>Supplier Email</label></td>
-                <td><input value="{{editProduct.supplier_email}}" type="email"  name="supplier_email"></td>
-            </tr>
-            <tr>
-                <td><label>Supplier Phone</label></td>
-                <td><input value="{{editProduct.supplier_phone}}" type="tel"  name="supplier_phone" required></td>
-            </tr>
-            <tr>
-                <td><label>Description</label></td>
-                <td><textarea name="description" rows="3"></textarea></td>
-            </tr>
-        </table>
-        <button type="submit">Submit</button>
-    </form>
+
+<div class="container">
+
+    <div class="page-header">
+        <div>
+            <h1>Edit Product</h1>
+            <p>Update product information, pricing and stock details.</p>
+        </div>
+
+        <a href="/ManageProducts" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Back to Manage Products
+        </a>
+    </div>
+
+    <div class="card">
+
+        <div class="card-heading">
+            <div class="heading-icon">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </div>
+
+            <div>
+                <h2>Product Information</h2>
+                <p>Modify the product details below.</p>
+            </div>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Basic Product Details -->
+
+            <div class="section-title">
+                <i class="fa-solid fa-box"></i> Basic Details
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Product Name <span class="required">*</span></label>
+                    <input value="{{editProduct.product_name}}"
+                           type="text"
+                           name="product_name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Brand</label>
+                    <input value="{{editProduct.brand}}"
+                           type="text"
+                           name="brand"
+                           placeholder="Enter brand name">
+                </div>
+
+                <div class="form-group">
+                    <label>Category <span class="required">*</span></label>
+                    <select name="category_name" required>
+                        {% for i in category %}
+                        <option value="{{i.id}}"
+                            {% if i.id == editProduct.CATEGORY.id %}selected{% endif %}>
+                            {{ i.category_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Unit <span class="required">*</span></label>
+                    <input value="{{editProduct.unit}}"
+                           type="text"
+                           name="unit"
+                           placeholder="e.g. kg, litre, piece"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Barcode <span class="required">*</span></label>
+                    <input value="{{editProduct.barcode}}"
+                           type="text"
+                           name="barcode"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Quantity <span class="required">*</span></label>
+                    <input value="{{editProduct.STOCK.quantity}}"
+                           type="number"
+                           name="quantity"
+                           min="0"
+                           required>
+                </div>
+
+            </div>
+
+
+            <!-- Pricing Details -->
+
+            <div class="section-title">
+                <i class="fa-solid fa-indian-rupee-sign"></i> Pricing Details
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Purchase Price (₹) <span class="required">*</span></label>
+                    <input value="{{editProduct.purchase_price}}"
+                           type="number"
+                           name="purchase_price"
+                           step="0.01"
+                           min="0"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Selling Price (₹) <span class="required">*</span></label>
+                    <input value="{{editProduct.selling_price}}"
+                           type="number"
+                           name="selling_price"
+                           step="0.01"
+                           min="0"
+                           required>
+                </div>
+
+            </div>
+
+
+            <!-- Date Details -->
+
+            <div class="section-title">
+                <i class="fa-solid fa-calendar-days"></i> Product Dates
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Manufacturing Date</label>
+                    <input value="{{manufacturing_date}}"
+                           type="date"
+                           name="manufacturing_date">
+                </div>
+
+                <div class="form-group">
+                    <label>Expiry Date <span class="required">*</span></label>
+                    <input value="{{expiry_date}}"
+                           type="date"
+                           name="expiry_date"
+                           required>
+                </div>
+
+            </div>
+
+
+            <!-- Supplier Details -->
+
+            <div class="section-title">
+                <i class="fa-solid fa-truck-field"></i> Supplier Details
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Supplier Name <span class="required">*</span></label>
+                    <input value="{{editProduct.supplier_name}}"
+                           type="text"
+                           name="supplier_name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Supplier Email</label>
+                    <input value="{{editProduct.supplier_email}}"
+                           type="email"
+                           name="supplier_email">
+                </div>
+
+                <div class="form-group">
+                    <label>Supplier Phone <span class="required">*</span></label>
+                    <input value="{{editProduct.supplier_phone}}"
+                           type="tel"
+                           name="supplier_phone"
+                           required>
+                </div>
+
+                <div class="form-group full">
+                    <label>Description</label>
+                    <textarea name="description"
+                              placeholder="Enter product description...">{{editProduct.Description}}</textarea>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Save Changes
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
 </body>
 </html>

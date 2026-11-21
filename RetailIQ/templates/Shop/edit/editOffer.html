@@ -1,26 +1,302 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-      <table border="1">
+    <title>Edit Offer | RetailIQ</title>
 
-      </table>
-      <br>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        .main {
+            max-width: 1450px;
+            margin: auto;
+            padding: 35px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .page-title h2 {
+            font-size: 25px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .page-title p {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 7px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 11px 17px;
+            border-radius: 9px;
+            color: #151617;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(5, 150, 105, 0.15);
+        }
+
+        .form-card {
+            max-width: 750px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 13px;
+            padding: 30px;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.03);
+        }
+
+        .card-header {
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .card-header h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .card-header p {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 7px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 9px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 13px;
+            color: #334155;
+            outline: none;
+            transition: 0.2s;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        .form-group textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .date-row {
+            display: grid;
+            grid-template-columns: 1fr 35px 1fr;
+            align-items: end;
+            gap: 12px;
+        }
+
+        .date-separator {
+            text-align: center;
+            padding-bottom: 13px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 8px;
+            padding: 13px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 600px) {
+            .main {
+                padding: 20px 14px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .page-title h2 {
+                font-size: 21px;
+            }
+
+            .form-card {
+                padding: 20px 17px;
+            }
+
+            .date-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .date-separator {
+                text-align: left;
+                padding: 0 0 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="main">
+
+    <div class="topbar">
+        <div class="page-title">
+            <h2>Edit Offer</h2>
+            <p>Update offer details and validity period.</p>
+        </div>
+
+        <a href="/ManageOffers" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Back to Offers
+        </a>
+    </div>
+
+    <div class="form-card">
+
+        <div class="card-header">
+            <h3>
+                <i class="fa-solid fa-tags" style="color:#059669; margin-right:8px;"></i>
+                Offer Information
+            </h3>
+            <p>Modify the details below and save your changes.</p>
+        </div>
+
         <form method="post">
             {% csrf_token %}
-            <label>Offer name</label>
-            <input value="{{editOffer.offer_name}}" type="text" name="offer_name" required> <br>
-            <label>Offer Type</label>
-            <input value="{{editOffer.offer_type}}" type="text" name="offer_type"> <br>
-            <label>Description</label>
-            <input value="offer_description" type="text" name="offer_description" > <br>
-            <label>Offer Period</label>
-            <input value="{{startDate}}" type="date" name="offer_start_date" required> to <input value="{{endDate}}" type="date" name="offer_end_date" required>  <br>
-            <button type="submit">submit</button>
+
+            <div class="form-group">
+                <label for="offer_name">Offer Name *</label>
+                <input
+                    type="text"
+                    id="offer_name"
+                    name="offer_name"
+                    value="{{ editOffer.offer_name }}"
+                    placeholder="Enter offer name"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="offer_type">Offer Type</label>
+                <input
+                    type="text"
+                    id="offer_type"
+                    name="offer_type"
+                    value="{{ editOffer.offer_type }}"
+                    placeholder="Enter offer type"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="offer_description">Description</label>
+                <textarea
+                    id="offer_description"
+                    name="offer_description"
+                    placeholder="Enter offer description"
+                >{{ editOffer.offer_description }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Offer Period *</label>
+
+                <div class="date-row">
+                    <div>
+                        <input
+                            type="date"
+                            name="offer_start_date"
+                            value="{{ startDate }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="date-separator">to</div>
+
+                    <div>
+                        <input
+                            type="date"
+                            name="offer_end_date"
+                            value="{{ endDate }}"
+                            required
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Update Offer
+            </button>
+
         </form>
+
+    </div>
+
+</div>
+
 </body>
 </html>

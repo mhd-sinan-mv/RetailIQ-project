@@ -1,27 +1,347 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Submit Feedback | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+        }
+
+        .feedback-container {
+            width: 100%;
+            max-width: 550px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 11px 17px;
+            border-radius: 9px;
+            color: #151617;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(5, 150, 105, 0.15);
+        }
+
+        .feedback-card {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 15px;
+            padding: 32px;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.04);
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .heading-icon {
+            width: 55px;
+            height: 55px;
+            background: #ecfdf5;
+            color: #059669;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            margin: 0 auto 16px;
+        }
+
+        .heading h2 {
+            font-size: 23px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .heading p {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 11px;
+        }
+
+        .rating-section {
+            text-align: center;
+            padding: 20px;
+            background: #f8fafc;
+            border: 1px solid #e8edf3;
+            border-radius: 12px;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 7px;
+            margin-bottom: 12px;
+        }
+
+        .star {
+            position: relative;
+            display: inline-block;
+            font-size: 34px;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: color 0.15s;
+            user-select: none;
+        }
+
+        .star.full {
+            color: #f59e0b;
+        }
+
+        .star.half {
+            background: linear-gradient(90deg, #f59e0b 50%, #cbd5e1 50%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .rating-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #059669;
+        }
+
+        .rating-hint {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 6px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 125px;
+            padding: 13px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: 13px;
+            color: #334155;
+            resize: vertical;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        textarea:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 9px;
+            background: #059669;
+            color: white;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            .feedback-card {
+                padding: 23px 18px;
+            }
+
+            .heading h2 {
+                font-size: 21px;
+            }
+
+            .star {
+                font-size: 30px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <form method="post">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td><label>Rating</label></td>
-                <td><input type="number" name="rating" placeholder="Enter rating"></td>
-            </tr>
-            <tr>
-                <td><label>Feedback</label></td>
-                <td><input type="text" name="feedback_description" placeholder="Enter feedback"></td>
-            </tr>
-            <tr>
-                <td>
-                    <button type="submit">Submit</button>
-                </td>
-            </tr>
-    </form>
+
+<div class="feedback-container">
+
+    <div class="topbar">
+        <a href="shop_home" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Dashboard
+        </a>
+    </div>
+
+    <div class="feedback-card">
+
+        <div class="heading">
+            <div class="heading-icon">
+                <i class="fa-solid fa-comment-dots"></i>
+            </div>
+            <h2>Share Your Feedback</h2>
+            <p>Your feedback helps us improve our service and shopping experience.</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <input type="hidden" name="rating" id="rating" value="">
+
+            <div class="form-group">
+                <label>How would you rate your experience?</label>
+
+                <div class="rating-section">
+                    <div class="stars" id="starContainer">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+
+                    <div class="rating-value" id="ratingText">
+                        Select your rating
+                    </div>
+
+                    <div class="rating-hint">
+                        Click the left or right half of a star for half-star ratings.
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="feedback">Your Feedback</label>
+                <textarea
+                    id="feedback"
+                    name="feedback_description"
+                    placeholder="Tell us about your experience..."
+                    required
+                ></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="fa-solid fa-paper-plane"></i>
+                Submit Feedback
+            </button>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    const stars = document.querySelectorAll('.star');
+    const ratingInput = document.getElementById('rating');
+    const ratingText = document.getElementById('ratingText');
+
+    let selectedRating = 0;
+
+    function updateStars(rating) {
+        stars.forEach((star, index) => {
+            star.classList.remove('full', 'half');
+
+            const starValue = index + 1;
+
+            if (rating >= starValue) {
+                star.classList.add('full');
+            } else if (rating >= starValue - 0.5) {
+                star.classList.add('half');
+            }
+        });
+    }
+
+    stars.forEach(star => {
+
+        star.addEventListener('mousemove', function(event) {
+            const rect = star.getBoundingClientRect();
+            const isLeftHalf = event.clientX < rect.left + rect.width / 2;
+
+            const value = Number(star.dataset.value);
+            const hoverRating = isLeftHalf ? value - 0.5 : value;
+
+            updateStars(hoverRating);
+        });
+
+        star.addEventListener('click', function(event) {
+            const rect = star.getBoundingClientRect();
+            const isLeftHalf = event.clientX < rect.left + rect.width / 2;
+
+            const value = Number(star.dataset.value);
+            selectedRating = isLeftHalf ? value - 0.5 : value;
+
+            ratingInput.value = selectedRating;
+            ratingText.textContent = selectedRating.toFixed(1) + ' / 5';
+
+            updateStars(selectedRating);
+        });
+    });
+
+    document.getElementById('starContainer').addEventListener('mouseleave', function() {
+        updateStars(selectedRating);
+    });
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        if (selectedRating === 0) {
+            event.preventDefault();
+            ratingText.textContent = 'Please select a rating first.';
+            ratingText.style.color = '#dc2626';
+        }
+    });
+</script>
+
 </body>
 </html>

@@ -1,22 +1,247 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edit Customer | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f5f7fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #1e293b;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .top-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: color 0.2s;
+        }
+
+        .top-link:hover {
+            color: #059669;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e8edf3;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.05);
+        }
+
+        .icon-box {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ecfdf5;
+            color: #059669;
+            border-radius: 13px;
+            font-size: 21px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111c2e;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 21px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 9px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            height: 47px;
+            padding: 0 14px 0 42px;
+            border: 1px solid #dbe2ea;
+            border-radius: 9px;
+            background: #fff;
+            color: #1e293b;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+        }
+
+        button {
+            width: 100%;
+            height: 47px;
+            border: none;
+            border-radius: 9px;
+            background: #059669;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 5px;
+        }
+
+        button:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(5, 150, 105, 0.2);
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <form method="post">
-        {% csrf_token %}
-    <label>Customer Name :</label>
-    <input type="text" name="name" value="{{cust.name}}"><br>
-    <label>Email :</label>
-    <input type="email" name="email" value="{{cust.email}}"><br>
-    <label>Phone :</label>
-    <input type="tel" name="phone" value="{{cust.phone}}"><br>
-    <label>Address :</label>
-    <input type="text" name="address" value="{{cust.address}}"><br>
-    <button type="submit">Submit</button>
-    </form>
+
+    <div class="container">
+
+        <a href="/ViewCustomers" class="top-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Customer section
+        </a>
+
+        <div class="card">
+
+            <div class="icon-box">
+                <i class="fa-solid fa-user-pen"></i>
+            </div>
+
+            <h2>Edit Customer</h2>
+            <p class="subtitle">
+                Update the customer's contact information and address.
+            </p>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="name">Customer Name</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user"></i>
+                        <input
+                            id="name"
+                            type="text"
+                            name="name"
+                            value="{{cust.name}}"
+                            placeholder="Enter customer name"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            value="{{cust.email}}"
+                            placeholder="Enter email address"
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-phone"></i>
+                        <input
+                            id="phone"
+                            type="tel"
+                            name="phone"
+                            value="{{cust.phone}}"
+                            placeholder="Enter phone number"
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <input
+                            id="address"
+                            type="text"
+                            name="address"
+                            value="{{cust.address}}"
+                            placeholder="Enter customer address"
+                        >
+                    </div>
+                </div>
+
+                <button type="submit">
+                    <i class="fa-solid fa-check"></i>
+                    &nbsp; Save Customer Details
+                </button>
+
+            </form>
+        </div>
+    </div>
+
 </body>
 </html>

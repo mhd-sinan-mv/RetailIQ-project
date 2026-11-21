@@ -1,43 +1,427 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Manage Categories | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        .main {
+            max-width: 1450px;
+            margin: auto;
+            padding: 35px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .page-title h2 {
+            font-size: 25px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .page-title p {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 7px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 11px 17px;
+            border-radius: 9px;
+            color: #151617;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(5, 150, 105, 0.15);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 13px;
+            padding: 25px;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+
+        .card-header h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .card-header p {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .category-count {
+            background: #ecfdf5;
+            color: #059669;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 450px;
+        }
+
+        th {
+            text-align: left;
+            padding: 14px 12px;
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            border-bottom: 1px solid #e8edf3;
+        }
+
+        td {
+            padding: 16px 12px;
+            font-size: 13px;
+            color: #475569;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        td:first-child {
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .description {
+            max-width: 280px;
+            line-height: 1.6;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        .action-btn {
+            text-decoration: none;
+            border-radius: 7px;
+            padding: 8px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .edit-btn:hover {
+            background: #dbeafe;
+        }
+
+        .delete-btn {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .delete-btn:hover {
+            background: #fee2e2;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 35px 15px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .empty-state i {
+            font-size: 28px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* Add category form */
+
+        .form-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ecfdf5;
+            color: #059669;
+            border-radius: 10px;
+            font-size: 18px;
+            margin-bottom: 17px;
+        }
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #dce3eb;
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+            font-size: 13px;
+            color: #334155;
+            transition: 0.2s;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #047857;
+        }
+
+        @media (max-width: 900px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .main {
+                padding: 20px 14px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .page-title h2 {
+                font-size: 21px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-        <table border="1">
-            <tr>
-                <th>Available categories</th>
-                <th>Description</th>
-                <th>Action</th>
-            </tr>
-            {% for i in categories %}
-            <tr>
-                <td>
-                    {{ i.category_name }}
-                </td>
-                <td>
-                    {{ i.category_description}}
-                </td>
-                <td>
-                    <a href="editCategories/{{i.id}}"><button>edit</button></a>
-                    <a href="deleteCategories/{{i.id}}"><button>delete</button></a>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-<br>
-        <form method="post">
-            {% csrf_token %}
-            <h3>Add a category</h3>
-            <label>Category name</label>
-            <input type="text" name="category_name" required>
-            <br>
-            <label>Description</label>
-            <input type="text" name="category_description">
-            <br>
-            <button type="submit"> Submit</button>
-        </form>
+
+<div class="main">
+
+    <div class="topbar">
+        <div class="page-title">
+            <h2>Manage Categories</h2>
+            <p>Organize and manage your store's product categories.</p>
+        </div>
+
+        <a href="/shop_home" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Dashboard
+        </a>
+    </div>
+
+    <div class="content-grid">
+
+        <!-- Categories Table -->
+        <div class="card">
+
+            <div class="card-header">
+                <div>
+                    <h3>Available Categories</h3>
+                    <p>View and manage your product categories</p>
+                </div>
+
+                <span class="category-count">
+                    <i class="fa-solid fa-layer-group"></i> Categories
+                </span>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category Name</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for i in categories %}
+                        <tr>
+                            <td>{{ i.category_name }}</td>
+
+                            <td>
+                                <div class="description">
+                                    {{ i.category_description }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="actions">
+                                    <a href="editCategories/{{i.id}}" class="action-btn edit-btn">
+                                        <i class="fa-solid fa-pen"></i> Edit
+                                    </a>
+
+                                    <a href="deleteCategories/{{i.id}}" class="action-btn delete-btn">
+                                        <i class="fa-solid fa-trash"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% empty %}
+                        <tr>
+                            <td colspan="3">
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-folder-open"></i>
+                                    No categories have been added yet.
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- Add Category Form -->
+        <div class="card">
+
+            <div class="form-icon">
+                <i class="fa-solid fa-plus"></i>
+            </div>
+
+            <div class="card-header">
+                <div>
+                    <h3>Add a Category</h3>
+                    <p>Create a new product category</p>
+                </div>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Category Name</label>
+                    <input
+                        type="text"
+                        name="category_name"
+                        placeholder="Enter category name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea
+                        name="category_description"
+                        placeholder="Enter category description"
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fa-solid fa-plus"></i> Add Category
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

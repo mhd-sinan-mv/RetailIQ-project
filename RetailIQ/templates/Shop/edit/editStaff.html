@@ -1,48 +1,378 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edit Staff | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        .main {
+            max-width: 1450px;
+            margin: auto;
+            padding: 35px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .page-title h2 {
+            font-size: 25px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .page-title p {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 7px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 11px 17px;
+            border-radius: 9px;
+            color: #151617;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(5, 150, 105, 0.15);
+        }
+
+        .form-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 13px;
+            padding: 30px;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.03);
+        }
+
+        .card-header {
+            margin-bottom: 27px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .card-header h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .card-header p {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 7px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .form-group {
+            margin-bottom: 2px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 9px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 13px;
+            color: #334155;
+            outline: none;
+            transition: 0.2s;
+            background: white;
+        }
+
+        .form-group input:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #94a3b8;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .toggle-password:hover {
+            color: #059669;
+        }
+
+        .form-note {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 7px;
+            line-height: 1.5;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 28px;
+            padding: 13px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 600px) {
+            .main {
+                padding: 20px 14px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .page-title h2 {
+                font-size: 21px;
+            }
+
+            .form-card {
+                padding: 20px 17px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 19px;
+            }
+
+            .form-group.full-width {
+                grid-column: auto;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <table>
-            <tr>
-            <td><label>Name</label></td>
-            <td><input value="{{editStaff.name}}" type="text" name="name" required></td>
-            </tr>
-            <tr>
-            <td><label>Email</label></td>
-            <td><input value="{{editStaff.email}}" type="email" name="email"></td>
-            </tr>
-            <tr>
-            <td><label>Phone</label></td>
-            <td><input value="{{editStaff.phone}}" type="tel" name="phone" required></td>
-            </tr>
-            <tr>
-            <td><label>Designation</label></td>
-            <td><input value="{{editStaff.designation}}" type="text" name="designation" required></td>
-            </tr>
-            <tr>
-            <td><label>Assigned Counter</label></td>
-            <td><input value="{{editStaff.assigned_counter}}" type="number" name="assigned_counter"></td>
-            </tr>
-            <tr>
-                <td><label>Staff Code</label></td>
-                <td><input value="{{editStaff.staff_code}}" type="text" name="staff_code" required></td>
-            </tr>
-            <tr>
-            <td><label>Assign new Password</label></td>
-            <td><input value="{{editStaff.LOGINID.password}}" type="password" name="assigned_password" required></td>
-            </tr>
-            <tr>
-            <td colspan="2">
-                <button type="submit">update Staff</button>
-            </td>
-            </tr>
-        </table>
-    </form>
+
+<div class="main">
+
+    <div class="topbar">
+        <div class="page-title">
+            <h2>Edit Staff</h2>
+            <p>Update staff information and account details.</p>
+        </div>
+
+        <a href="/ManageStaff" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Back to Staff Management
+        </a>
+    </div>
+
+    <div class="form-card">
+
+        <div class="card-header">
+            <h3>
+                <i class="fa-solid fa-user-pen" style="color:#059669; margin-right:8px;"></i>
+                Staff Information
+            </h3>
+            <p>Modify the staff details below and save your changes.</p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="name">Staff Name *</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ editStaff.name }}"
+                        placeholder="Enter staff name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ editStaff.email }}"
+                        placeholder="Enter email address"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value="{{ editStaff.phone }}"
+                        placeholder="Enter phone number"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="designation">Designation *</label>
+                    <input
+                        type="text"
+                        id="designation"
+                        name="designation"
+                        value="{{ editStaff.designation }}"
+                        placeholder="Enter designation"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="assigned_counter">Assigned Counter</label>
+                    <input
+                        type="number"
+                        id="assigned_counter"
+                        name="assigned_counter"
+                        value="{{ editStaff.assigned_counter }}"
+                        placeholder="Enter counter number"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="staff_code">Staff Code *</label>
+                    <input
+                        type="text"
+                        id="staff_code"
+                        name="staff_code"
+                        value="{{ editStaff.staff_code }}"
+                        placeholder="Enter staff code"
+                        required
+                    >
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="assigned_password">Assign New Password *</label>
+
+                    <div class="password-wrapper">
+                        <input
+                            type="password"
+                            id="assigned_password"
+                            name="assigned_password"
+                            value="{{ editStaff.LOGINID.password }}"
+                            placeholder="Enter new password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            onclick="togglePassword()"
+                            aria-label="Toggle password visibility"
+                        >
+                            <i class="fa-solid fa-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+
+                    <p class="form-note">
+                        Enter the password for this staff account.
+                    </p>
+                </div>
+
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Update Staff
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+    function togglePassword() {
+        const password = document.getElementById('assigned_password');
+        const icon = document.getElementById('eyeIcon');
+
+        if (password.type === 'password') {
+            password.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            password.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+</script>
+
 </body>
 </html>

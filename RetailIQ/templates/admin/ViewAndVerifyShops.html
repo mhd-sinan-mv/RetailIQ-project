@@ -3,37 +3,367 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Verify Shops | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f5f7fb;
+            color: #1e293b;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .top-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            transition: 0.2s;
+        }
+
+        .top-link:hover {
+            color: #059669;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .heading-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .heading-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #f0fdf4;
+            color: #16a34a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        h1 {
+            font-size: 23px;
+            font-weight: 700;
+            color: #111c2e;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .count-box {
+            background: white;
+            border: 1px solid #e8edf3;
+            padding: 10px 15px;
+            border-radius: 9px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .count-box strong {
+            color: #16a34a;
+            font-size: 15px;
+            margin-right: 4px;
+        }
+
+        .table-card {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.03);
+        }
+
+        .table-top {
+            padding: 20px 22px;
+            border-bottom: 1px solid #edf0f4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-top h3 {
+            font-size: 15px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .table-top span {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 950px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            text-align: left;
+            padding: 15px 17px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 17px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 12px;
+            color: #475569;
+            vertical-align: middle;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #fbfdfd;
+        }
+
+        .shop-name {
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            transition: 0.2s;
+        }
+
+        .action-button.accept {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .action-button.accept:hover {
+            background: #bbf7d0;
+        }
+
+        .action-button.reject {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .action-button.reject:hover {
+            background: #fecaca;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 55px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state i {
+            font-size: 35px;
+            margin-bottom: 15px;
+            color: #cbd5e1;
+        }
+
+        .empty-state h3 {
+            color: #334155;
+            font-size: 15px;
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            font-size: 12px;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 18px 12px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .table-top {
+                padding: 17px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <table border="1">
-        <tr>
-            <th>Shop name</th>
-            <th>email</th>
-            <th>phone</th>
-            <th>date joined</th>
-            <th></th>
-        </tr>
-        {% for i in shop_data %}
-        <tr>
-            <td>{{ i.shop_name }}</td>
-            <td>{{ i.email }}</td>
-            <td>{{ i.phone }}</td>
-            <td>{{ i.date_joined }}</td>
-            <td>
-                {% if i.LOGINID.user_type == 'shopToAccept' %}
-                    <a href="acceptShop/{{i.LOGINID.id}}"><button>accept</button></a>
-                    <a href="rejectShop/{{i.LOGINID.id}}"><button>reject</button></a>
-                    
-                {% elif i.LOGINID.user_type == 'shopRejected' %}
-                    <a href="acceptShop/{{i.LOGINID.id}}"><button>accept</button></a>
-                {% else %}
-                    <a href="rejectShop/{{i.LOGINID.id}}"><button>reject</button></a>
-                {% endif %}
-                    
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+
+    <div class="container">
+
+        <a href="admin_home" class="top-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Admin Dashboard
+        </a>
+
+        <div class="page-header">
+
+            <div class="heading-left">
+                <div class="heading-icon">
+                    <i class="fa-solid fa-store"></i>
+                </div>
+
+                <div>
+                    <h1>Verify Shops</h1>
+                    <p class="subtitle">
+                        Accept or reject shop verification requests.
+                    </p>
+                </div>
+            </div>
+
+            <div class="count-box">
+                <strong id="shopCount">0</strong> Shops Listed
+            </div>
+
+        </div>
+
+        <div class="table-card">
+
+            <div class="table-top">
+                <h3>Shop Details</h3>
+                <span>Shop and verification information</span>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Shop name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Date Joined</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for i in shop_data %}
+
+                        <tr class="shop-row">
+
+                            <td>
+                                <span class="shop-name">{{ i.shop_name }}</span>
+                            </td>
+                            <td>{{ i.email }}</td>
+                            <td>{{ i.phone }}</td>
+                            <td>{{ i.date_joined }}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    {% if i.LOGINID.user_type == 'shopToAccept' %}
+                                    <a href="acceptShop/{{ i.LOGINID.id }}" class="action-button accept">
+                                        <i class="fa-solid fa-check"></i> Accept
+                                    </a>
+                                    <a href="rejectShop/{{ i.LOGINID.id }}" class="action-button reject">
+                                        <i class="fa-solid fa-xmark"></i> Reject
+                                    </a>
+                                    {% elif i.LOGINID.user_type == 'shopRejected' %}
+                                    <a href="acceptShop/{{ i.LOGINID.id }}" class="action-button accept">
+                                        <i class="fa-solid fa-check"></i> Accept
+                                    </a>
+                                    {% else %}
+                                    <a href="rejectShop/{{ i.LOGINID.id }}" class="action-button reject">
+                                        <i class="fa-solid fa-xmark"></i> Reject
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-store"></i>
+                                    <h3>No Shops Found</h3>
+                                    <p>There are currently no shops in this list.</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rows = document.querySelectorAll(".shop-row");
+            document.getElementById("shopCount").textContent = rows.length;
+        });
+    </script>
+
 </body>
 </html>

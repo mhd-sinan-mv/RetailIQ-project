@@ -1,35 +1,387 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Manage Staff | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1e293b;
+            padding: 35px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            font-size: 25px;
+            font-weight: 700;
+            color: #142238;
+        }
+
+        .page-header p {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 7px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .header-btn {
+            text-decoration: none;
+            padding: 11px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 11px 17px;
+            border-radius: 9px;
+            color: #151617;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(5, 150, 105, 0.15);
+        }
+
+        .add-btn {
+            background: #059669;
+            color: white;
+        }
+
+        .add-btn:hover {
+            background: #047857;
+        }
+
+        .card {
+            background: white;
+            border-radius: 13px;
+            padding: 25px;
+            border: 1px solid #e9edf3;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+        }
+
+        .card-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .card-heading h2 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #17243a;
+        }
+
+        .card-heading i {
+            color: #059669;
+            margin-right: 8px;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            font-weight: 700;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e8edf3;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 16px 15px;
+            font-size: 12px;
+            color: #475569;
+            border-bottom: 1px solid #edf0f4;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #fafcfb;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .staff-code {
+            font-weight: 700;
+            color: #059669;
+            background: #ecfdf5;
+            padding: 6px 9px;
+            border-radius: 5px;
+            display: inline-block;
+            font-size: 11px;
+        }
+
+        .staff-name {
+            font-weight: 600;
+            color: #17243a;
+        }
+
+        .contact {
+            color: #475569;
+            white-space: nowrap;
+        }
+
+        .designation {
+            display: inline-block;
+            background: #eff6ff;
+            color: #2563eb;
+            padding: 6px 9px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .counter {
+            display: block;
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        .counter i {
+            color: #059669;
+            margin-right: 4px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            text-decoration: none;
+            padding: 8px 11px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .edit-btn {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .edit-btn:hover {
+            background: #dbeafe;
+        }
+
+        .delete-btn {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .delete-btn:hover {
+            background: #fee2e2;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .empty-state i {
+            display: block;
+            font-size: 27px;
+            margin-bottom: 12px;
+        }
+
+        @media(max-width: 650px) {
+            body {
+                padding: 18px;
+            }
+
+            .card {
+                padding: 17px;
+            }
+
+            .page-header h1 {
+                font-size: 21px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <table border="1">
-        <tr>
-            <th>staff code</th>
-            <th>Name</th>
-            <th>phone</th>
-            <th>Email</th>
-            <th>Designation & Assigned counter</th>
-            <th>action</th>
-        </tr>
-        {% for i in staff_data %}
-        <tr>
-            <td>{{ i.staff_code }}</td>
-            <td>{{ i.name }}</td>
-            <td>{{ i.phone }}</td>
-            <td>{{ i.email }}</td>
-            <td>{{ i.designation }} & {{ i.assigned_counter }}</td>
-            <td>
-                <a href="editStaff/{{i.id}}"><button>Edit</button></a>
-                <a href="deleteStaff/{{i.id}}"><button>Delete</button></a>
-                
-            </td>
-            
-        </tr>
-        {% endfor %}
-    </table>
+
+<div class="container">
+
+    <div class="page-header">
+        <div>
+            <h1>Manage Staff</h1>
+            <p>View, update and manage your shop staff members.</p>
+        </div>
+
+        <div class="header-actions">
+            <a href="shop_home" class="header-btn back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Dashboard
+            </a>
+
+            <a href="AddStaff" class="header-btn add-btn">
+                <i class="fa-solid fa-user-plus"></i> Add Staff
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+
+        <div class="card-heading">
+            <h2>
+                <i class="fa-solid fa-users"></i>
+                Staff Members
+            </h2>
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Staff Code</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Designation & Counter</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for i in staff_data %}
+
+                    <tr>
+
+                        <td>
+                            <span class="staff-code">
+                                {{ i.staff_code }}
+                            </span>
+                        </td>
+
+                        <td class="staff-name">
+                            {{ i.name }}
+                        </td>
+
+                        <td class="contact">
+                            <i class="fa-solid fa-phone" style="color:#94a3b8; margin-right:5px;"></i>
+                            {{ i.phone }}
+                        </td>
+
+                        <td class="contact">
+                            {{ i.email|default:"—" }}
+                        </td>
+
+                        <td>
+                            <span class="designation">
+                                {{ i.designation }}
+                            </span>
+
+                            <span class="counter">
+                                <i class="fa-solid fa-cash-register"></i>
+                                Counter: {{ i.assigned_counter|default:"Not assigned" }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="action-buttons">
+
+                                <a href="editStaff/{{i.id}}" class="action-btn edit-btn">
+                                    <i class="fa-solid fa-pen"></i> Edit
+                                </a>
+
+                                <a href="deleteStaff/{{i.id}}"
+                                   class="action-btn delete-btn"
+                                   onclick="return confirm('Are you sure you want to delete this staff member?');">
+                                    <i class="fa-solid fa-trash"></i> Delete
+                                </a>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <i class="fa-solid fa-users"></i>
+                                No staff members have been added yet.
+                            </div>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

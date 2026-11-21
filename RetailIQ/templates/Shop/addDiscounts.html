@@ -1,37 +1,314 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Manage Discounts | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        .main {
+            max-width: 1100px;
+            margin: auto;
+            padding: 35px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .page-title h2 {
+            font-size: 25px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .page-title p {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 7px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            padding: 11px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: #f1f5f9;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 13px;
+            padding: 28px;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 27px;
+        }
+
+        .icon-box {
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ecfdf5;
+            color: #059669;
+            border-radius: 11px;
+            font-size: 19px;
+        }
+
+        .card-header h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .card-header p {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .form-group.full {
+            grid-column: span 2;
+        }
+
+        label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #dce3eb;
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+            font-size: 13px;
+            color: #334155;
+            background: white;
+            transition: 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .submit-btn {
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #047857;
+        }
+
+        .submit-btn i {
+            margin-right: 7px;
+        }
+
+        .hint {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        @media (max-width: 650px) {
+            .main {
+                padding: 20px 14px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .page-title h2 {
+                font-size: 21px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: span 1;
+            }
+
+            .form-actions button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <form method ="post">
-        {% csrf_token %}
-    <table border="1">
-        <tr>
-            <th>Product name</th>
-            <th>Discount type</th>
-            <th>Discount value</th>
-            <th>Start date</th>
-            <th>End date</th>
-            <th>Action</th>
-        </tr>
-        <tr>
-            <td><select name="product_name" required>
-                {% for i in products %}
-                <option value="{{i.id}}">{{ i.product_name }}</option>
-                {% endfor %}
-            </select>
-        </td>
-            <td><input type="text" name="discount_type"></td>
-            <td><input type="text" name="discount_value"></td>
-            <td><input type="date" name="start_date" required></td>
-            <td><input type="date" name="end_date" required></td>
-            <td><button>Delete</button></td>
-        </tr>
-    </table>
-        <button type="submit">Submit</button>
-    </form>
+
+<div class="main">
+
+    <div class="topbar">
+        <div class="page-title">
+            <h2>Add Discounts</h2>
+            <p>Create and configure discounts for your store products.</p>
+        </div>
+
+        <a href="/shop_home" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Dashboard
+        </a>
+    </div>
+
+    <div class="card">
+
+        <div class="card-header">
+            <div class="icon-box">
+                <i class="fa-solid fa-tags"></i>
+            </div>
+
+            <div>
+                <h3>Create Product Discount</h3>
+                <p>Enter the discount details below</p>
+            </div>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="form-group full">
+                    <label>Select Product</label>
+
+                    <select name="product_name" required>
+                        <option value="" disabled selected>Select a product</option>
+                        {% for i in products %}
+                        <option value="{{i.id}}">{{ i.product_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Discount Type</label>
+
+                    <select name="discount_type" required>
+                        <option value="" disabled selected>Select discount type</option>
+                        <option value="Percentage">Percentage (%)</option>
+                        <option value="Fixed">Fixed Amount (₹)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Discount Value</label>
+
+                    <input
+                        type="number"
+                        name="discount_value"
+                        step="0.01"
+                        min="0"
+                        placeholder="Enter discount value"
+                        required
+                    >
+
+                    <span class="hint">Enter percentage or fixed amount based on the selected type.</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Start Date</label>
+
+                    <input
+                        type="date"
+                        name="start_date"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>End Date</label>
+
+                    <input
+                        type="date"
+                        name="end_date"
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    <i class="fa-solid fa-plus"></i> Create Discount
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
 </body>
 </html>

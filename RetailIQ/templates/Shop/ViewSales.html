@@ -1,47 +1,518 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <table border="1">
-        <tr>
-            <th>date</th>
-            <th>Product name</th>
-            <th>Category</th>
-            <th>Unit price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Discount</th>
-            <th>Final amount</th>
-            
-        </tr>
-        {% for i in order_data %} 
-        <tr>
-            <td>{{ i.ORDER.date_time }}</td>
-            <td>{{ i.PRODUCT.product_name }}</td>
-            <td>{{ i.PRODUCT.CATEGORY.category_name }}</td>
-            <td>{{ i.unit_price }}</td>
-            <td>{{ i.quantity }}</td>
-            <td>{{ i.total_price }}</td>
-            <td>
-                {% for d in i.PRODUCT.discounttable_set.all %}
-                {{ d.discount_value }}
-                {% endfor %}
-            </td>
-            <td>{{ i.ORDER.final_price }}</td>
-            
-        </tr>
-        {% endfor %}
-        <tr>
-            <td colspan="5" style="text-align: right;"><strong>Total Amount:</strong></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+    <title>Sales Details | RetailIQ</title>
 
-    </table>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1e293b;
+            padding: 35px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            font-size: 25px;
+            font-weight: 700;
+            color: #142238;
+        }
+
+        .page-header p {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 7px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 11px 17px;
+            border-radius: 9px;
+            color: #151617;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(5, 150, 105, 0.15);
+        }
+
+        .card {
+            background: white;
+            border-radius: 13px;
+            padding: 25px;
+            border: 1px solid #e9edf3;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+            margin-bottom: 25px;
+        }
+
+        .card-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .card-heading h2 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #17243a;
+        }
+
+        .card-heading i {
+            color: #059669;
+            margin-right: 8px;
+        }
+
+        /* Summary cards */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            border: 1px solid #e9edf3;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+        }
+
+        .summary-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .summary-label {
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .summary-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .summary-card h2 {
+            font-size: 23px;
+            color: #17243a;
+            font-weight: 700;
+        }
+
+        .summary-card.discount-card .summary-icon {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .summary-card.final-card .summary-icon {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            font-weight: 700;
+            padding: 15px 13px;
+            text-align: left;
+            border-bottom: 1px solid #e8edf3;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 16px 13px;
+            font-size: 12px;
+            color: #475569;
+            border-bottom: 1px solid #edf0f4;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #fafcfb;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #17243a;
+        }
+
+        .category {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 11px;
+        }
+
+        .price {
+            font-weight: 500;
+            white-space: nowrap;
+            color: #334155;
+        }
+
+        .discount {
+            display: inline-block;
+            background: #ecfdf5;
+            color: #047857;
+            padding: 5px 8px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .final-price {
+            color: #059669;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .date {
+            white-space: nowrap;
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .empty-state i {
+            display: block;
+            font-size: 27px;
+            margin-bottom: 12px;
+        }
+
+        @media(max-width: 800px) {
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 650px) {
+            body {
+                padding: 18px;
+            }
+
+            .card {
+                padding: 17px;
+            }
+
+            .page-header h1 {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="page-header">
+        <div>
+            <h1>Sales Details</h1>
+            <p>View your shop's transaction and sales records.</p>
+        </div>
+
+        <a href="shop_home" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Dashboard
+        </a>
+    </div>
+
+
+    <!-- Sales Summary -->
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+            <div class="summary-top">
+                <span class="summary-label">Total Amount</span>
+                <div class="summary-icon">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+            </div>
+
+            <h2 id="totalAmount">₹0.00</h2>
+        </div>
+
+
+        <div class="summary-card discount-card">
+            <div class="summary-top">
+                <span class="summary-label">Discount Applied</span>
+                <div class="summary-icon">
+                    <i class="fa-solid fa-tag"></i>
+                </div>
+            </div>
+
+            <h2 id="totalDiscount">₹0.00</h2>
+        </div>
+
+
+        <div class="summary-card final-card">
+            <div class="summary-top">
+                <span class="summary-label">Final Amount</span>
+                <div class="summary-icon">
+                    <i class="fa-solid fa-money-bill-transfer"></i>
+                </div>
+            </div>
+
+            <h2 id="finalAmount">₹0.00</h2>
+        </div>
+
+    </div>
+
+
+    <!-- Sales Table -->
+
+    <div class="card">
+
+        <div class="card-heading">
+            <h2>
+                <i class="fa-solid fa-chart-line"></i>
+                Sales Transactions
+            </h2>
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Discount</th>
+                        <th>Final Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody id="salesTable">
+
+                    {% for i in order_data %}
+
+                    <tr
+                        class="sale-row"
+                        data-order-id="{{ i.ORDER.id }}"
+                        data-order-final="{{ i.ORDER.final_price }}"
+                        data-total="{{ i.total_price }}"
+                    >
+
+                        <td class="date">
+                            {{ i.ORDER.date_time }}
+                        </td>
+
+                        <td class="product-name">
+                            {{ i.PRODUCT.product_name }}
+                        </td>
+
+                        <td>
+                            <span class="category">
+                                {{ i.PRODUCT.CATEGORY.category_name }}
+                            </span>
+                        </td>
+
+                        <td class="price">
+                            ₹{{ i.unit_price }}
+                        </td>
+
+                        <td>
+                            {{ i.quantity }}
+                        </td>
+
+                        <td class="price">
+                            ₹{{ i.total_price }}
+                        </td>
+
+                        <td class="discountPrice">
+                            {% for d in i.PRODUCT.discounttable_set.all %}
+                                <span class="discount">
+                                    {{ d.discount_value }}
+                                </span>
+                            {% empty %}
+                                <span style="color:#94a3b8;">—</span>
+                            {% endfor %}
+                        </td>
+
+                        <td class="final-price">
+                            <span class="order-final-display">
+                                ₹{{ i.ORDER.final_price }}
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="8">
+                            <div class="empty-state">
+                                <i class="fa-solid fa-receipt"></i>
+                                No sales records available.
+                            </div>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    // Format numbers as Indian Rupees
+    function formatCurrency(amount) {
+        return "₹" + amount.toLocaleString("en-IN", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+
+
+    // Calculate sales summary
+    function calculateSales() {
+
+        let totalAmount = 0;
+        let finalAmount = 0;
+
+        // Store order IDs to avoid counting the same order twice
+        let processedOrders = new Set();
+
+        const rows = document.querySelectorAll(".sale-row");
+
+        rows.forEach(row => {
+
+            let productTotal = parseFloat(row.dataset.total) || 0;
+
+            let orderId = row.dataset.orderId;
+
+            let orderFinal = parseFloat(row.dataset.orderFinal) || 0;
+
+            // Add each product's total
+            totalAmount += productTotal;
+
+            // Add final price only once per order
+            if (!processedOrders.has(orderId)) {
+
+                finalAmount += orderFinal;
+
+                processedOrders.add(orderId);
+
+            } else {
+
+                // Avoid displaying the same order final price repeatedly
+                const display = row.querySelector(".order-final-display");
+
+                if (display) {
+                    display.textContent = "Included above";
+                    display.style.color = "#94a3b8";
+                    display.style.fontWeight = "400";
+                }
+
+            }
+
+        });
+
+
+        // Calculate total discount
+        // let totalDiscount = totalAmount - finalAmount;  need to recheck , that dicount calculation is based on summing up all discount values/rupees applied on a product and retrieved from OrderItemTable 
+
+        // Prevent negative discount due to inconsistent data or rounding
+        if (totalDiscount < 0) {
+            totalDiscount = 0;
+        }
+
+        // Update summary cards
+        document.getElementById("totalAmount").textContent =
+            formatCurrency(totalAmount);
+
+        // document.getElementById("totalDiscount").textContent =   need to recheck , that dicount calculation is based on summing up all discount values/rupees applied on a product and retrieved from OrderItemTable 
+        //     formatCurrency(totalDiscount);
+
+        document.getElementById("finalAmount").textContent =
+            formatCurrency(finalAmount);
+
+    }
+
+
+    // Run calculation when page loads
+    document.addEventListener("DOMContentLoaded", calculateSales);
+
+</script>
+
 </body>
 </html>

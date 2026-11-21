@@ -1,25 +1,649 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>RetailIQ | Shop Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 255px;
+            height: 100vh;
+            background: #111c2e;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 28px 18px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            transition: width 0.3s ease, padding 0.3s ease;
+            z-index: 1000;
+        }
+
+        .brand {
+            color: white;
+            font-size: 25px;
+            font-weight: 800;
+            padding: 0 12px;
+            margin-bottom: 38px;
+            white-space: nowrap;
+        }
+
+        .brand span {
+            color: #10b981;
+        }
+
+        .menu-label {
+            color: #8290a5;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            padding: 0 12px;
+            margin: 25px 0 12px;
+            white-space: nowrap;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 13px;
+            margin: 4px 0;
+            color: #b8c3d4;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-link i {
+            width: 18px;
+            min-width: 18px;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #20354b;
+            color: #34d399;
+        }
+
+        /* COLLAPSED SIDEBAR */
+
+        .sidebar.collapsed {
+            width: 75px;
+            padding: 28px 10px;
+        }
+
+        .sidebar.collapsed .brand {
+            font-size: 0;
+            text-align: center;
+            padding: 0;
+        }
+
+        .sidebar.collapsed .brand::before {
+            content: "R";
+            font-size: 25px;
+            color: #10b981;
+        }
+
+        .sidebar.collapsed .menu-label,
+        .sidebar.collapsed .nav-link span {
+            display: none;
+        }
+
+        .sidebar.collapsed .nav-link {
+            justify-content: center;
+            padding: 14px 5px;
+        }
+
+        .sidebar.collapsed .nav-link i {
+            font-size: 17px;
+        }
+
+        /* MAIN CONTENT */
+
+        .main {
+            margin-left: 255px;
+            padding: 30px 38px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main.expanded {
+            margin-left: 75px;
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 17px;
+        }
+
+        .menu-toggle {
+            background: white;
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
+            width: 42px;
+            height: 42px;
+            border-radius: 9px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .menu-toggle:hover {
+            background: #ecfdf5;
+            color: #059669;
+            border-color: #10b981;
+        }
+
+        .topbar h2 {
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        .topbar p {
+            font-size: 12px;
+            color: #8491a5;
+            margin-top: 6px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification {
+            width: 39px;
+            height: 39px;
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            color: #64748b;
+        }
+
+        .avatar {
+            width: 39px;
+            height: 39px;
+            background: #d1fae5;
+            color: #047857;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+        }
+
+        /* WELCOME SECTION */
+
+        .welcome {
+            margin-bottom: 28px;
+        }
+
+        .welcome h1 {
+            font-size: 25px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #8491a5;
+            font-size: 13px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 17px;
+        }
+
+        /* MANAGEMENT CARDS */
+
+        .management-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 17px;
+        }
+
+        .management-card {
+            background: white;
+            padding: 23px 20px;
+            border: 1px solid #e9edf3;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #1e293b;
+            transition: 0.25s;
+            min-height: 145px;
+        }
+
+        .management-card:hover {
+            transform: translateY(-4px);
+            border-color: #10b981;
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+        }
+
+        .card-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            background: #ecfdf5;
+            color: #059669;
+            font-size: 17px;
+            margin-bottom: 16px;
+        }
+
+        .management-card h3 {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .management-card p {
+            font-size: 11px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        .arrow {
+            float: right;
+            color: #94a3b8;
+        }
+
+        .footer {
+            margin-top: 35px;
+            font-size: 11px;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        /* OVERLAY FOR MOBILE */
+
+        .sidebar-overlay {
+            display: none;
+        }
+
+        /* TABLET */
+
+        @media(max-width: 1000px) {
+            .management-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 650px) {
+
+            .sidebar {
+                width: 255px;
+                padding: 25px 18px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            /* Keep full sidebar visible when opened */
+
+            .sidebar.collapsed {
+                width: 255px;
+                padding: 25px 18px;
+            }
+
+            .sidebar.collapsed .brand {
+                font-size: 25px;
+                text-align: left;
+                padding: 0 12px;
+            }
+
+            .sidebar.collapsed .brand::before {
+                content: none;
+            }
+
+            .sidebar.collapsed .brand span,
+            .sidebar.collapsed .menu-label,
+            .sidebar.collapsed .nav-link span {
+                display: initial;
+            }
+
+            .sidebar.collapsed .menu-label {
+                display: block;
+            }
+
+            .sidebar.collapsed .nav-link {
+                justify-content: flex-start;
+                padding: 12px 13px;
+            }
+
+            .sidebar.collapsed .nav-link span {
+                display: inline;
+            }
+
+            .sidebar.collapsed .nav-link i {
+                font-size: 15px;
+            }
+
+            .main,
+            .main.expanded {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+
+            .management-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar h2 {
+                font-size: 18px;
+            }
+
+            .welcome h1 {
+                font-size: 21px;
+            }
+
+            .sidebar-overlay.show {
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.4);
+                z-index: 999;
+            }
+        }
+
+    </style>
 </head>
+
 <body>
-    <p>Shop Home</p>
-    <a href="AddProducts">Add Products</a><br>
-    <a href="AddStaff">Add Staff</a><br>
-    <a href="AddDiscounts">Add Discount</a><br>
-    <a href="ManageDiscounts">Manage Discount</a><br>
-    <a href="ViewNotificationsShop">View Notifications</a><br>
-    <a href="ManageOffers">Add & Manage Offers</a><br>     <!-- made as single file because offers are not for individual products but for shops -->
-    <a href="ManageProducts">Manage Products</a><br>
-    <a href="addManageCategories">Add & Manage Categories</a><br>
-    <a href="ManageStaff">Manage Staff</a><br>
-    <a href="ViewCustomers">View Customers</a><br>
-    <a href="ViewSales">View Sales</a><br>
-    <a href="ViewStockandUpdateStock">View Stock and Update Stock</a><br>
-    <a href="RatingAndFeedback">Rating and Feedback</a><br>
-    <a href="complaints">Complaints & Reply</a>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">Retail<span>IQ.</span></div>
+
+        <div class="menu-label">MAIN MENU</div>
+
+        <a href="shop_home" class="nav-link active">
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="ViewNotificationsShop" class="nav-link">
+            <i class="fa-regular fa-bell"></i>
+            <span>Notifications</span>
+        </a>
+
+        <div class="menu-label">INVENTORY</div>
+
+        <a href="AddProducts" class="nav-link">
+            <i class="fa-solid fa-plus"></i>
+            <span>Add Products</span>
+        </a>
+
+        <a href="ManageProducts" class="nav-link">
+            <i class="fa-solid fa-box"></i>
+            <span>Manage Products</span>
+        </a>
+
+        <a href="ViewStockandUpdateStock" class="nav-link">
+            <i class="fa-solid fa-warehouse"></i>
+            <span>Stock Management</span>
+        </a>
+
+        <a href="addManageCategories" class="nav-link">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Categories</span>
+        </a>
+
+        <div class="menu-label">SALES & PROMOTIONS</div>
+
+        <a href="AddDiscounts" class="nav-link">
+            <i class="fa-solid fa-percent"></i>
+            <span>Add Discount</span>
+        </a>
+
+        <a href="ManageDiscounts" class="nav-link">
+            <i class="fa-solid fa-tags"></i>
+            <span>Manage Discounts</span>
+        </a>
+
+        <a href="ManageOffers" class="nav-link">
+            <i class="fa-solid fa-bullhorn"></i>
+            <span>Offers</span>
+        </a>
+
+        <a href="ViewSales" class="nav-link">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>View Sales</span>
+        </a>
+
+        <div class="menu-label">PEOPLE</div>
+
+        <a href="AddStaff" class="nav-link">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>Add Staff</span>
+        </a>
+
+        <a href="ManageStaff" class="nav-link">
+            <i class="fa-solid fa-users-gear"></i>
+            <span>Manage Staff</span>
+        </a>
+
+        <a href="ViewCustomers" class="nav-link">
+            <i class="fa-solid fa-users"></i>
+            <span>Customers</span>
+        </a>
+
+        <div class="menu-label">FEEDBACK & SUPPORT</div>
+
+        <a href="RatingAndFeedback" class="nav-link">
+            <i class="fa-solid fa-star"></i>
+            <span>Ratings & Feedback</span>
+        </a>
+
+        <a href="complaints" class="nav-link">
+            <i class="fa-solid fa-headset"></i>
+            <span>Complaints & Replies</span>
+        </a>
+
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main" id="main">
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div>
+                    <h2>Shop Dashboard</h2>
+                    <p>Manage your store operations from one place</p>
+                </div>
+
+            </div>
+
+            <div class="profile">
+
+                <div class="notification">
+                    <i class="fa-regular fa-bell"></i>
+                </div>
+
+                <div class="avatar">S</div>
+
+            </div>
+
+        </header>
+
+        <section class="welcome">
+            <h1>Welcome Back, Shop Owner 👋</h1>
+            <p>Here's your store management workspace.</p>
+        </section>
+
+        <h3 class="section-title">Store Management</h3>
+
+        <section class="management-grid">
+
+            <a href="AddProducts" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-plus"></i></div>
+                <h3>Add Products <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>Add new products to your store inventory.</p>
+            </a>
+
+            <a href="ManageProducts" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-box"></i></div>
+                <h3>Manage Products <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>View, edit and manage your products.</p>
+            </a>
+
+            <a href="ViewStockandUpdateStock" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-warehouse"></i></div>
+                <h3>Stock Management <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>Monitor stock and update product quantities.</p>
+            </a>
+
+            <a href="addManageCategories" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-layer-group"></i></div>
+                <h3>Categories <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>Add and organize product categories.</p>
+            </a>
+
+            <a href="AddDiscounts" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-percent"></i></div>
+                <h3>Add Discounts <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>Create discounts for your products.</p>
+            </a>
+
+            <a href="ManageDiscounts" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-tags"></i></div>
+                <h3>Manage Discounts <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>View and manage existing discounts.</p>
+            </a>
+
+            <a href="ManageOffers" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                <h3>Offers <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>Create and manage shop-wide offers.</p>
+            </a>
+
+            <a href="ViewSales" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <h3>View Sales <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>Review your store's sales information.</p>
+            </a>
+
+            <a href="AddStaff" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <h3>Add Staff <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>Register new employees for your store.</p>
+            </a>
+
+            <a href="ManageStaff" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-users-gear"></i></div>
+                <h3>Manage Staff <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>Manage your existing store employees.</p>
+            </a>
+
+            <a href="ViewCustomers" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-users"></i></div>
+                <h3>Customers <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>View your registered customers.</p>
+            </a>
+
+            <a href="ViewNotificationsShop" class="management-card">
+                <div class="card-icon"><i class="fa-regular fa-bell"></i></div>
+                <h3>Notifications <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>Stay updated with store notifications.</p>
+            </a>
+
+            <a href="RatingAndFeedback" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-star"></i></div>
+                <h3>Ratings & Feedback <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>Check customer reviews and ratings.</p>
+            </a>
+
+            <a href="complaints" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-headset"></i></div>
+                <h3>Complaints & Replies <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>Review customer complaints and respond.</p>
+            </a>
+
+        </section>
+
+        <div class="footer">
+            © 2026 RetailIQ. All rights reserved.
+        </div>
+
+    </main>
+
+    <!-- SIDEBAR JAVASCRIPT -->
+
+    <script>
+
+        function toggleSidebar() {
+
+            const sidebar = document.getElementById('sidebar');
+            const main = document.getElementById('main');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (window.innerWidth <= 650) {
+
+                sidebar.classList.toggle('mobile-open');
+                overlay.classList.toggle('show');
+
+            } else {
+
+                sidebar.classList.toggle('collapsed');
+                main.classList.toggle('expanded');
+
+            }
+
+        }
+
+    </script>
+
 </body>
 </html>

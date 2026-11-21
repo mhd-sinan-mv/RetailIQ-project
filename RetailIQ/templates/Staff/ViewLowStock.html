@@ -1,30 +1,502 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Low Stock | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f5f7fb;
+            color: #1e293b;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .top-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            transition: 0.2s;
+        }
+
+        .top-link:hover {
+            color: #059669;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .heading-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .heading-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #fff7ed;
+            color: #ea580c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        h1 {
+            font-size: 23px;
+            font-weight: 700;
+            color: #111c2e;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .count-box {
+            background: white;
+            border: 1px solid #e8edf3;
+            padding: 10px 15px;
+            border-radius: 9px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .count-box strong {
+            color: #ea580c;
+            font-size: 15px;
+            margin-right: 4px;
+        }
+
+        .info-banner {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 11px;
+            padding: 15px 18px;
+            margin-bottom: 22px;
+            color: #9a3412;
+        }
+
+        .info-banner i {
+            margin-top: 2px;
+        }
+
+        .info-banner p {
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .table-card {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.03);
+        }
+
+        .table-top {
+            padding: 20px 22px;
+            border-bottom: 1px solid #edf0f4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-top h3 {
+            font-size: 15px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .table-top span {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 950px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            text-align: left;
+            padding: 15px 17px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 17px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 12px;
+            color: #475569;
+            vertical-align: middle;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #fbfdfd;
+        }
+
+        .product-name {
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .brand {
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        .quantity {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 42px;
+            padding: 7px 11px;
+            background: #fff7ed;
+            color: #c2410c;
+            border-radius: 7px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .expiry {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #64748b;
+            white-space: nowrap;
+        }
+
+        .expiry-status {
+            display: block;
+            margin-top: 6px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .expiry-status.expired {
+            color: #dc2626;
+        }
+
+        .expiry-status.soon {
+            color: #d97706;
+        }
+
+        .expiry-status.valid {
+            color: #059669;
+        }
+
+        .supplier-name {
+            color: #334155;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .contact-info a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            width: fit-content;
+        }
+
+        .contact-info a:hover {
+            color: #059669;
+        }
+
+        .contact-info i {
+            color: #94a3b8;
+            width: 13px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 55px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state i {
+            font-size: 35px;
+            margin-bottom: 15px;
+            color: #cbd5e1;
+        }
+
+        .empty-state h3 {
+            color: #334155;
+            font-size: 15px;
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            font-size: 12px;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 18px 12px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .table-top {
+                padding: 17px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <table border="1">
-        <tr>
-            <th>Product Name</th>
-            <th>Brand</th>
-            <th>Quantity</th>
-            <th>Expiry Date</th>
-            <th>Supplier Name</th>
-            <th>Supplier Contact</th>
-        </tr>
-        {% for i in stock_data %}
-        <tr>
-            <td>{{ i.product_name }}</td>
-            <td>{{ i.brand }}</td>
-            <td>{{ i.STOCK.quantity }}</td>
-            <td>{{ i.expiry_date }}</td>
-            <td>{{ i.supplier_name }}</td>
-            <td>Email : {{ i.supplier_email }}<br> Phone : {{ i.supplier_phone }}</td>
-        </tr>
-        {% endfor %}
-    </table> 
+
+    <div class="container">
+
+        <a href="staff_home" class="top-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Staff Dashboard
+        </a>
+
+        <div class="page-header">
+
+            <div class="heading-left">
+                <div class="heading-icon">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                </div>
+
+                <div>
+                    <h1>Low Stock Products</h1>
+                    <p class="subtitle">
+                        Monitor product availability and supplier contact details.
+                    </p>
+                </div>
+            </div>
+
+            <div class="count-box">
+                <strong id="stockCount">0</strong> Products Listed
+            </div>
+
+        </div>
+
+        <div class="info-banner">
+            <i class="fa-solid fa-circle-info"></i>
+            <p>
+                Review the available quantities and contact suppliers when products
+                need replenishment. Check expiry dates before restocking.
+            </p>
+        </div>
+
+        <div class="table-card">
+
+            <div class="table-top">
+                <h3>Inventory Details</h3>
+                <span>Stock and supplier information</span>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Brand</th>
+                            <th>Quantity</th>
+                            <th>Expiry Date</th>
+                            <th>Supplier Name</th>
+                            <th>Supplier Contact</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for i in stock_data %}
+
+                        <tr class="stock-row">
+
+                            <td>
+                                <div class="product-name">
+                                    {{ i.product_name }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="brand">{{ i.brand }}</span>
+                            </td>
+
+                            <td>
+                                <span class="quantity">
+                                    {{ i.STOCK.quantity }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="expiry-date"
+                                      data-expiry="{{ i.expiry_date|date:'Y-m-d' }}">
+                                    <i class="fa-regular fa-calendar"></i>
+                                    {{ i.expiry_date }}
+                                </span>
+                                <span class="expiry-status"></span>
+                            </td>
+
+                            <td>
+                                <div class="supplier-name">
+                                    {{ i.supplier_name }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="contact-info">
+
+                                    <a href="mailto:{{ i.supplier_email }}">
+                                        <i class="fa-solid fa-envelope"></i>
+                                        {{ i.supplier_email }}
+                                    </a>
+
+                                    <a href="tel:{{ i.supplier_phone }}">
+                                        <i class="fa-solid fa-phone"></i>
+                                        {{ i.supplier_phone }}
+                                    </a>
+
+                                </div>
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="6">
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-box-open"></i>
+                                    <h3>No Products Found</h3>
+                                    <p>There are currently no products in this list.</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const rows = document.querySelectorAll(".stock-row");
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            document.getElementById("stockCount").textContent = rows.length;
+
+            rows.forEach(row => {
+
+                const expiryElement = row.querySelector(".expiry-date");
+                const statusElement = row.querySelector(".expiry-status");
+
+                const expiryValue = expiryElement.dataset.expiry;
+
+                if (!expiryValue) {
+                    statusElement.textContent = "Date unavailable";
+                    return;
+                }
+
+                const expiryDate = new Date(expiryValue + "T00:00:00");
+
+                if (isNaN(expiryDate.getTime())) {
+                    statusElement.textContent = "Invalid date";
+                    return;
+                }
+
+                const difference = Math.ceil(
+                    (expiryDate - today) / (1000 * 60 * 60 * 24)
+                );
+
+                if (difference < 0) {
+                    statusElement.textContent = "Expired";
+                    statusElement.classList.add("expired");
+                }
+                else if (difference <= 30) {
+                    statusElement.textContent = "Expires within 30 days";
+                    statusElement.classList.add("soon");
+                }
+                else {
+                    statusElement.textContent = "Not expiring soon";
+                    statusElement.classList.add("valid");
+                }
+
+            });
+
+        });
+    </script>
+
 </body>
 </html>

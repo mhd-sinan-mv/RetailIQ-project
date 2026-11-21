@@ -3,13 +3,500 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>RetailIQ | Admin Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 255px;
+            height: 100vh;
+            background: #111c2e;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 28px 18px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            transition: width 0.3s ease, padding 0.3s ease;
+            z-index: 1000;
+        }
+
+        .brand {
+            color: white;
+            font-size: 25px;
+            font-weight: 800;
+            padding: 0 12px;
+            margin-bottom: 38px;
+            white-space: nowrap;
+        }
+
+        .brand span {
+            color: #10b981;
+        }
+
+        .menu-label {
+            color: #8290a5;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            padding: 0 12px;
+            margin: 25px 0 12px;
+            white-space: nowrap;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 13px;
+            margin: 4px 0;
+            color: #b8c3d4;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-link i {
+            width: 18px;
+            min-width: 18px;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #20354b;
+            color: #34d399;
+        }
+
+        /* COLLAPSED SIDEBAR */
+
+        .sidebar.collapsed {
+            width: 75px;
+            padding: 28px 10px;
+        }
+
+        .sidebar.collapsed .brand {
+            font-size: 0;
+            text-align: center;
+            padding: 0;
+        }
+
+        .sidebar.collapsed .brand::before {
+            content: "R";
+            font-size: 25px;
+            color: #10b981;
+        }
+
+        .sidebar.collapsed .menu-label,
+        .sidebar.collapsed .nav-link span {
+            display: none;
+        }
+
+        .sidebar.collapsed .nav-link {
+            justify-content: center;
+            padding: 14px 5px;
+        }
+
+        .sidebar.collapsed .nav-link i {
+            font-size: 17px;
+        }
+
+        /* MAIN CONTENT */
+
+        .main {
+            margin-left: 255px;
+            padding: 30px 38px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main.expanded {
+            margin-left: 75px;
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 17px;
+        }
+
+        .menu-toggle {
+            background: white;
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
+            width: 42px;
+            height: 42px;
+            border-radius: 9px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .menu-toggle:hover {
+            background: #ecfdf5;
+            color: #059669;
+            border-color: #10b981;
+        }
+
+        .topbar h2 {
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        .topbar p {
+            font-size: 12px;
+            color: #8491a5;
+            margin-top: 6px;
+        }
+
+
+
+
+
+        /* WELCOME SECTION */
+
+        .welcome {
+            margin-bottom: 28px;
+        }
+
+        .welcome h1 {
+            font-size: 25px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #8491a5;
+            font-size: 13px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 17px;
+        }
+
+        /* MANAGEMENT CARDS */
+
+        .management-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 17px;
+        }
+
+        .management-card {
+            background: white;
+            padding: 23px 20px;
+            border: 1px solid #e9edf3;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #1e293b;
+            transition: 0.25s;
+            min-height: 145px;
+        }
+
+        .management-card:hover {
+            transform: translateY(-4px);
+            border-color: #10b981;
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+        }
+
+        .card-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            background: #ecfdf5;
+            color: #059669;
+            font-size: 17px;
+            margin-bottom: 16px;
+        }
+
+        .management-card h3 {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .management-card p {
+            font-size: 11px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        .arrow {
+            float: right;
+            color: #94a3b8;
+        }
+
+        .footer {
+            margin-top: 35px;
+            font-size: 11px;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        /* OVERLAY FOR MOBILE */
+
+        .sidebar-overlay {
+            display: none;
+        }
+
+        /* TABLET */
+
+        @media(max-width: 1000px) {
+            .management-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 650px) {
+
+            .sidebar {
+                width: 255px;
+                padding: 25px 18px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            /* Keep full sidebar visible when opened */
+
+            .sidebar.collapsed {
+                width: 255px;
+                padding: 25px 18px;
+            }
+
+            .sidebar.collapsed .brand {
+                font-size: 25px;
+                text-align: left;
+                padding: 0 12px;
+            }
+
+            .sidebar.collapsed .brand::before {
+                content: none;
+            }
+
+            .sidebar.collapsed .brand span,
+            .sidebar.collapsed .menu-label,
+            .sidebar.collapsed .nav-link span {
+                display: initial;
+            }
+
+            .sidebar.collapsed .menu-label {
+                display: block;
+            }
+
+            .sidebar.collapsed .nav-link {
+                justify-content: flex-start;
+                padding: 12px 13px;
+            }
+
+            .sidebar.collapsed .nav-link span {
+                display: inline;
+            }
+
+            .sidebar.collapsed .nav-link i {
+                font-size: 15px;
+            }
+
+            .main,
+            .main.expanded {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+
+            .management-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar h2 {
+                font-size: 18px;
+            }
+
+            .welcome h1 {
+                font-size: 21px;
+            }
+
+            .sidebar-overlay.show {
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.4);
+                z-index: 999;
+            }
+        }
+
+    </style>
 </head>
+
 <body>
-    <p>Admin Home</p>
-    <a href="BlockOrUnblockShops">Block/Unblock Shops</a><br>
-    <a href="ViewAndVerifyShops">View and Verify Shops</a><br>
-    <a href="ViewComplaintsAndReply">View Complaints and Reply</a><br>
-    <a href="ViewRatingAndFeedback">View Ratings and Feedback</a>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">Retail<span>IQ.</span></div>
+
+        <div class="menu-label">ADMIN MENU</div>
+
+        <a href="admin_home" class="nav-link active">
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <div class="menu-label">SHOP MANAGEMENT</div>
+
+        <a href="BlockOrUnblockShops" class="nav-link">
+            <i class="fa-solid fa-ban"></i>
+            <span>Block / Unblock Shops</span>
+        </a>
+
+        <a href="ViewAndVerifyShops" class="nav-link">
+            <i class="fa-solid fa-check-circle"></i>
+            <span>Verify Shops</span>
+        </a>
+
+        <div class="menu-label">COMPLAINTS & FEEDBACK</div>
+
+        <a href="ViewComplaintsAndReply" class="nav-link">
+            <i class="fa-solid fa-comments"></i>
+            <span>Complaints & Replies</span>
+        </a>
+
+        <a href="ViewRatingAndFeedback" class="nav-link">
+            <i class="fa-solid fa-star"></i>
+            <span>Ratings & Feedback</span>
+        </a>
+
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main" id="main">
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div>
+                    <h2>Admin Dashboard</h2>
+                    <p>Manage shops, complaints, ratings and feedback</p>
+                </div>
+
+            </div>
+
+
+
+        </header>
+
+        <section class="welcome">
+            <h1>Welcome Back, Admin 👋</h1>
+            <p>Here's your administration workspace.</p>
+        </section>
+
+        <h3 class="section-title">Administration</h3>
+
+        <section class="management-grid">
+
+            <a href="BlockOrUnblockShops" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-ban"></i></div>
+                <h3>Block / Unblock Shops <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>Block or unblock registered shops.</p>
+            </a>
+
+            <a href="ViewAndVerifyShops" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-check-circle"></i></div>
+                <h3>Verify Shops <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>Accept or reject shop verification requests.</p>
+            </a>
+
+            <a href="ViewComplaintsAndReply" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-comments"></i></div>
+                <h3>Complaints & Replies <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>View customer complaints and send replies.</p>
+            </a>
+
+            <a href="ViewRatingAndFeedback" class="management-card">
+                <div class="card-icon"><i class="fa-solid fa-star"></i></div>
+                <h3>Ratings & Feedback <i class="fa-solid fa-arrow-right arrow"></i></h3>
+                <p>View shop ratings and customer feedback.</p>
+            </a>
+
+        </section>
+
+        <div class="footer">
+            © 2026 RetailIQ. All rights reserved.
+        </div>
+
+    </main>
+
+    <!-- SIDEBAR JAVASCRIPT -->
+
+    <script>
+
+        function toggleSidebar() {
+
+            const sidebar = document.getElementById('sidebar');
+            const main = document.getElementById('main');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (window.innerWidth <= 650) {
+
+                sidebar.classList.toggle('mobile-open');
+                overlay.classList.toggle('show');
+
+            } else {
+
+                sidebar.classList.toggle('collapsed');
+                main.classList.toggle('expanded');
+
+            }
+
+        }
+
+    </script>
+
 </body>
 </html>

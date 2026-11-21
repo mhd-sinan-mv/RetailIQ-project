@@ -3,26 +3,405 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Offers | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f5f7fb;
+            color: #1e293b;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .top-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            transition: 0.2s;
+        }
+
+        .top-link:hover {
+            color: #059669;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .heading-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .heading-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #eff6ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        h1 {
+            font-size: 23px;
+            font-weight: 700;
+            color: #111c2e;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .count-box {
+            background: white;
+            border: 1px solid #e8edf3;
+            padding: 10px 15px;
+            border-radius: 9px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .count-box strong {
+            color: #2563eb;
+            font-size: 15px;
+            margin-right: 4px;
+        }
+
+        .info-banner {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 11px;
+            padding: 15px 18px;
+            margin-bottom: 22px;
+            color: #1e3a8a;
+        }
+
+        .info-banner i {
+            margin-top: 2px;
+        }
+
+        .info-banner p {
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .table-card {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.03);
+        }
+
+        .table-top {
+            padding: 20px 22px;
+            border-bottom: 1px solid #edf0f4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-top h3 {
+            font-size: 15px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .table-top span {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 950px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            text-align: left;
+            padding: 15px 17px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 17px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 12px;
+            color: #475569;
+            vertical-align: middle;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #fbfdfd;
+        }
+
+        .offer-name {
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .offer-desc {
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        .offer-type {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 42px;
+            padding: 7px 11px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-radius: 7px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .time-period {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #64748b;
+            white-space: nowrap;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 7px;
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        .status-badge.active {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-badge.inactive {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 55px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state i {
+            font-size: 35px;
+            margin-bottom: 15px;
+            color: #cbd5e1;
+        }
+
+        .empty-state h3 {
+            color: #334155;
+            font-size: 15px;
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            font-size: 12px;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 18px 12px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .table-top {
+                padding: 17px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <table border="1">
-        <tr>
-            <th>Offer Name</th>
-            <th>Description</th>
-            <th>Offer Type</th>
-            <th>Time Period</th>
-            <th>Status</th>
-        </tr>
-        {% for i in offer_data %}
-        <tr>
-            <td>{{ i.offer_name }}</td>
-            <td>{{ i.offer_description }}</td>
-            <td>{{ i.offer_type }}</td>
-            <td>{{ i.offer_start_date }} to {{ i.offer_end_date }}</td>
-            <td>{{ i.is_active }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+
+    <div class="container">
+
+        <a href="staff_home" class="top-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Staff Dashboard
+        </a>
+
+        <div class="page-header">
+
+            <div class="heading-left">
+                <div class="heading-icon">
+                    <i class="fa-solid fa-tags"></i>
+                </div>
+
+                <div>
+                    <h1>Offers</h1>
+                    <p class="subtitle">
+                        Monitor active offers and their validity periods.
+                    </p>
+                </div>
+            </div>
+
+            <div class="count-box">
+                <strong id="offerCount">0</strong> Offers Listed
+            </div>
+
+        </div>
+
+        <div class="table-card">
+
+            <div class="table-top">
+                <h3>Offer Details</h3>
+                <span>Offer and validity information</span>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Offer Name</th>
+                            <th>Description</th>
+                            <th>Offer Type</th>
+                            <th>Time Period</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for i in offer_data %}
+
+                        <tr class="offer-row">
+
+                            <td>
+                                <div class="offer-name">
+                                    {{ i.offer_name }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="offer-desc">{{ i.offer_description }}</span>
+                            </td>
+
+                            <td>
+                                <span class="offer-type">
+                                    {{ i.offer_type }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="time-period">
+                                    <i class="fa-regular fa-calendar"></i>
+                                    {{ i.offer_start_date }} to {{ i.offer_end_date }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {% if i.is_active %}
+                                <span class="status-badge active">
+                                    <i class="fa-solid fa-circle-check"></i> Active
+                                </span>
+                                {% else %}
+                                <span class="status-badge inactive">
+                                    <i class="fa-solid fa-circle-xmark"></i> Inactive
+                                </span>
+                                {% endif %}
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-tags"></i>
+                                    <h3>No Offers Found</h3>
+                                    <p>There are currently no offers in this list.</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rows = document.querySelectorAll(".offer-row");
+            document.getElementById("offerCount").textContent = rows.length;
+        });
+    </script>
+
 </body>
 </html>

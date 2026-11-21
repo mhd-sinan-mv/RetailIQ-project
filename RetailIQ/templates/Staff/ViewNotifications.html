@@ -1,25 +1,395 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notification</title>
+    <title>Notifications | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f5f7fb;
+            color: #1e293b;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: auto;
+        }
+
+        .top-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            transition: 0.2s;
+        }
+
+        .top-link:hover {
+            color: #059669;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .heading-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .heading-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #eff6ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        h1 {
+            font-size: 23px;
+            font-weight: 700;
+            color: #111c2e;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .count-box {
+            background: white;
+            border: 1px solid #e8edf3;
+            padding: 10px 15px;
+            border-radius: 9px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .count-box strong {
+            color: #2563eb;
+            font-size: 15px;
+            margin-right: 4px;
+        }
+
+        .intro-card {
+            background: linear-gradient(115deg, #1e40af, #2563eb);
+            border-radius: 14px;
+            padding: 23px 25px;
+            color: white;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .intro-icon {
+            width: 45px;
+            height: 45px;
+            min-width: 45px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        .intro-card h3 {
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .intro-card p {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #dbeafe;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-heading h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111c2e;
+        }
+
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .notification-card {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            gap: 16px;
+            transition: 0.2s;
+        }
+
+        .notification-card:hover {
+            border-color: #bfdbfe;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04);
+            transform: translateY(-2px);
+        }
+
+        .notification-icon {
+            width: 42px;
+            height: 42px;
+            min-width: 42px;
+            border-radius: 11px;
+            background: #eff6ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .notification-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notification-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .notification-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.5;
+        }
+
+        .notification-label {
+            background: #eff6ff;
+            color: #2563eb;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .product-name {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #059669;
+            background: #ecfdf5;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 11px;
+        }
+
+        .notification-message {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .empty-state {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 13px;
+            padding: 55px 20px;
+            text-align: center;
+        }
+
+        .empty-state i {
+            font-size: 36px;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+
+        .empty-state h3 {
+            font-size: 15px;
+            color: #334155;
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 18px 12px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .intro-card {
+                padding: 19px;
+                align-items: flex-start;
+            }
+
+            .notification-card {
+                padding: 16px;
+                gap: 11px;
+            }
+
+            .notification-top {
+                flex-direction: column;
+                gap: 7px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-        <table border="1">
-            <tr>
-                <th><label>Notification Product </label></th>
-                <th>Title </label></th>
-                <th><label>Message </label></th>
-            </tr>
+
+    <div class="container">
+
+        <a href="staff_home" class="top-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Staff Dashboard
+        </a>
+
+        <div class="page-header">
+
+            <div class="heading-left">
+                <div class="heading-icon">
+                    <i class="fa-solid fa-bell"></i>
+                </div>
+
+                <div>
+                    <h1>Notifications</h1>
+                    <p class="subtitle">
+                        Stay updated with important product and store announcements.
+                    </p>
+                </div>
+            </div>
+
+            <div class="count-box">
+                <strong id="notificationCount">0</strong> Notifications
+            </div>
+
+        </div>
+
+        <div class="intro-card">
+            <div class="intro-icon">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+
+            <div>
+                <h3>Stay Informed</h3>
+                <p>
+                    Check notifications from your shop management team.
+                    Important product updates and store announcements will appear here.
+                </p>
+            </div>
+        </div>
+
+        <div class="section-heading">
+            <h3>All Notifications</h3>
+        </div>
+
+        <div class="notification-list">
+
             {% for i in notification_data_staff %}
-            <tr>
-                <td>{{ i.PRODUCT.product_name }}</td>
-                <td>{{ i.notification_title}}</td>
-                <td>{{ i.notification_message }}</td>
-            </tr>
+
+            <div class="notification-card">
+
+                <div class="notification-icon">
+                    <i class="fa-solid fa-bell"></i>
+                </div>
+
+                <div class="notification-content">
+
+                    <div class="notification-top">
+                        <h4 class="notification-title">
+                            {{ i.notification_title }}
+                        </h4>
+
+                        <span class="notification-label">
+                            Announcement
+                        </span>
+                    </div>
+
+                    <div class="product-name">
+                        <i class="fa-solid fa-box"></i>
+                        {{ i.PRODUCT.product_name }}
+                    </div>
+
+                    <p class="notification-message">
+                        {{ i.notification_message }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="empty-state">
+                <i class="fa-regular fa-bell-slash"></i>
+                <h3>No Notifications</h3>
+                <p>You don't have any notifications at the moment.</p>
+            </div>
+
             {% endfor %}
-        </table>
-    </form>
+
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const count = document.querySelectorAll(".notification-card").length;
+            document.getElementById("notificationCount").textContent = count;
+        });
+    </script>
+
 </body>
 </html>
