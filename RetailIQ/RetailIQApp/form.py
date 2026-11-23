@@ -17,6 +17,11 @@ class ShopForm(ModelForm):
         model = ShopTable
         fields = ['shop_name', 'email','phone']
 
+class ShopProfileEditForm(ModelForm):
+    class Meta():
+        model = ShopTable
+        fields = ['shop_name', 'email','phone']
+        
 class CategoryForm(ModelForm):
     class Meta():
         model = CategoryTable

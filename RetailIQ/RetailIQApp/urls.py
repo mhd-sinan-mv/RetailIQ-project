@@ -71,6 +71,7 @@ urlpatterns = [
     path('startDiscount/<int:d_id>',startDiscount.as_view(),name='startDiscount'),
     path('stopDiscount/<int:d_id>',stopDiscount.as_view(),name='stopDiscount'),
     path('shopProfile',shopProfile.as_view(),name='shopProfile'),
+    path('editShopProfile/<int:shop_data_id>',editShopProfile.as_view(),name='editShopProfile'),
 
 
     #/////////////////////////////////// STAFF ////////////////////////////////////

@@ -139,6 +139,10 @@
         }
 
         .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
             padding-bottom: 20px;
             border-bottom: 1px solid #f1f5f9;
             margin-bottom: 25px;
@@ -154,6 +158,30 @@
             font-size: 12px;
             color: #94a3b8;
             margin-top: 7px;
+        }
+
+        .edit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .edit-btn:hover {
+            background: #059669;
+            color: white;
+            border-color: #059669;
+            transform: translateY(-1px);
         }
 
         .detail-item {
@@ -276,6 +304,14 @@
                 font-size: 21px;
             }
 
+            .card-header {
+                align-items: flex-start;
+            }
+
+            .edit-btn {
+                padding: 9px 11px;
+            }
+
             .account-actions {
                 align-items: flex-start;
                 flex-direction: column;
@@ -330,11 +366,20 @@
         <div class="details-card">
 
             <div class="card-header">
-                <h3>
-                    <i class="fa-solid fa-id-card" style="color:#059669; margin-right:8px;"></i>
-                    Shop Information
-                </h3>
-                <p>Your registered shop details.</p>
+
+                <div>
+                    <h3>
+                        <i class="fa-solid fa-id-card" style="color:#059669; margin-right:8px;"></i>
+                        Shop Information
+                    </h3>
+                    <p>Your registered shop details.</p>
+                </div>
+
+                <a href="editShopProfile/{{shop_data.id}}" class="edit-btn">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Edit Profile
+                </a>
+
             </div>
 
             <div class="detail-item">

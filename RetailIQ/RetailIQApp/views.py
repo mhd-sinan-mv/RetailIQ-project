@@ -136,9 +136,23 @@ class shopProfile(View):
             'shop/shop_profile.html',
             {'shop_data': obj})
 
+class editShopProfile(View):
+    def get(self,request,shop_data_id):
+        obj = ShopTable.objects.get(id = shop_data_id)
+        return render(request,'shop/edit/editShopProfile.html', {'shop_edit_data':obj})
+
+    def post(self,request,shop_data_id): 
+        obj = ShopTable.objects.get(id = shop_data_id)
+        form = ShopProfileEditForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('''<script>alert("shop details updated");window.location=("/shopProfile")</script>''')
+
+
 class shop_home(View):
     def get(self,request):
-        return render(request,'shop/shop_home.html')
+        obj = ShopTable.objects.get(LOGINID__id=request.session['loginid'])
+        return render(request,'shop/shop_home.html',{'shop_data':obj})
 
 
 class AddProducts(View):
@@ -432,7 +446,8 @@ class staffProfile(View):
 
 class staff_home(View):
     def get(self,request):
-        return render(request,'staff/staff_home.html')
+        obj = StaffTable.objects.get(LOGINID__id=request.session['loginid'])
+        return render(request,'staff/staff_home.html',{'staff_data':obj})
 
 class OrdersAndBill(View):
     def get(self,request):
