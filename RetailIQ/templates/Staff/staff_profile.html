@@ -1,0 +1,442 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Profile | RetailIQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        .main {
+            max-width: 1200px;
+            margin: auto;
+            padding: 35px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .page-title h2 {
+            font-size: 25px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .page-title p {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 7px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            background: white;
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            padding: 11px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #047857;
+            color: white;
+            border-color: #047857;
+        }
+
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .profile-card,
+        .details-card {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 13px;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.03);
+        }
+
+        .profile-card {
+            padding: 30px 22px;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 85px;
+            height: 85px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: #ecfdf5;
+            color: #059669;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            border: 4px solid #d1fae5;
+        }
+
+        .profile-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #172033;
+            overflow-wrap: anywhere;
+        }
+
+        .profile-label {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 12px;
+            background: #ecfdf5;
+            color: #047857;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .staff-code {
+            margin-top: 17px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .staff-code strong {
+            color: #334155;
+        }
+
+        .profile-divider {
+            height: 1px;
+            background: #f1f5f9;
+            margin: 25px 0;
+        }
+
+        .description {
+            font-size: 12px;
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        .details-card {
+            padding: 28px;
+        }
+
+        .card-header {
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f1f5f9;
+            margin-bottom: 25px;
+        }
+
+        .card-header h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .card-header p {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 7px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 17px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-icon {
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: #ecfdf5;
+            color: #059669;
+            font-size: 17px;
+        }
+
+        .detail-info {
+            min-width: 0;
+        }
+
+        .detail-info label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .detail-info p {
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+            overflow-wrap: anywhere;
+        }
+
+        .account-actions {
+            margin-top: 22px;
+            background: white;
+            border: 1px solid #fee2e2;
+            border-radius: 13px;
+            padding: 23px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .logout-info h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .logout-info p {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 6px;
+        }
+
+        .logout-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 11px 18px;
+            background: #fff1f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+        }
+
+        @media (max-width: 750px) {
+            .main {
+                padding: 22px 15px;
+            }
+
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-card {
+                padding: 25px 18px;
+            }
+
+            .details-card {
+                padding: 22px 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .page-title h2 {
+                font-size: 21px;
+            }
+
+            .account-actions {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .logout-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="main">
+
+    <!-- Page Header -->
+    <div class="topbar">
+        <div class="page-title">
+            <h2>Staff Profile</h2>
+            <p>View your personal and work-related information.</p>
+        </div>
+
+        <a href="StaffHome" class="back-btn">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+        </a>
+    </div>
+
+    <!-- Profile Layout -->
+    <div class="profile-layout">
+
+        <!-- Staff Profile Card -->
+        <div class="profile-card">
+
+            <div class="profile-avatar">
+                <i class="fa-solid fa-user-tie"></i>
+            </div>
+
+            <h3></h3>
+
+            <span class="profile-label">
+                <i class="fa-solid fa-circle-check"></i>
+                Staff Account
+            </span>
+
+            <div class="staff-code">
+                Staff Code: <strong>{{staff_data.staff_code}}</strong>
+            </div>
+
+            <div class="profile-divider"></div>
+
+            <p class="description">
+                Your RetailIQ staff account and assigned work information.
+            </p>
+
+        </div>
+
+        <!-- Staff Details -->
+        <div class="details-card">
+
+            <div class="card-header">
+                <h3>
+                    <i class="fa-solid fa-id-card" style="color:#059669; margin-right:8px;"></i>
+                    Staff Information
+                </h3>
+                <p>Your registered staff details and work assignment.</p>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="detail-info">
+                    <label>Staff Name</label>
+                    <p>{{staff_data.name}}</p>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-icon">
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="detail-info">
+                    <label>Email Address</label>
+                    <p>{{staff_data.email}}</p>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-icon">
+                    <i class="fa-solid fa-phone"></i>
+                </div>
+                <div class="detail-info">
+                    <label>Phone Number</label>
+                    <p>{{staff_data.phone}}</p>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-icon">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <div class="detail-info">
+                    <label>Designation</label>
+                    <p>{{staff_data.designation}}</p>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-icon">
+                    <i class="fa-solid fa-barcode"></i>
+                </div>
+                <div class="detail-info">
+                    <label>Staff Code</label>
+                    <p>{{staff_data.staff_code}}</p>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-icon">
+                    <i class="fa-solid fa-cash-register"></i>
+                </div>
+                <div class="detail-info">
+                    <label>Assigned Counter</label>
+                    <p>{{staff_data.assigned_counter}}</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Logout Section -->
+    <div class="account-actions">
+
+        <div class="logout-info">
+            <h4>Logout from your account</h4>
+            <p>Securely end your current RetailIQ staff session.</p>
+        </div>
+
+
+            <button type="submit" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </button>
+
+    </div>
+
+</div>
+
+</body>
+</html>

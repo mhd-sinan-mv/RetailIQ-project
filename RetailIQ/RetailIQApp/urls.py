@@ -70,6 +70,7 @@ urlpatterns = [
     path('complaints',complaints.as_view(),name="complaints"),
     path('startDiscount/<int:d_id>',startDiscount.as_view(),name='startDiscount'),
     path('stopDiscount/<int:d_id>',stopDiscount.as_view(),name='stopDiscount'),
+    path('shopProfile',shopProfile.as_view(),name='shopProfile'),
 
 
     #/////////////////////////////////// STAFF ////////////////////////////////////
@@ -81,6 +82,7 @@ urlpatterns = [
     path('ViewOrders',ViewOrders.as_view(),name='ViewOrders'),    #   moved from shop
     path('ViewProducts',ViewProducts.as_view(),name='ViewProducts'),
     path('ViewNotifications',viewNotifications.as_view(),name='ViewNotifications'),
+    path('staffProfile',staffProfile.as_view(),name='staffProfile')
               
     
 

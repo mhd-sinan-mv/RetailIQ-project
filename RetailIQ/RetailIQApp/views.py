@@ -127,6 +127,15 @@ class ViewRatingAndFeedback(View):
   
     #///////////////////////////// SHOP //////////////////////////////////
 
+
+class shopProfile(View):
+    def get(self, request):
+        obj = ShopTable.objects.get(LOGINID__id=request.session['loginid'])
+        return render(
+            request,
+            'shop/shop_profile.html',
+            {'shop_data': obj})
+
 class shop_home(View):
     def get(self,request):
         return render(request,'shop/shop_home.html')
@@ -415,6 +424,11 @@ class complaints(View):
 
     
 #////////////////////////////// STAFF /////////////////////////////////////
+
+class staffProfile(View):
+    def get(Self,request):
+        obj = StaffTable.objects.get(LOGINID__id=request.session['loginid'])
+        return render(request,'Staff/staff_profile.html',{'staff_data':obj})
 
 class staff_home(View):
     def get(self,request):
